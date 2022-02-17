@@ -18,14 +18,6 @@ const LOGIN_SUCCESS = 'userAUTH/LOGIN_SUCCESS';
 //   }
 // };
 
-export const userSignUp = (data: any) => {
-  axios.post('http://localhost:8080/singup', {
-    id: data.id,
-    password: data.passWord,
-    repass: data.repassWord,
-  });
-};
-
 const initialState = {
   userLogin: {
     login: false,
