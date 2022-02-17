@@ -6,9 +6,13 @@ import Auth from './components/Auth';
 import { Route, Routes } from 'react-router-dom';
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Auth />} />
-    </Routes>
+    <div>
+      <Routes>
+        <Route path="/" element={<Auth />} />
+        <Route path="/login" element={<Auth />} />
+        <Route path="/signup" element={<Auth />} />
+      </Routes>
+    </div>
   );
 }
 
