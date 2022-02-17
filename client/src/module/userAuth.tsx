@@ -1,6 +1,3 @@
-import axios from 'axios';
-import { handleAction } from 'redux-actions';
-
 const USER_LOGIN = 'userAUTH/USER_LOGIN';
 const USER_SIGNUP = 'userAUTH/USER_SIGNUP';
 const LOGIN_SUCCESS = 'userAUTH/LOGIN_SUCCESS';

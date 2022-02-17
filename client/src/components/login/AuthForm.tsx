@@ -57,15 +57,16 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
   }, [id, passWord]);
 
   const reqSignup = () => {
-    axios
-      .post('http://localhost:8080/singup', {
-        data: {
-          id,
-          passWord,
-          rePassword,
-        },
-      })
-      .catch((err) => console.log(err));
+    if (passWord === rePassword) {
+      axios
+        .post('http://localhost:8080/signup', {
+          user: id,
+          password: passWord,
+        })
+        .catch((err) => console.log(err));
+    } else {
+      alert('비밀번호 다름');
+    }
   };
 
   const toSignUp = () => {
