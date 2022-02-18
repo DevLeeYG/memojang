@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-export const reqLogin = (data: any) => {
-  axios.post('/api/login');
+export const tryLogin = (data: any) => {
+  axios.post('/login').then((res) => {
+    console.log(res);
+  });
 };
 
 export const reqSign = (data: any) => {

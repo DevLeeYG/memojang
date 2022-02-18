@@ -5,7 +5,7 @@ import { IconButton, makeStyles } from '@material-ui/core';
 import SignUp from '../SignUp/SignUp';
 import useInput from '../hooks/useInput';
 import { useDispatch } from 'react-redux';
-
+import { userLoggedin } from '../../module/userAuth';
 import axios from 'axios';
 const container = makeStyles((theme) => ({
   root: {
@@ -38,7 +38,6 @@ type Pprops = {
 const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
   const dispatch = useDispatch();
 
-  type Information = { name: string; description: string };
   const navigate = useNavigate();
   const [id, onChangeId] = useInput('');
   const [passWord, onChangePassword] = useInput('');
@@ -68,6 +67,13 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
       alert('비밀번호 다름');
     }
   };
+
+  // const reqLogin = () => {
+  //   axios.post('http://localhost:8080/login', {
+  //     user: id,
+  //     password: passWord,
+  //   });
+  // };
 
   const toSignUp = () => {
     setSignUp(true);
@@ -124,7 +130,7 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
               {singUp ? (
                 <Box onClick={reqSignup}>가입하기</Box>
               ) : (
-                <Box>로그인</Box>
+                <Box onClick={() => userLoggedin(id, passWord)}>로그인</Box>
               )}
             </Box>
           </Button>

@@ -37,10 +37,11 @@ app.get('/users', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  const { user, password } = req.body;
-  const findUser = SQL`SELECT * FROM User WHERE user_namd=${user} and user_password=${password}`;
+  console.log(req);
+  // const { user, password } = req.body;
+  // const findUser = SQL`SELECT * FROM User WHERE user_namd=${user} and user_password=${password}`;
 
-  console.log('find', findUser);
+  // console.log('find', findUser);
 });
 
 app.post('/signup', (req, res) => {

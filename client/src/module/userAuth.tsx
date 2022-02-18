@@ -1,30 +1,34 @@
+import axios from 'axios';
+import { tryLogin } from '../lib/api';
 const USER_LOGIN = 'userAUTH/USER_LOGIN';
 const USER_SIGNUP = 'userAUTH/USER_SIGNUP';
 const LOGIN_SUCCESS = 'userAUTH/LOGIN_SUCCESS';
-
-// export const userLogin = (data: any) => async (dispatch: any) => {
-//   dispatch({ type: USER_LOGIN });
-//   try {
-//     const response = await axios.get(data);
-//     dispatch({
-//       type: LOGIN_SUCCESS,
-//       payload: response.data,
-//     });
-//   } catch (e) {
-//     throw e;
-//   }
-// };
 
 const initialState = {
   userLogin: {
     login: false,
     username: '',
   },
+};
 
-  userSingup: {
-    id: '',
-    password: '',
-  },
+export const userLogin = (id: string, passWord: string) => {
+  //액션
+
+  return {
+    type: USER_LOGIN,
+    playload: { id: id, password: passWord },
+  };
+};
+
+export const userLoggedin = (id: string, passWord: any) => (dispatch: any) => {
+  axios
+    .post('http://localhost:8080/login', {
+      id: id,
+      password: passWord,
+    })
+    .then((res) => {
+      console.log(res);
+    });
 };
 
 const userReducer = (state = initialState, action: any) => {
