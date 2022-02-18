@@ -1056,6 +1056,11 @@
   "resolved" "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz"
   "version" "3.0.7"
 
+"sql-template-strings@^2.2.2":
+  "integrity" "sha1-PxFQiiWt384hejBCqdMAwxk7lv8="
+  "resolved" "https://registry.npmjs.org/sql-template-strings/-/sql-template-strings-2.2.2.tgz"
+  "version" "2.2.2"
+
 "sqlstring@2.3.1":
   "integrity" "sha1-R1OT/56RR5rqYtyvDKPRSYOn+0A="
   "resolved" "https://registry.npmjs.org/sqlstring/-/sqlstring-2.3.1.tgz"
