@@ -4,7 +4,9 @@ import { Box, Button, TextField } from '@mui/material';
 import { IconButton, makeStyles } from '@material-ui/core';
 import SignUp from '../SignUp/SignUp';
 import useInput from '../hooks/useInput';
+import { useDispatch } from 'react-redux';
 
+import axios from 'axios';
 const container = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -34,24 +36,48 @@ type Pprops = {
 };
 
 const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
+  const dispatch = useDispatch();
+
   type Information = { name: string; description: string };
   const navigate = useNavigate();
   const [id, onChangeId] = useInput('');
   const [passWord, onChangePassword] = useInput('');
 
-  const classes = container();
+  const [rePassword, setRePassword] = useState('');
 
-  //   const onChangeId = (e: any) => {
-  //     console.log(idchange);
-  //     setIdchange(e.target.value);
-  //   };
+  const rePass = (e: any) => {
+    setRePassword(e.target.value);
+  };
+
+  const classes = container();
 
   const onSubmitForm = useCallback(() => {
     console.log('123123', { id, passWord });
     console.log('실행되냐?');
   }, [id, passWord]);
 
-  const toSignUp = () => {};
+  const reqSignup = () => {
+    if (passWord === rePassword) {
+      axios
+        .post('http://localhost:8080/signup', {
+          user: id,
+          password: passWord,
+        })
+        .catch((err) => console.log(err));
+    } else {
+      alert('비밀번호 다름');
+    }
+  };
+
+  const toSignUp = () => {
+    setSignUp(true);
+    navigate('/signup');
+  };
+
+  const toLogin = () => {
+    setSignUp(false);
+    navigate('/login');
+  };
 
   return (
     <Box
@@ -82,6 +108,8 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
         />
         {singUp === true && (
           <TextField
+            value={rePassword}
+            onChange={rePass}
             type="password"
             name="비밀번호 확인"
             sx={{ width: '100%', margin: '10px 0px 10px 0px' }}
@@ -93,7 +121,11 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
         <Box className={classes.root}>
           <Button>
             <Box sx={{ display: 'flex', color: 'white' }}>
-              {singUp ? <Box>가입하기</Box> : <Box>로그인</Box>}
+              {singUp ? (
+                <Box onClick={reqSignup}>가입하기</Box>
+              ) : (
+                <Box>로그인</Box>
+              )}
             </Box>
           </Button>
         </Box>
@@ -101,14 +133,14 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
       {!singUp ? (
         <Box
           sx={{ paddingTop: 3, textAlign: 'right', color: '#027FFE' }}
-          onClick={() => setSignUp(true)}
+          onClick={toSignUp}
         >
           회원가입
         </Box>
       ) : (
         <Box
           sx={{ paddingTop: 3, textAlign: 'right', color: '#027FFE' }}
-          onClick={() => setSignUp(false)}
+          onClick={toLogin}
         >
           로그인 하기
         </Box>
