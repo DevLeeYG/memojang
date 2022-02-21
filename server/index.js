@@ -62,14 +62,16 @@ app.get('/posts', (req, res) => {
   const userPost = {};
 
   connection.query(findPost, (err, result) => {
+    console.log('@@@@', result);
     for (value of result) {
-      userPost.data = value.data;
+      userPost.data = result;
     }
     if (Object.keys(userPost).length < 1) {
       res.status(200).send('데이터를 찾지 못했습니다');
     } else {
       res.status(201).send({ data: userPost.data });
     }
+    console.log(userPost);
   });
 });
 
