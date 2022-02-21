@@ -126,6 +126,8 @@ app.delete('/delete', (req, res) => {
   });
 });
 
+app.put('/put', (req, res) => {});
+
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));
 });
