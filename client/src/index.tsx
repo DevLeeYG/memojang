@@ -8,16 +8,14 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './module/index';
 import thunkMiddleware from 'redux-thunk';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunkMiddleware)),
+);
 
-const configureStore = () => {
-  const middlewares = [thunkMiddleware];
-  const enhandcer =
-    process.env.NODE_ENV === 'production'
-      ? compose(applyMiddleware(...middlewares))
-      : composeWithDevTools(applyMiddleware(...middlewares));
-};
-
-const store = createStore(rootReducer, composeWithDevTools());
+const persistor = persistStore(store);
 
 ReactDOM.render(
   <BrowserRouter>

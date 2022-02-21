@@ -5,7 +5,7 @@ import { IconButton, makeStyles } from '@material-ui/core';
 import SignUp from '../SignUp/SignUp';
 import useInput from '../hooks/useInput';
 import { useDispatch } from 'react-redux';
-
+import { userLoggedin } from '../../module/userAuth';
 import axios from 'axios';
 const container = makeStyles((theme) => ({
   root: {
@@ -38,7 +38,6 @@ type Pprops = {
 const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
   const dispatch = useDispatch();
 
-  type Information = { name: string; description: string };
   const navigate = useNavigate();
   const [id, onChangeId] = useInput('');
   const [passWord, onChangePassword] = useInput('');
@@ -69,6 +68,13 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
     }
   };
 
+  // const reqLogin = () => {
+  //   axios.post('http://localhost:8080/login', {
+  //     user: id,
+  //     password: passWord,
+  //   });
+  // };
+
   const toSignUp = () => {
     setSignUp(true);
     navigate('/signup');
@@ -95,6 +101,7 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
           name="아이디"
           sx={{ width: '100%', margin: '10px 0px 10px 0px' }}
           label="아이디"
+          autoComplete="off"
           placeholder="아이디를 입력하세요"
         />
         <TextField
@@ -103,11 +110,13 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
           type="password"
           name="비밀번호"
           sx={{ width: '100%' }}
+          autoComplete="off"
           label="비밀번호"
           placeholder="비밀번호를 입력하세요"
         />
         {singUp === true && (
           <TextField
+            autoComplete="off"
             value={rePassword}
             onChange={rePass}
             type="password"
@@ -124,7 +133,9 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
               {singUp ? (
                 <Box onClick={reqSignup}>가입하기</Box>
               ) : (
-                <Box>로그인</Box>
+                <Box onClick={() => dispatch(userLoggedin({ id, passWord }))}>
+                  로그인
+                </Box>
               )}
             </Box>
           </Button>
