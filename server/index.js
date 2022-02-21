@@ -37,11 +37,40 @@ app.get('/users', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  console.log(req);
-  // const { user, password } = req.body;
-  // const findUser = SQL`SELECT * FROM User WHERE user_namd=${user} and user_password=${password}`;
+  const { user, password } = req.body;
+  const findUser = SQL`SELECT * FROM User WHERE user_name=${user} and user_password=${password}`;
 
-  // console.log('find', findUser);
+  const userfind = {};
+  connection.query(findUser, (err, result) => {
+    for (value of result) {
+      userfind.id = value.user_key;
+      userfind.username = value.user_name;
+      userfind.password = value.user_password;
+    }
+    if (Object.keys(userfind).length === 0) {
+      res.status(404).send('회원정보를 확인해주세요');
+    } else if (userfind.username === user && userfind.password === password) {
+      res.status(200).send({ id: userfind.id, user: user });
+    }
+  });
+});
+
+app.get('/posts', (req, res) => {
+  let data = req.query['0'];
+  const findPost = SQL`SELECT * FROM Memos WHERE user_key=${data}`;
+
+  const userPost = {};
+
+  connection.query(findPost, (err, result) => {
+    for (value of result) {
+      userPost.data = value.data;
+    }
+    if (Object.keys(userPost).length < 1) {
+      res.status(200).send('데이터를 찾지 못했습니다');
+    } else {
+      res.status(201).send({ data: userPost.data });
+    }
+  });
 });
 
 app.post('/signup', (req, res) => {
