@@ -62,14 +62,14 @@ app.get('/posts', (req, res) => {
   const userPost = {};
 
   connection.query(findPost, (err, result) => {
-    console.log('@@@@', result);
+    console.log('123', result);
     for (value of result) {
       userPost.data = result;
     }
     if (Object.keys(userPost).length < 1) {
       res.status(200).send('데이터를 찾지 못했습니다');
     } else {
-      res.status(201).send({ data: userPost.data });
+      res.status(201).send({ data: userPost.data, id: userPost.memo_id });
     }
     console.log(userPost);
   });
@@ -95,6 +95,35 @@ app.post('/signup', (req, res) => {
       }
     },
   );
+});
+
+app.post('/write', (req, res) => {
+  console.log(req.body);
+  const { userKey, data } = req.body;
+  console.log(userKey, data);
+
+  const inserWrite = SQL`INSERT INTO Memos(user_key,data) VALUES(${userKey},${data})`;
+  connection.query(inserWrite, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).send('저장완료');
+    }
+  });
+});
+
+app.delete('/delete', (req, res) => {
+  const memoid = req.body.memoId;
+
+  const deletePost = SQL`DELETE FROM Memos WHERE memo_id=${memoid}`;
+
+  connection.query(deletePost, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).send('삭제완료');
+    }
+  });
 });
 
 app.listen(app.get('port'), () => {
