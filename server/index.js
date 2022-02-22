@@ -69,9 +69,10 @@ app.get('/posts', (req, res) => {
     if (Object.keys(userPost).length < 1) {
       res.status(200).send('데이터를 찾지 못했습니다');
     } else {
-      res.status(201).send({ data: userPost.data, id: userPost.memo_id });
+      res
+        .status(201)
+        .send({ data: userPost.data, id: userPost.memo_id, tp: userPost.tp });
     }
-    console.log(userPost);
   });
 });
 
@@ -98,11 +99,9 @@ app.post('/signup', (req, res) => {
 });
 
 app.post('/write', (req, res) => {
-  console.log(req.body);
-  const { userKey, data } = req.body;
-  console.log(userKey, data);
+  const { userKey, data, tp } = req.body;
 
-  const inserWrite = SQL`INSERT INTO Memos(user_key,data) VALUES(${userKey},${data})`;
+  const inserWrite = SQL`INSERT INTO Memos(user_key,data,tp) VALUES(${userKey},${data},${tp})`;
   connection.query(inserWrite, (err, result) => {
     if (err) {
       console.log(err);
@@ -110,6 +109,59 @@ app.post('/write', (req, res) => {
       res.status(200).send('저장완료');
     }
   });
+});
+
+app.post('/reqput', (req, res) => {
+  const { memoid } = req.body;
+  console.log(memoid);
+  const putRequest = SQL`UPDATE Memos SET tp=1 WHERE memo_id = ${memoid}`;
+
+  connection.query(putRequest, (err, rsult) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).send('변경완료');
+    }
+  });
+});
+
+app.post('/insert', (req, res) => {
+  const { id } = req.body;
+  const { memoid, data } = req.body;
+  const insertPost = SQL`UPDATE Memos SET data=${data} WHERE memo_Id = ${memoid} `;
+  if (id) {
+    const cancle = SQL`UPDATE Memos SET tp=0 WHERE memo_Id = ${id} `;
+    connection.query(cancle, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).send('취소확인');
+      }
+    });
+  }
+  connection.query(insertPost, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      connection.query(SQL`UPDATE Memos SET tp=0 WHERE memo_id=${memoid}`);
+      res.status(200).send('변경완료');
+    }
+  });
+});
+
+app.post('/insertcancle', (req, res) => {
+  const { id } = req.body;
+
+  if (id) {
+    const cancle = SQL`UPDATE Memos SET tp=0 WHERE memo_Id = ${id} `;
+    connection.query(cancle, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).send('취소확인');
+      }
+    });
+  }
 });
 
 app.delete('/delete', (req, res) => {
@@ -126,7 +178,7 @@ app.delete('/delete', (req, res) => {
   });
 });
 
-app.put('/put', (req, res) => {});
+app.post('/put', (req, res) => {});
 
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));

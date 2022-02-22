@@ -6,19 +6,15 @@ const Main = () => {
   const [memo, setMemo] = useState('');
   const [myPost, setMypost] = useState<any>([]);
   const [memoid, setMemoId] = useState<number>(0);
-  const [putPost, setPutPost] = useState<boolean>(false);
+  const [insertData, setInsertData] = useState('');
 
-  const data = useSelector(
+  const username = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.username,
   );
 
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
-
-  useEffect(() => {
-    getMyPost();
-  }, []);
 
   const getMyPost = () => {
     axios
@@ -33,14 +29,16 @@ const Main = () => {
       .post(`http://localhost:8080/write/`, {
         userKey: userKey,
         data: memo,
+        tp: 0,
       })
       .then((res) => {
         if (res.status === 200) getMyPost();
+        setMemo('');
       })
       .catch((err) => console.log(err));
   };
 
-  const deletePost = (id: any) => {
+  const deletePost = (id: number) => {
     const d = window.confirm('삭제하시겠습니까?');
 
     if (d) {
@@ -56,32 +54,83 @@ const Main = () => {
     }
   };
 
+  const updateReq = (id: any) => {
+    axios
+      .post(`http://localhost:8080/reqput/`, {
+        memoid: id,
+      })
+      .then(() => {
+        getMyPost();
+      });
+  };
+
+  const setData = (id: any) => {
+    axios
+      .post(`http://localhost:8080/insert/`, {
+        memoid: id,
+        data: insertData,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          getMyPost();
+          setInsertData('');
+        }
+      });
+  };
+
+  const dataChange = (e: any) => {
+    setInsertData(e.target.value);
+  };
+
+  const cancleInsert = (id: any) => {
+    axios
+      .post(`http://localhost:8080/insertcancle`, {
+        id: id,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          getMyPost();
+        }
+      });
+  };
+
+  useEffect(() => {
+    getMyPost();
+  }, []);
+
   const list = myPost.map((el: any) => {
     return (
       <Box
         key={el.memo_id}
         sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}
       >
-        {putPost ? (
+        {el.tp === 1 ? (
           <>
             <Box sx={{ width: '100%', height: '50px' }}>
               <TextField
+                value={insertData}
+                onChange={dataChange}
                 sx={{ width: '100%', height: '50px' }}
-                defaultValue={el.data}
               />
             </Box>
             <Button
-              onClick={() => setPutPost(true)}
+              onClick={() => setData(el.memo_id)}
               sx={{ border: '1px solid black', borderRadius: '0px' }}
             >
-              수정요청
+              변경하기
+            </Button>
+            <Button
+              onClick={() => cancleInsert(el.memo_id)}
+              sx={{ border: '1px solid black', borderRadius: '0px' }}
+            >
+              취소
             </Button>
           </>
         ) : (
           <>
             <Box sx={{ height: '50px', width: '100%' }}>{el.data}</Box>
             <Button
-              onClick={() => setPutPost(true)}
+              onClick={() => updateReq(el.memo_id)}
               sx={{ border: '1px solid black', borderRadius: '0px' }}
             >
               수정
@@ -105,6 +154,7 @@ const Main = () => {
 
   return (
     <div>
+      <div>{username}님 환영합니다*</div>
       <h1>메모장</h1>
 
       <Box>
