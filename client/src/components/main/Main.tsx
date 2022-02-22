@@ -2,6 +2,8 @@ import { Button, TextField, Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { RootStateOrAny, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Book from '../accountBook/Book';
 const Main = () => {
   const [memo, setMemo] = useState('');
   const [myPost, setMypost] = useState<any>([]);
@@ -154,7 +156,10 @@ const Main = () => {
 
   return (
     <div>
-      <div>{username}님 환영합니다*</div>
+      <Box>
+        <div>{username}님 환영합니다*</div>
+        <Link to="/accountBook">가계부</Link>
+      </Box>
       <h1>메모장</h1>
 
       <Box>

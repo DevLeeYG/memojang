@@ -6,6 +6,7 @@ import Auth from './components/Auth';
 import { Route, Routes } from 'react-router-dom';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import Main from './components/main/Main';
+import Book from './components/accountBook/Book';
 
 function App() {
   const loginState = useSelector(
@@ -18,6 +19,7 @@ function App() {
         {loginState ? (
           <>
             <Route path="/" element={<Main />} />
+            <Route path="/accountBook" element={<Book />} />
           </>
         ) : (
           <>
