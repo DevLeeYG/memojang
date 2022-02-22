@@ -68,13 +68,6 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
     }
   };
 
-  // const reqLogin = () => {
-  //   axios.post('http://localhost:8080/login', {
-  //     user: id,
-  //     password: passWord,
-  //   });
-  // };
-
   const toSignUp = () => {
     setSignUp(true);
     navigate('/signup');
@@ -160,4 +153,4 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
   );
 };
 
-export default AuthForm;
+export default React.memo(AuthForm);
