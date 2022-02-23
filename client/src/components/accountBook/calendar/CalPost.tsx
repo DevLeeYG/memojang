@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import {
   Button,
@@ -8,8 +9,15 @@ import {
   MenuItem,
   TextField,
 } from '@mui/material';
-
+import { useSelector, RootStateOrAny } from 'react-redux';
+import { RootState } from '../../../module/index';
 const CalPost = () => {
+  const dateDate = useSelector(
+    (state: RootStateOrAny) => state.acReducer.calendar.date,
+  );
+  const userKey = useSelector(
+    (state: RootStateOrAny) => state.userReducer.userLogin.id,
+  );
   const [select, setSelect] = useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -22,7 +30,11 @@ const CalPost = () => {
       price: '',
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      axios.post(`http://localhost:8080/account`, {
+        values,
+        dateDate,
+        userKey,
+      });
     },
   });
 
@@ -32,7 +44,11 @@ const CalPost = () => {
       price: '',
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      axios.post(`http://localhost:8080/account`, {
+        values,
+        dateDate,
+        userKey,
+      });
     },
   });
 

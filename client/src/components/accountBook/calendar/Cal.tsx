@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CalendarPicker, { CalendarPickerProps } from '@mui/lab/CalendarPicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-
+import { calendarData } from '../../../module/accReducer';
+import { useDispatch, useSelector } from 'react-redux';
 const Cal = () => {
+  const dispatch = useDispatch();
+
   const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
     margin: 0;
     width: 100%;
   `;
   //useEffect 로 date가 변할때마다 api 신청
+
+  const [date, setDate] = useState(new Date());
+  console.log('date', date);
   const getYmd10 = (date: Date) => {
     let d = date;
     return (
@@ -24,13 +30,10 @@ const Cal = () => {
     );
   };
 
-  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    dispatch(calendarData(getYmd10(date)));
+  }, [date]);
 
-  console.log(getYmd10(date));
-
-  const val = () => {
-    return;
-  };
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box

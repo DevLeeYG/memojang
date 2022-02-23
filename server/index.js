@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const dbconfig = require('./config/database.js');
 const connection = mysql.createConnection(dbconfig);
+
 const cors = require('cors');
 
 const router = express.Router();
@@ -27,6 +28,7 @@ app.use(
 );
 
 app.get('/account', account);
+app.post('/account', account);
 
 app.get('/users', (req, res) => {
   connection.query('SELECT * from User', (error, rows) => {
