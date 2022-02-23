@@ -11,8 +11,23 @@ const Cal = () => {
     width: 100%;
   `;
   //useEffect 로 date가 변할때마다 api 신청
+  const getYmd10 = (date: Date) => {
+    let d = date;
+    return (
+      d.getFullYear() +
+      '-' +
+      (d.getMonth() + 1 > 9
+        ? (d.getMonth() + 1).toString()
+        : '0' + (d.getMonth() + 1)) +
+      '-' +
+      (d.getDate() > 9 ? d.getDate().toString() : '0' + d.getDate().toString())
+    );
+  };
 
   const [date, setDate] = useState(new Date());
+
+  console.log(getYmd10(date));
+
   const val = () => {
     return;
   };

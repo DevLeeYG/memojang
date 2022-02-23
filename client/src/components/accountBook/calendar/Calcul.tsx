@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import Selec from './Selec';
-import SignupForm from './SignupForm';
+import SignupForm from './CalPost';
 
 const Calcul = () => {
   return (

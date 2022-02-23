@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useFormik } from 'formik';
 import {
   Button,
@@ -7,9 +8,9 @@ import {
   MenuItem,
   TextField,
 } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-const SignupForm = () => {
-  const [select, setSelect] = React.useState('');
+
+const CalPost = () => {
+  const [select, setSelect] = useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
     setSelect(event.target.value as string);
@@ -60,7 +61,7 @@ const SignupForm = () => {
           Submit
         </Button>
       </form>
-      <form onSubmit={imports.handleSubmit}>
+      <form onSubmit={expendive.handleSubmit}>
         <TextField
           label="지출처"
           id="expen"
@@ -76,7 +77,7 @@ const SignupForm = () => {
           name="price"
           type="text"
           onChange={expendive.handleChange}
-          value={expendive.values.expen}
+          value={expendive.values.price}
         />
 
         <Button sx={{ display: 'flex', height: '50px' }} type="submit">
@@ -86,4 +87,4 @@ const SignupForm = () => {
     </>
   );
 };
-export default SignupForm;
+export default CalPost;
