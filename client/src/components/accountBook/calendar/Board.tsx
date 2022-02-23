@@ -1,7 +1,18 @@
 import { Box, Typography } from '@mui/material';
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import { useSelector, RootStateOrAny } from 'react-redux';
 const Board = () => {
+  const dateDate = useSelector(
+    (state: RootStateOrAny) => state.acReducer.calendar.date,
+  );
+  const userKey = useSelector(
+    (state: RootStateOrAny) => state.userReducer.userLogin.id,
+  );
+  const priceReq = () => {};
+
+  useEffect(() => {}, [dateDate]);
+
   return (
     <Box sx={{ width: '50%', height: '300px' }}>
       <Box

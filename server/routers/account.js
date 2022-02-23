@@ -23,7 +23,9 @@ router.post('/account', function (req, res) {
     );
   } else if (exp) {
     connection.query(
-      SQL`INSERT INTO Account(user_key,date,expendive,eprice) VALUES(${userKey},${date},${exp},${Price}) `,
+      SQL`INSERT INTO Account(user_key,date,expendive,eprice) VALUES(${userKey},${date},${exp},${Number(
+        '-' + Price,
+      )}) `,
     );
   }
 });
