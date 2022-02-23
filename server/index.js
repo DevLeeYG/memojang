@@ -7,11 +7,11 @@ const cors = require('cors');
 
 const router = express.Router();
 const app = express();
+const account = require('./routers/account');
 const SQL = require('sql-template-strings');
-const e = require('express');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// configuration =========================
+
 app.set('port', process.env.PORT || 8080);
 app.use(cors());
 app.get('/', (req, res) => {
@@ -25,6 +25,8 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE'],
   }),
 );
+
+app.get('/account', account);
 
 app.get('/users', (req, res) => {
   connection.query('SELECT * from User', (error, rows) => {
