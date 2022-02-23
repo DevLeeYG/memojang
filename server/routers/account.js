@@ -16,7 +16,7 @@ router.post('/account', function (req, res) {
   const Price = data.values.price;
   const userKey = data.userKey;
   const date = data.dateDate;
-
+  console.log('req', req.body);
   if (imp) {
     connection.query(
       SQL`INSERT INTO Account(user_key,date,import,iprice) VALUES(${userKey},${date},${imp},${Price}) `,

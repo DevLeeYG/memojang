@@ -32,11 +32,14 @@ app.get('/account', account);
 app.post('/account', account);
 
 app.post('/login', (req, res) => {
+  console.log('req', req.body);
   const { user, password } = req.body;
   const findUser = SQL`SELECT * FROM User WHERE user_name=${user} and user_password=${password}`;
 
   const userfind = {};
+
   connection.query(findUser, (err, result) => {
+    console.log('reqrer', result);
     for (value of result) {
       userfind.id = value.user_key;
       userfind.username = value.user_name;
@@ -49,8 +52,6 @@ app.post('/login', (req, res) => {
     }
   });
 });
-
-axios.get();
 
 app.get('/posts', (req, res) => {
   let data = req.query['0'];
