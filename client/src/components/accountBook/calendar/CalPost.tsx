@@ -30,11 +30,15 @@ const CalPost = () => {
       price: '',
     },
     onSubmit: (values) => {
-      axios.post(`http://localhost:8080/account`, {
-        values,
-        dateDate,
-        userKey,
-      });
+      axios
+        .post(`http://localhost:8080/account`, {
+          values,
+          dateDate,
+          userKey,
+        })
+        .then((res) => {
+          console.log(res);
+        });
     },
   });
 

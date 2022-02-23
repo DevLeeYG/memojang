@@ -21,12 +21,14 @@ router.post('/account', function (req, res) {
     connection.query(
       SQL`INSERT INTO Account(user_key,date,import,iprice) VALUES(${userKey},${date},${imp},${Price}) `,
     );
+    res.status(200).send('저장완료');
   } else if (exp) {
     connection.query(
       SQL`INSERT INTO Account(user_key,date,expendive,eprice) VALUES(${userKey},${date},${exp},${Number(
         '-' + Price,
       )}) `,
     );
+    res.status(200).send('저장완료');
   }
 });
 
