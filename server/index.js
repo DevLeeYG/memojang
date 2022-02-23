@@ -10,6 +10,7 @@ const router = express.Router();
 const app = express();
 const account = require('./routers/account');
 const SQL = require('sql-template-strings');
+const { default: axios } = require('axios');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -30,16 +31,6 @@ app.use(
 app.get('/account', account);
 app.post('/account', account);
 
-app.get('/users', (req, res) => {
-  connection.query('SELECT * from User', (error, rows) => {
-    let dataList = [];
-
-    if (error) throw error;
-    console.log('User info is: ', rows);
-    res.send(rows);
-  });
-});
-
 app.post('/login', (req, res) => {
   const { user, password } = req.body;
   const findUser = SQL`SELECT * FROM User WHERE user_name=${user} and user_password=${password}`;
@@ -58,6 +49,8 @@ app.post('/login', (req, res) => {
     }
   });
 });
+
+axios.get();
 
 app.get('/posts', (req, res) => {
   let data = req.query['0'];
