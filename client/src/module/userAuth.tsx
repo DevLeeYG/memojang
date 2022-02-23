@@ -93,6 +93,3 @@ const userReducer = (state = initialState, action: any) => {
 };
 
 export default userReducer;
-function id(id: any) {
-  throw new Error('Function not implemented.');
-}

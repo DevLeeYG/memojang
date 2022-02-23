@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import Selec from './Selec';
-import SignupForm from './SignupForm';
+import CalPost from './CalPost';
 
 const Calcul = () => {
   return (
@@ -17,10 +17,18 @@ const Calcul = () => {
       >
         <Typography variant="h3">오늘 수입과 지출</Typography>
       </Box>
-      <Box sx={{ padding: 10, width: '100%' }}></Box>
-      <Box>
-        {/* <Selec></Selec> */}
-        <SignupForm />
+
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+          marginTop: '60px',
+        }}
+      >
+        <Box>
+          <CalPost />
+        </Box>
       </Box>
     </Box>
   );
