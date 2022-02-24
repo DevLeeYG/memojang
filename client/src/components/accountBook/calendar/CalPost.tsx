@@ -2,13 +2,7 @@ import React, { useMemo, useState } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  TextField,
-} from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { useSelector, RootStateOrAny } from 'react-redux';
 import { RootState } from '../../../module/index';
 const CalPost = () => {
@@ -30,11 +24,18 @@ const CalPost = () => {
       price: '',
     },
     onSubmit: (values) => {
-      axios.post(`http://localhost:8080/account`, {
-        values,
-        dateDate,
-        userKey,
-      });
+      axios
+        .post(`http://localhost:8080/account`, {
+          values,
+          dateDate,
+          userKey,
+        })
+        .then((res) => {
+          if (res.status === 200)
+            axios.get('/account', {
+              params: { userKey, dateDate },
+            });
+        });
     },
   });
 

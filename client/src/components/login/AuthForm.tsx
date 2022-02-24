@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField } from '@mui/material';
 import { IconButton, makeStyles } from '@material-ui/core';
-import SignUp from '../SignUp/SignUp';
+
 import useInput from '../hooks/useInput';
 import { useDispatch } from 'react-redux';
 import { userLoggedin } from '../../module/userAuth';
