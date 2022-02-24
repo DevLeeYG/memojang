@@ -6,7 +6,24 @@ const SQL = require('sql-template-strings');
 
 const connection = mysql.createConnection(dbconfig);
 router.get('/account', function (req, res) {
-  res.send('Home');
+  const { userKey, dateDate } = req.query;
+
+  const data = SQL`SELECT * FROM Account`;
+  console.log(data);
+
+  connection.query(data, (err, result) => {
+    let selectData = [];
+
+    if (err) {
+      res.status(400).send('데이터를 불러오지 못했습니다');
+    } else {
+      for (let values of result) {
+        selectData.push(values);
+      }
+      // res.status(200).send(selectData);
+      res.status(200).send(selectData);
+    }
+  });
 });
 
 router.post('/account', function (req, res) {
