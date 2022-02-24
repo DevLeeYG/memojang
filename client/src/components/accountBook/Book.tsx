@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -7,24 +7,51 @@ import Toolbar from '@mui/material/Toolbar';
 import axios from 'axios';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import { useSelector, RootStateOrAny } from 'react-redux';
+import { getMydata } from '../../module/accReducer';
 import Cal from './calendar/Cal';
 import Board from './calendar/Board';
 import Calcul from './calendar/Calcul';
 import Selec from './calendar/Selec';
 import { TextField } from '@mui/material';
-
+import { calendarData } from '../../module/accReducer';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 const drawerWidth = 240;
 
 const Book = () => {
-  const [total, setTotal] = useState<number>(0);
-  const [resTotal, setResTotal] = useState<number>(0);
-  const handleTotalChange = (e: any) => {
-    setTotal(e.target.value);
-  };
+  const dispatch = useDispatch();
+  const myData = useSelector((state: RootStateOrAny) => state.acReducer.myData);
+
+  const dateDate = useSelector(
+    (state: RootStateOrAny) => state.acReducer.calendar.date,
+  );
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
+  const [total, setTotal] = useState<number>(0);
+  const [resTotal, setResTotal] = useState<number>(0);
+  const [date, setDate] = useState(new Date());
+  const [getData, setGetData] = useState([]);
+
+  const getTodayData = () => {
+    axios
+      .get(`http://localhost:8080/account`, {
+        params: {
+          userKey,
+          date,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setGetData(res.data);
+          dispatch(calendarData(date));
+          dispatch(getMydata(getData));
+        }
+      });
+  };
+
+  const handleTotalChange = (e: any) => {
+    setTotal(e.target.value);
+  };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -37,7 +64,15 @@ const Book = () => {
         setResTotal(res.data);
       });
   };
+  useEffect(() => {
+    getTodayData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  useEffect(() => {
+    getTodayData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date]);
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -98,9 +133,15 @@ const Book = () => {
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
         >
           <Toolbar />
-          <Cal />
+          <Cal
+            getTodayData={getTodayData}
+            getData={getData}
+            setGetData={setGetData}
+            date={date}
+            setDate={setDate}
+          />
           <Box sx={{ display: 'flex' }}>
-            <Calcul /> <Board />
+            <Calcul getTodayData={getTodayData} /> <Board />
           </Box>
         </Box>
       </Box>

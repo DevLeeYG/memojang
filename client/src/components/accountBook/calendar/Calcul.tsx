@@ -3,7 +3,7 @@ import React from 'react';
 import Selec from './Selec';
 import CalPost from './CalPost';
 
-const Calcul = () => {
+const Calcul = ({ getTodayData }: any) => {
   return (
     <Box sx={{ borderRight: '1px solid black', width: '50%', height: '300px' }}>
       <Box
@@ -27,7 +27,7 @@ const Calcul = () => {
         }}
       >
         <Box>
-          <CalPost />
+          <CalPost getTodayData={getTodayData} />
         </Box>
       </Box>
     </Box>

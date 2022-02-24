@@ -8,44 +8,39 @@ import { calendarData } from '../../../module/accReducer';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import axios from 'axios';
 import { getMydata } from '../../../module/accReducer';
-const Cal = () => {
-  const dispatch = useDispatch();
-  const [date, setDate] = useState(new Date());
-  const [getData, setGetData] = useState([]);
-  const myData = useSelector((state: RootStateOrAny) => state.acReducer.myData);
+const Cal = ({ getData, setGetData, date, setDate, getTodayData }: any) => {
+  // const dispatch = useDispatch();
+  // const [date, setDate] = useState(new Date());
+  // const [getData, setGetData] = useState([]);
+  // const myData = useSelector((state: RootStateOrAny) => state.acReducer.myData);
 
-  const dateDate = useSelector(
-    (state: RootStateOrAny) => state.acReducer.calendar.date,
-  );
-  const userKey = useSelector(
-    (state: RootStateOrAny) => state.userReducer.userLogin.id,
-  );
-  console.log(date);
+  // const dateDate = useSelector(
+  //   (state: RootStateOrAny) => state.acReducer.calendar.date,
+  // );
+  // const userKey = useSelector(
+  //   (state: RootStateOrAny) => state.userReducer.userLogin.id,
+  // );
 
   const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
     margin: 0;
     width: 100%;
   `;
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const getTodayData = () => {
-    axios
-      .get(`http://localhost:8080/account`, {
-        params: {
-          userKey,
-          date,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setGetData(res.data);
-          dispatch(getMydata(getData));
-        }
-      });
-  };
-
-  useEffect(() => {
-    getTodayData();
-  }, [date]);
+  // const getTodayData = () => {
+  //   axios
+  //     .get(`http://localhost:8080/account`, {
+  //       params: {
+  //         userKey,
+  //         date,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         setGetData(res.data);
+  //         dispatch(getMydata(getData));
+  //       }
+  //     });
+  // };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

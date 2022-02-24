@@ -21,6 +21,8 @@ router.get('/account', function (req, res) {
   // };
   // .getTimezoneOffset()
   const { userKey, date } = req.query;
+
+  console.log('@@@@@@', req.query);
   const today = new Date(date).toISOString().split('T')[0];
 
   const data = SQL`SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)=${today}`;
@@ -38,8 +40,6 @@ router.get('/account', function (req, res) {
         return { ...el, date };
       });
 
-      console.log(mapData);
-
       res.status(200).send(mapData);
     }
   });
@@ -51,23 +51,22 @@ router.post('/account', function (req, res) {
   const exp = data.values.expen;
   const Price = data.values.price;
   const userKey = data.userKey;
-  const date = data.dateDate;
-
-  const findData = SQL`SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)=${date}`;
+  const date = data.date;
+  const today = new Date(date).toISOString().split('T')[0];
+  const findData = SQL`SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)=${today}`;
 
   if (imp) {
     connection.query(
-      SQL`INSERT INTO Account(user_key,date,import,iprice) VALUES(${userKey},${date},${imp},${Price}) `,
+      SQL`INSERT INTO Account(user_key,date,import,iprice) VALUES(${userKey},${today},${imp},${Price}) `,
     );
     res.status(200).send('저장완료');
   } else if (exp) {
     connection.query(
-      SQL`INSERT INTO Account(user_key,date,expendive,eprice) VALUES(${userKey},${date},${exp},${Number(
+      SQL`INSERT INTO Account(user_key,date,expendive,eprice) VALUES(${userKey},${today},${exp},${Number(
         '-' + Price,
       )}) `,
     );
-
-    connection.query();
+    res.status(200).send('저장완료');
   }
 });
 

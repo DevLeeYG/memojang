@@ -5,10 +5,11 @@ import { useFormik } from 'formik';
 import { Button, TextField } from '@mui/material';
 import { useSelector, RootStateOrAny } from 'react-redux';
 import { RootState } from '../../../module/index';
-const CalPost = () => {
-  const dateDate = useSelector(
+const CalPost = ({ getTodayData }: any) => {
+  const date = useSelector(
     (state: RootStateOrAny) => state.acReducer.calendar.date,
   );
+
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
@@ -27,17 +28,21 @@ const CalPost = () => {
       axios
         .post(`http://localhost:8080/account`, {
           values,
-          dateDate,
+          date,
           userKey,
         })
         .then((res) => {
-          if (res.status === 200)
-            axios.get('/account', {
-              params: { userKey, dateDate },
-            });
+          if (res.status === 200) {
+            getTodayData();
+          }
         });
     },
   });
+
+  // axios
+  //             .get('/account', {
+  //               params: { userKey, date },
+  //             })
 
   const expendive = useFormik({
     initialValues: {
@@ -47,7 +52,7 @@ const CalPost = () => {
     onSubmit: (values) => {
       axios.post(`http://localhost:8080/account`, {
         values,
-        dateDate,
+        date,
         userKey,
       });
     },
