@@ -2,13 +2,7 @@ import React, { useMemo, useState } from 'react';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  TextField,
-} from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { useSelector, RootStateOrAny } from 'react-redux';
 import { RootState } from '../../../module/index';
 const CalPost = () => {
@@ -37,7 +31,10 @@ const CalPost = () => {
           userKey,
         })
         .then((res) => {
-          console.log(res);
+          if (res.status === 200)
+            axios.get('/account', {
+              params: { userKey, dateDate },
+            });
         });
     },
   });

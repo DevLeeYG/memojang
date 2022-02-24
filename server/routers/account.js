@@ -5,11 +5,25 @@ const mysql = require('mysql');
 const SQL = require('sql-template-strings');
 
 const connection = mysql.createConnection(dbconfig);
-router.get('/account', function (req, res) {
-  const { userKey, dateDate } = req.query;
 
-  const data = SQL`SELECT * FROM Account`;
-  console.log(data);
+router.get('/account', function (req, res) {
+  // const getYmd10 = (date) => {
+  //   let d = date;
+  //   return (
+  //     d.getFullYear() +
+  //     '-' +
+  //     (d.getMonth() + 1 > 9
+  //       ? (d.getMonth() + 1).toString()
+  //       : '0' + (d.getMonth() + 1)) +
+  //     '-' +
+  //     (d.getDate() > 9 ? d.getDate().toString() : '0' + d.getDate().toString())
+  //   );
+  // };
+  // .getTimezoneOffset()
+  const { userKey, date } = req.query;
+  const today = new Date(date).toISOString().split('T')[0];
+
+  const data = SQL`SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)=${today}`;
 
   connection.query(data, (err, result) => {
     let selectData = [];
@@ -20,8 +34,13 @@ router.get('/account', function (req, res) {
       for (let values of result) {
         selectData.push(values);
       }
-      // res.status(200).send(selectData);
-      res.status(200).send(selectData);
+      const mapData = selectData.map((el) => {
+        return { ...el, date };
+      });
+
+      console.log(mapData);
+
+      res.status(200).send(mapData);
     }
   });
 });
@@ -33,7 +52,9 @@ router.post('/account', function (req, res) {
   const Price = data.values.price;
   const userKey = data.userKey;
   const date = data.dateDate;
-  console.log('req', req.body);
+
+  const findData = SQL`SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)=${date}`;
+
   if (imp) {
     connection.query(
       SQL`INSERT INTO Account(user_key,date,import,iprice) VALUES(${userKey},${date},${imp},${Price}) `,
@@ -45,7 +66,8 @@ router.post('/account', function (req, res) {
         '-' + Price,
       )}) `,
     );
-    res.status(200).send('저장완료');
+
+    connection.query();
   }
 });
 
@@ -71,20 +93,33 @@ router.put('/money/total', (req, res) => {
             if (err) {
               res.status(500).send('err!');
             } else {
-              console.log(result);
-              connection.query(inserTotal, (err, result) => {
-                if (err) res.status(500).send('err@');
-                else
-                  connection.query(SlectData, (err, result) => {
-                    console.log('@@@', result);
-                  });
+              connection.query(SlectData, (err, result) => {
+                {
+                  res.status(200).send(result[0].money.toString());
+                }
               });
             }
           });
         }
       });
     } else {
-      console.log('!!!!');
+      connection.query(findUser, (err, result) => {
+        {
+          if (err) res.status(500).send('err!');
+          else {
+            connection.query(TTQuery, (err, result) => {
+              if (err) res.status(500).send('err!');
+              else {
+                connection.query(SlectData, (err, result) => {
+                  {
+                    res.status(200).send(result[0].money.toString());
+                  }
+                });
+              }
+            });
+          }
+        }
+      });
     }
   });
 

@@ -12,6 +12,7 @@ const Cal = () => {
   const dispatch = useDispatch();
   const [date, setDate] = useState(new Date());
   const [getData, setGetData] = useState([]);
+  const myData = useSelector((state: RootStateOrAny) => state.acReducer.myData);
 
   const dateDate = useSelector(
     (state: RootStateOrAny) => state.acReducer.calendar.date,
@@ -19,6 +20,7 @@ const Cal = () => {
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
+  console.log(date);
 
   const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
     margin: 0;
@@ -30,7 +32,7 @@ const Cal = () => {
       .get(`http://localhost:8080/account`, {
         params: {
           userKey,
-          dateDate,
+          date,
         },
       })
       .then((res) => {
@@ -40,25 +42,8 @@ const Cal = () => {
         }
       });
   };
-  const getYmd10 = (date: Date) => {
-    let d = date;
-    return (
-      d.getFullYear() +
-      '-' +
-      (d.getMonth() + 1 > 9
-        ? (d.getMonth() + 1).toString()
-        : '0' + (d.getMonth() + 1)) +
-      '-' +
-      (d.getDate() > 9 ? d.getDate().toString() : '0' + d.getDate().toString())
-    );
-  };
-  // useEffect(() => {
-  //   dispatch(calendarData(getYmd10(date)));
-  //   getTodayData();
-  // }, []);
 
   useEffect(() => {
-    dispatch(calendarData(getYmd10(date)));
     getTodayData();
   }, [date]);
 

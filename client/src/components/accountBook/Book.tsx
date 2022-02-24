@@ -18,6 +18,7 @@ const drawerWidth = 240;
 
 const Book = () => {
   const [total, setTotal] = useState<number>(0);
+  const [resTotal, setResTotal] = useState<number>(0);
   const handleTotalChange = (e: any) => {
     setTotal(e.target.value);
   };
@@ -27,10 +28,14 @@ const Book = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    axios.put(`http://localhost:8080/money/total`, {
-      total,
-      userKey,
-    });
+    axios
+      .put(`http://localhost:8080/money/total`, {
+        total,
+        userKey,
+      })
+      .then((res) => {
+        setResTotal(res.data);
+      });
   };
 
   return (
@@ -69,7 +74,7 @@ const Book = () => {
             sx={{ border: '1px solid gray', height: '100vh', width: '100%' }}
           >
             <Box sx={{ display: 'flex' }}>
-              총 예산 : <Typography> 원</Typography>
+              총 예산 : <Typography> {resTotal}원</Typography>
             </Box>
             <form onSubmit={handleSubmit}>
               <input
