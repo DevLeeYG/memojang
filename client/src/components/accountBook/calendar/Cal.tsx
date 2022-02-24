@@ -6,13 +6,13 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { calendarData } from '../../../module/accReducer';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { getMydata } from '../../../module/accReducer';
 const Cal = () => {
   const dispatch = useDispatch();
   const [date, setDate] = useState(new Date());
   const [getData, setGetData] = useState([]);
-  console.log('@@@@@', getData);
+
   const dateDate = useSelector(
     (state: RootStateOrAny) => state.acReducer.calendar.date,
   );

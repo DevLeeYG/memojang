@@ -30,6 +30,7 @@ app.use(
 
 app.get('/account', account);
 app.post('/account', account);
+app.put('/money/total', account);
 
 app.post('/login', (req, res) => {
   console.log('req', req.body);

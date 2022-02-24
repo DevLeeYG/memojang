@@ -49,4 +49,52 @@ router.post('/account', function (req, res) {
   }
 });
 
+router.put('/money/total', (req, res) => {
+  const { total, userKey } = req.body;
+
+  const numberTT = Number(total);
+
+  const TTQuery = SQL`UPDATE Money SET money = ${numberTT}`;
+  const SlectData = SQL`SELECT money FROM Money WHERE user_key=${userKey} `;
+  const inserTotal = SQL`INSERT INTO Money(money,user_key) VALUES(${numberTT},${userKey})`;
+  const findUser = SQL`SELECT * FROM Money WHERE user_key = ${userKey}`;
+
+  connection.query(findUser, (err, result) => {
+    const find = result[0];
+
+    if (!find) {
+      connection.query(inserTotal, (err, result) => {
+        if (err) {
+          res.status(500).send('err');
+        } else {
+          connection.query(findUser, (err, result) => {
+            if (err) {
+              res.status(500).send('err!');
+            } else {
+              console.log(result);
+              connection.query(inserTotal, (err, result) => {
+                if (err) res.status(500).send('err@');
+                else
+                  connection.query(SlectData, (err, result) => {
+                    console.log('@@@', result);
+                  });
+              });
+            }
+          });
+        }
+      });
+    } else {
+      console.log('!!!!');
+    }
+  });
+
+  // connection.query(TTQuery, (err, result) => {
+  //   if (err) {
+  //     res.status(500).send('err');
+  //   } else {
+  //     console.log('@@@@', result);
+  //   }
+  // });
+});
+
 module.exports = router;
