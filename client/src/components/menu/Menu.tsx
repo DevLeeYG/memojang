@@ -10,7 +10,6 @@ const Menu = () => {
     <div>
       <Box sx={{ display: 'flex', width: '100%', height: '100vh' }}>
         <Box
-          className={classes.left}
           sx={{
             display: 'flex',
             justifyContent: 'center',
@@ -19,12 +18,28 @@ const Menu = () => {
             height: '100vh',
           }}
         >
-          <Typography onClick={() => navigate('/menu')} variant="h2">
+          <Typography
+            className={classes.left}
+            onClick={() => navigate('/menu')}
+            variant="h2"
+          >
             메모장
           </Typography>
         </Box>
-        <Box className={classes.right}>
-          <Typography onClick={() => navigate('/accountBook')} variant="h2">
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '50%',
+            height: '100vh',
+          }}
+        >
+          <Typography
+            className={classes.right}
+            onClick={() => navigate('/accountBook')}
+            variant="h2"
+          >
             가계부
           </Typography>
         </Box>

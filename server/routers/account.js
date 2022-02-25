@@ -6,52 +6,121 @@ const SQL = require('sql-template-strings');
 
 const connection = mysql.createConnection(dbconfig);
 
-router.get('/account/total', (req, res) => {
-  const { userKey } = req.query;
-
-  const totalData = SQL`SELECT * FROM Account WHERE user_key=${userKey}`;
-  connection.query(totalData, (err, result) => {
-    let selectData = [];
-
-    if (err) {
-      res.status(400).send('데이터를 불러오지 못했습니다');
-    } else {
-      for (let values of result) {
-        selectData.push(values);
-      }
-      const mapData = selectData.map((el) => {
-        return { ...el };
-      });
-      console.log(mapData);
-      res.status(200).send(mapData);
-    }
-  });
-});
-
 router.get('/account', function (req, res) {
+  console.log('afhjksldhgjkas', req);
+
   const { userKey, date } = req.query;
-
+  const findMyTotal = `Select * FROM Money WHERE user_key = ${userKey}`;
   const today = new Date(date).toISOString().split('T')[0];
+  console.log(userKey);
 
-  const data = SQL`SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)=${today}`;
+  // const totalData = SQL`SELECT * FROM Account WHERE user_key=${userKey}`;
+  // const data = SQL`SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)=${today}`;
 
-  connection.query(data, (err, result) => {
-    let selectData = [];
+  const query =
+    `SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)='${today}';` +
+    `${findMyTotal};`;
 
-    if (err) {
-      res.status(400).send('데이터를 불러오지 못했습니다');
-    } else {
+  //  +
+  // SQL`SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)=${today};`;
+  //   SQL`SELECT * FROM Account WHERE user_key=${userKey};` +
+
+  const selectData = [];
+
+  connection.query(query, (err, result) => {
+    // let selectData = [];
+    if (err) throw err;
+    else {
       for (let values of result) {
         selectData.push(values);
       }
+
       const mapData = selectData.map((el) => {
         return { ...el, date };
       });
-
-      res.status(200).send(mapData);
     }
+    console.log('1241241412414141', selectData);
+    // if (err) {
+    //   res.status(400).send('데이터를 불러오지 못했습니다');
+    // } else {
+    //   for (let values of result) {
+    //     selectData.push(values);
+    //   }
+    //   const mapData = selectData.map((el) => {
+    //     return { ...el, date };
+    //   });
+
+    //   res.status(200).send(mapData);
+    // }
   });
+
+  // connection.query(totalData, (err, result) => {
+  //   let selectData = [];
+
+  //   if (err) {
+  //     res.status(400).send('데이터를 불러오지 못했습니다');
+  //   } else {
+  //     for (let values of result) {
+  //       selectData.push(values);
+  //     }
+  //     const mapData = selectData.map((el) => {
+  //       return { ...el };
+  //     });
+  //     console.log('@@@@@', mapData);
+  //     res.status(200).send(mapData);
+  //   }
+  // });
+
+  // const findMyTotal = SQL`Select * FROM Money WHERE user_key = ${userKey}`;
+  // const resData = [];
+
+  // connection.query(findMyTotal, (err, result) => {
+  //   if (err) throw err;
+  //   else {
+  //     for (let values of result) {
+  //       resData.push(values.money);
+  //     }
+  //     res.status(200).send({ data: resData[0] });
+  //   }
+  // });
 });
+
+// router.get('/account/total', (req, res) => {
+//   const { userKey } = req.query;
+
+//   const totalData = SQL`SELECT * FROM Account WHERE user_key=${userKey}`;
+//   connection.query(totalData, (err, result) => {
+//     let selectData = [];
+
+//     if (err) {
+//       res.status(400).send('데이터를 불러오지 못했습니다');
+//     } else {
+//       for (let values of result) {
+//         selectData.push(values);
+//       }
+//       const mapData = selectData.map((el) => {
+//         return { ...el };
+//       });
+//       console.log(mapData);
+//       res.status(200).send(mapData);
+//     }
+//   });
+// });
+// router.get('/money/total', (req, res) => {
+//   const { userKey } = req.query;
+//   const findMyTotal = SQL`Select * FROM Money WHERE user_key = ${userKey}`;
+//   const resData = [];
+
+//   connection.query(findMyTotal, (err, result) => {
+//     if (err) throw err;
+//     else {
+//       for (let values of result) {
+//         resData.push(values.money);
+//       }
+//       res.status(200).send({ data: resData[0] });
+//     }
+//   });
+// });
 
 router.post('/account', function (req, res) {
   let data = req.body; //데이타 변함
@@ -76,22 +145,6 @@ router.post('/account', function (req, res) {
     );
     res.status(200).send('저장완료');
   }
-});
-
-router.get('/money/total', (req, res) => {
-  const { userKey } = req.query;
-  const findMyTotal = SQL`Select * FROM Money WHERE user_key = ${userKey}`;
-  const resData = [];
-
-  connection.query(findMyTotal, (err, result) => {
-    if (err) throw err;
-    else {
-      for (let values of result) {
-        resData.push(values.money);
-      }
-      res.status(200).send({ data: resData[0] });
-    }
-  });
 });
 
 router.put('/money/total', (req, res) => {

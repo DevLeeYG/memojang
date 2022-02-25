@@ -11,15 +11,10 @@ import Book from './components/accountBook/Book';
 import Menu from './components/menu/Menu';
 
 function App() {
-  const navigate = useNavigate();
   const loginState = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.login,
   );
-  // useEffect(() => {
-  //   if (loginState === true) {
-  //     navigate('/menu');
-  //   }
-  // });
+
   return (
     <div>
       <Routes>
