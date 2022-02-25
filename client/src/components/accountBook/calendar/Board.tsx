@@ -1,26 +1,65 @@
 import React from 'react';
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
+import axios from 'axios';
+import { getMydata } from '../../../module/accReducer';
 
-const Board = ({ myData }: any) => {
+const Board = ({ myData, getTodayData }: any) => {
+  const reqDelete = (id: number) => {
+    axios
+      .delete(`http://localhost:8080/account/delete`, {
+        data: { id: id },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          getTodayData();
+        }
+      });
+  };
+
   const importData = myData.map((el: any) => {
     return (
-      <Typography
-        key={el.id}
-        sx={{ display: 'flex', width: '100%' }}
-        variant="h6"
-      >
-        <Box sx={{ width: '100%' }}>{el.import}</Box> <Box>{el.iprice}</Box>
-      </Typography>
+      <>
+        <Typography
+          key={el.id}
+          sx={{ display: 'flex', width: '100%' }}
+          variant="h6"
+        >
+          <Box sx={{ width: '100%' }}>
+            <Box>{el.import}</Box>
+          </Box>
+          <Box
+            onClick={() => {
+              reqDelete(el.id);
+            }}
+            sx={{ display: 'flex', cursor: 'pointer' }}
+          >
+            {el.iprice}
+          </Box>
+        </Typography>
+      </>
     );
   });
+
   const expendiveData = myData.map((el: any) => {
     return (
       <Typography
         key={el.id}
-        sx={{ display: 'flex', width: '100%' }}
+        sx={{
+          display: 'flex',
+          width: '100%',
+        }}
         variant="h6"
       >
-        <Box sx={{ width: '100%' }}>{el.expendive}</Box> <Box>{el.eprice}</Box>
+        <Box sx={{ width: '100%' }}>{el.expendive}</Box>{' '}
+        <Box
+          onClick={() => {
+            reqDelete(el.id);
+          }}
+          sx={{ display: 'flex', cursor: 'pointer' }}
+        >
+          {el.eprice}
+        </Box>
+        {/* <Button>{btn.length}</Button> */}
       </Typography>
     );
   });
@@ -52,6 +91,7 @@ const Board = ({ myData }: any) => {
       </Box>
       <Box sx={{ padding: 6.5, width: '100%' }}>
         {importData}
+
         {expendiveData}
         <Divider />
         <Typography
@@ -67,3 +107,7 @@ const Board = ({ myData }: any) => {
 };
 
 export default Board;
+
+function getTodayData() {
+  throw new Error('Function not implemented.');
+}

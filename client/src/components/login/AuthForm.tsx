@@ -50,10 +50,7 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
 
   const classes = container();
 
-  const onSubmitForm = useCallback(() => {
-    console.log('123123', { id, passWord });
-    console.log('실행되냐?');
-  }, [id, passWord]);
+  const onSubmitForm = useCallback(() => {}, [id, passWord]);
 
   const reqSignup = () => {
     if (passWord === rePassword) {

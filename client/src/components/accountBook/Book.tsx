@@ -24,6 +24,45 @@ const Book = () => {
   const [resTotal, setResTotal] = useState<number>(0);
   const [date, setDate] = useState(new Date());
   const [getData, setGetData] = useState([]);
+  const [allTotal, setAlltotal] = useState([]);
+  const [monthTotal, setMonthTotal] = useState([]);
+  useEffect(() => {
+    getTodayData();
+    getTotal();
+    getAllTotal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const myAlltotal = allTotal.map((el: any) => {
+    return el.iprice + el.eprice;
+  });
+
+  const totaldata = myAlltotal.reduce((a, b) => {
+    return a + b;
+  }, null);
+
+  const getTotal = () => {
+    axios
+      .get(`http://localhost:8080/money/total`, {
+        params: {
+          userKey,
+        },
+      })
+      .then((res) => {
+        setResTotal(res.data.data);
+      });
+  };
+
+  const getAllTotal = () => {
+    axios
+      .get('http://localhost:8080/account/total', {
+        params: {
+          userKey,
+        },
+      })
+      .then((res) => {
+        setAlltotal(res.data);
+      });
+  };
 
   const getTodayData = () => {
     axios
@@ -56,13 +95,10 @@ const Book = () => {
         setResTotal(res.data);
       });
   };
-  useEffect(() => {
-    getTodayData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     getTodayData();
+    getTotal();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
   return (
@@ -96,12 +132,11 @@ const Book = () => {
         >
           <Toolbar />
           <Divider />
-
           <Box
             sx={{ border: '1px solid gray', height: '100vh', width: '100%' }}
           >
             <Box sx={{ display: 'flex' }}>
-              총 예산 : <Typography> {resTotal}원</Typography>
+              예산 : <Typography> {resTotal}원</Typography>
             </Box>
             <form onSubmit={handleSubmit}>
               <input
@@ -111,13 +146,8 @@ const Book = () => {
               />
               <button type="submit">입력</button>
             </form>
-
-            <Box sx={{ display: 'flex' }}>
-              월 결산 : <Typography>원</Typography>
-            </Box>
-            <Box sx={{ display: 'flex' }}>
-              연 결산 : <Typography>원</Typography>
-            </Box>
+            남은예산 :{resTotal + totaldata} 원
+            <div>(예산 = 예산 + (지출+수입))</div>
           </Box>
         </Drawer>
         <Box
@@ -133,7 +163,8 @@ const Book = () => {
             setDate={setDate}
           />
           <Box sx={{ display: 'flex' }}>
-            <Calcul getTodayData={getTodayData} /> <Board myData={getData} />
+            <Calcul getTodayData={getTodayData} />
+            <Board getTodayData={getTodayData} myData={getData} />
           </Box>
         </Box>
       </Box>

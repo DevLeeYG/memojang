@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { tryLogin } from '../lib/api';
-
+// import React, { useState, useCallback } from 'react';
+// import { useNavigate } from 'react-router-dom';
 const USER_SIGNUP = 'userAUTH/USER_SIGNUP';
 const LOGIN_SUCCESS = 'userAUTH/LOGIN_SUCCESS';
 const LOGIN_FAILURE = 'userAUTH/LOGIN_FAILURE';
@@ -17,10 +18,6 @@ const initialState = {
     username: '',
   },
   LoginFalse: false,
-};
-
-const LoginApi = (data: any) => {
-  axios.post('http://localhost:8080/login').then((res) => console.log(res));
 };
 
 const LoginRequestAction = (data: boolean) => {

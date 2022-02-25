@@ -6,23 +6,31 @@ const SQL = require('sql-template-strings');
 
 const connection = mysql.createConnection(dbconfig);
 
+router.get('/account/total', (req, res) => {
+  const { userKey } = req.query;
+
+  const totalData = SQL`SELECT * FROM Account WHERE user_key=${userKey}`;
+  connection.query(totalData, (err, result) => {
+    let selectData = [];
+
+    if (err) {
+      res.status(400).send('데이터를 불러오지 못했습니다');
+    } else {
+      for (let values of result) {
+        selectData.push(values);
+      }
+      const mapData = selectData.map((el) => {
+        return { ...el };
+      });
+      console.log(mapData);
+      res.status(200).send(mapData);
+    }
+  });
+});
+
 router.get('/account', function (req, res) {
-  // const getYmd10 = (date) => {
-  //   let d = date;
-  //   return (
-  //     d.getFullYear() +
-  //     '-' +
-  //     (d.getMonth() + 1 > 9
-  //       ? (d.getMonth() + 1).toString()
-  //       : '0' + (d.getMonth() + 1)) +
-  //     '-' +
-  //     (d.getDate() > 9 ? d.getDate().toString() : '0' + d.getDate().toString())
-  //   );
-  // };
-  // .getTimezoneOffset()
   const { userKey, date } = req.query;
 
-  console.log('@@@@@@', req.query);
   const today = new Date(date).toISOString().split('T')[0];
 
   const data = SQL`SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)=${today}`;
@@ -68,6 +76,22 @@ router.post('/account', function (req, res) {
     );
     res.status(200).send('저장완료');
   }
+});
+
+router.get('/money/total', (req, res) => {
+  const { userKey } = req.query;
+  const findMyTotal = SQL`Select * FROM Money WHERE user_key = ${userKey}`;
+  const resData = [];
+
+  connection.query(findMyTotal, (err, result) => {
+    if (err) throw err;
+    else {
+      for (let values of result) {
+        resData.push(values.money);
+      }
+      res.status(200).send({ data: resData[0] });
+    }
+  });
 });
 
 router.put('/money/total', (req, res) => {
@@ -121,14 +145,20 @@ router.put('/money/total', (req, res) => {
       });
     }
   });
+});
 
-  // connection.query(TTQuery, (err, result) => {
-  //   if (err) {
-  //     res.status(500).send('err');
-  //   } else {
-  //     console.log('@@@@', result);
-  //   }
-  // });
+router.delete('/account/delete', (req, res) => {
+  const id = req.body.id;
+
+  const deletePost = SQL`DELETE FROM Account WHERE id=${id}`;
+
+  connection.query(deletePost, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).send('삭제완료');
+    }
+  });
 });
 
 module.exports = router;
