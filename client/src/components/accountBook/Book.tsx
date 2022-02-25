@@ -7,23 +7,16 @@ import Toolbar from '@mui/material/Toolbar';
 import axios from 'axios';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import { getMydata } from '../../module/accReducer';
 import Cal from './calendar/Cal';
 import Board from './calendar/Board';
 import Calcul from './calendar/Calcul';
-import Selec from './calendar/Selec';
-import { TextField } from '@mui/material';
 import { calendarData } from '../../module/accReducer';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 const drawerWidth = 240;
 
 const Book = () => {
   const dispatch = useDispatch();
-  const myData = useSelector((state: RootStateOrAny) => state.acReducer.myData);
 
-  const dateDate = useSelector(
-    (state: RootStateOrAny) => state.acReducer.calendar.date,
-  );
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
@@ -44,7 +37,6 @@ const Book = () => {
         if (res.status === 200) {
           setGetData(res.data);
           dispatch(calendarData(date));
-          dispatch(getMydata(getData));
         }
       });
   };
@@ -141,7 +133,7 @@ const Book = () => {
             setDate={setDate}
           />
           <Box sx={{ display: 'flex' }}>
-            <Calcul getTodayData={getTodayData} /> <Board />
+            <Calcul getTodayData={getTodayData} /> <Board myData={getData} />
           </Box>
         </Box>
       </Box>

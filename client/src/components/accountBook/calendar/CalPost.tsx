@@ -1,23 +1,16 @@
-import React, { useMemo, useState } from 'react';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { Button, TextField } from '@mui/material';
 import { useSelector, RootStateOrAny } from 'react-redux';
-import { RootState } from '../../../module/index';
+
 const CalPost = ({ getTodayData }: any) => {
   const date = useSelector(
     (state: RootStateOrAny) => state.acReducer.calendar.date,
   );
-
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
-  const [select, setSelect] = useState('');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setSelect(event.target.value as string);
-  };
 
   const imports = useFormik({
     initialValues: {
@@ -36,13 +29,10 @@ const CalPost = ({ getTodayData }: any) => {
             getTodayData();
           }
         });
+      values.import = '';
+      values.price = '';
     },
   });
-
-  // axios
-  //             .get('/account', {
-  //               params: { userKey, date },
-  //             })
 
   const expendive = useFormik({
     initialValues: {
@@ -50,11 +40,19 @@ const CalPost = ({ getTodayData }: any) => {
       price: '',
     },
     onSubmit: (values) => {
-      axios.post(`http://localhost:8080/account`, {
-        values,
-        date,
-        userKey,
-      });
+      axios
+        .post(`http://localhost:8080/account`, {
+          values,
+          date,
+          userKey,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            getTodayData();
+          }
+        });
+      values.expen = '';
+      values.price = '';
     },
   });
 

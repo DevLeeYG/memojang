@@ -1,17 +1,39 @@
-import { Box, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
-import axios from 'axios';
-import { useSelector, RootStateOrAny } from 'react-redux';
-const Board = () => {
-  const dateDate = useSelector(
-    (state: RootStateOrAny) => state.acReducer.calendar.date,
-  );
-  const userKey = useSelector(
-    (state: RootStateOrAny) => state.userReducer.userLogin.id,
-  );
-  const priceReq = () => {};
+import React from 'react';
+import { Box, Divider, Typography } from '@mui/material';
 
-  useEffect(() => {}, [dateDate]);
+const Board = ({ myData }: any) => {
+  const importData = myData.map((el: any) => {
+    return (
+      <Typography
+        key={el.id}
+        sx={{ display: 'flex', width: '100%' }}
+        variant="h6"
+      >
+        <Box sx={{ width: '100%' }}>{el.import}</Box> <Box>{el.iprice}</Box>
+      </Typography>
+    );
+  });
+  const expendiveData = myData.map((el: any) => {
+    return (
+      <Typography
+        key={el.id}
+        sx={{ display: 'flex', width: '100%' }}
+        variant="h6"
+      >
+        <Box sx={{ width: '100%' }}>{el.expendive}</Box> <Box>{el.eprice}</Box>
+      </Typography>
+    );
+  });
+
+  let arrayPrice = myData?.map((a: any) => {
+    return a.iprice + a.eprice;
+  });
+
+  let priceReducer = arrayPrice?.reduce((a: any, b: any) => {
+    return a + b;
+  }, null);
+
+  // console.log();
 
   return (
     <Box sx={{ width: '50%', height: '300px' }}>
@@ -24,17 +46,20 @@ const Board = () => {
           height: '50px',
         }}
       >
-        <Typography variant="h3">일 결산</Typography>
+        <Typography sx={{ marginTop: '20px' }} variant="h3">
+          일 결산
+        </Typography>
       </Box>
-      <Box sx={{ padding: 10, width: '100%' }}>
-        <Typography sx={{ display: 'flex', width: '100%' }} variant="h6">
-          <Box sx={{ width: '30%' }}>수입</Box> <Box>123</Box>
-        </Typography>
-        <Typography sx={{ display: 'flex', width: '100%' }} variant="h6">
-          <Box sx={{ width: '30%' }}>지출</Box> <Box>123</Box>
-        </Typography>
-        <Typography sx={{ display: 'flex', width: '100%' }} variant="h6">
-          <Box sx={{ width: '30%' }}>합계</Box> <Box>123</Box>
+      <Box sx={{ padding: 6.5, width: '100%' }}>
+        {importData}
+        {expendiveData}
+        <Divider />
+        <Typography
+          sx={{ display: 'flex', width: '100%', marginTop: '20px' }}
+          variant="h6"
+        >
+          <Box sx={{ width: '100%' }}>합계</Box>
+          <Box>{priceReducer}₩</Box>
         </Typography>
       </Box>
     </Box>
