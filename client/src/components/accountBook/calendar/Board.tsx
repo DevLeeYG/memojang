@@ -2,8 +2,9 @@ import React from 'react';
 import { Box, Button, Divider, Typography } from '@mui/material';
 import axios from 'axios';
 import { getMydata } from '../../../module/accReducer';
+import { ContactlessOutlined } from '@mui/icons-material';
 
-const Board = ({ myData, getTodayData }: any) => {
+const Board = ({ getData, getAlldata }: any) => {
   const reqDelete = (id: number) => {
     axios
       .delete(`http://localhost:8080/account/delete`, {
@@ -11,12 +12,12 @@ const Board = ({ myData, getTodayData }: any) => {
       })
       .then((res) => {
         if (res.status === 200) {
-          getTodayData();
+          getAlldata();
         }
       });
   };
 
-  const importData = myData.map((el: any) => {
+  const importData = getData[0]?.map((el: any) => {
     return (
       <>
         <Typography
@@ -40,7 +41,7 @@ const Board = ({ myData, getTodayData }: any) => {
     );
   });
 
-  const expendiveData = myData.map((el: any) => {
+  const expendiveData = getData[0]?.map((el: any) => {
     return (
       <Typography
         key={el.id}
@@ -64,13 +65,13 @@ const Board = ({ myData, getTodayData }: any) => {
     );
   });
 
-  let arrayPrice = myData?.map((a: any) => {
-    return a.iprice + a.eprice;
-  });
+  // let arrayPrice = myData?.map((a: any) => {
+  //   return a.iprice + a.eprice;
+  // });
 
-  let priceReducer = arrayPrice?.reduce((a: any, b: any) => {
-    return a + b;
-  }, null);
+  // let priceReducer = arrayPrice?.reduce((a: any, b: any) => {
+  //   return a + b;
+  // }, null);
 
   // console.log();
 
@@ -91,7 +92,6 @@ const Board = ({ myData, getTodayData }: any) => {
       </Box>
       <Box sx={{ padding: 6.5, width: '100%' }}>
         {importData}
-
         {expendiveData}
         <Divider />
         <Typography
@@ -99,7 +99,7 @@ const Board = ({ myData, getTodayData }: any) => {
           variant="h6"
         >
           <Box sx={{ width: '100%' }}>합계</Box>
-          <Box>{priceReducer}₩</Box>
+          {/* <Box>{priceReducer}₩</Box> */}
         </Typography>
       </Box>
     </Box>

@@ -36,10 +36,12 @@ router.get('/account', function (req, res) {
       }
 
       const mapData = selectData.map((el) => {
-        return { ...el, date };
+        return [...el];
       });
+      console.log(mapData);
+      res.status(200).send(mapData);
     }
-    console.log('1241241412414141', selectData);
+
     // if (err) {
     //   res.status(400).send('데이터를 불러오지 못했습니다');
     // } else {

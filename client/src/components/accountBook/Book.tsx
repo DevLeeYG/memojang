@@ -12,6 +12,7 @@ import Board from './calendar/Board';
 import Calcul from './calendar/Calcul';
 import { calendarData } from '../../module/accReducer';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import { ContactlessOutlined } from '@mui/icons-material';
 const drawerWidth = 240;
 
 const Book = () => {
@@ -23,16 +24,24 @@ const Book = () => {
   const [total, setTotal] = useState<number>(0);
   const [totalbudget, setTotalbudget] = useState<number>(0);
   const [date, setDate] = useState(new Date());
-  const [getData, setGetData] = useState([]);
+  const [getData, setGetData] = useState<any[]>([]);
   const [inAndOut, setInAndOut] = useState([]);
 
-  const ArrayInOut = inAndOut.map((el: any) => {
-    return el.iprice + el.eprice;
-  });
+  console.log('date', date);
 
-  const InOutTotal = ArrayInOut.reduce((a, b) => {
-    return a + b;
-  }, null);
+  useEffect(() => {
+    getAlldata();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const ArrayInOut = inAndOut.map((el: any) => {
+  //   return el.iprice + el.eprice;
+  // });
+
+  // const InOutTotal = ArrayInOut.reduce((a, b) => {
+  //   return a + b;
+  // }, null);
 
   // const handleToTalbudget = () => {
   //   //나의 총예산
@@ -84,12 +93,14 @@ const Book = () => {
         },
       })
       .then((res) => {
-        console.log('rerqrqewr', res);
+        if (res.status === 200) {
+          // setGetData(res.data);
+          // console.log(res.data[1]);
+          setTotalbudget(res.data[1][0].money);
+          setGetData(res.data);
 
-        // if (res.status === 200) {
-        //   setGetData(res.data);
-        //   dispatch(calendarData(date));
-        // }
+          dispatch(calendarData(date));
+        }
       });
   };
 
@@ -109,13 +120,10 @@ const Book = () => {
         setTotalbudget(res.data);
       });
   };
-  getAlldata();
+
   useEffect(() => {
     getAlldata();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    getAlldata();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
   return (
@@ -163,7 +171,7 @@ const Book = () => {
               />
               <button type="submit">입력</button>
             </form>
-            남은예산 :{totalbudget + InOutTotal} 원
+            {/* 남은예산 :{totalbudget + InOutTotal}  원 */}
             <div>(예산 = 예산 + (지출+수입))</div>
           </Box>
         </Drawer>
@@ -173,19 +181,15 @@ const Book = () => {
         >
           <Toolbar />
           <Cal
-            // getTodayData={getTodayData}
+            getTodayData={getAlldata}
             getData={getData}
             setGetData={setGetData}
             date={date}
             setDate={setDate}
           />
           <Box sx={{ display: 'flex' }}>
-            <Calcul
-            // getTodayData={getTodayData}
-            />
-            <Board
-            // getTodayData={getTodayData} myData={getData}
-            />
+            <Calcul getTodayData={getAlldata} />
+            <Board getAlldata={getAlldata} getData={getData} />
           </Box>
         </Box>
       </Box>
