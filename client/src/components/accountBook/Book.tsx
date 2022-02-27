@@ -21,50 +21,61 @@ const Book = () => {
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
   const [total, setTotal] = useState<number>(0);
-  const [resTotal, setResTotal] = useState<number>(0);
+  const [totalbudget, setTotalbudget] = useState<number>(0);
   const [date, setDate] = useState(new Date());
   const [getData, setGetData] = useState([]);
-  const [allTotal, setAlltotal] = useState([]);
-  const [monthTotal, setMonthTotal] = useState([]);
-  useEffect(() => {
-    getTodayData();
-    getTotal();
-    getAllTotal();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const myAlltotal = allTotal.map((el: any) => {
+  const [inAndOut, setInAndOut] = useState([]);
+
+  const ArrayInOut = inAndOut.map((el: any) => {
     return el.iprice + el.eprice;
   });
 
-  const totaldata = myAlltotal.reduce((a, b) => {
+  const InOutTotal = ArrayInOut.reduce((a, b) => {
     return a + b;
   }, null);
 
-  const getTotal = () => {
-    axios
-      .get(`http://localhost:8080/money/total`, {
-        params: {
-          userKey,
-        },
-      })
-      .then((res) => {
-        setResTotal(res.data.data);
-      });
-  };
+  // const handleToTalbudget = () => {
+  //   //나의 총예산
+  //   axios
+  //     .get(`http://localhost:8080/money/total`, {
+  //       params: {
+  //         userKey,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setTotalbudget(res.data.data);
+  //     });
+  // };
 
-  const getAllTotal = () => {
-    axios
-      .get('http://localhost:8080/account/total', {
-        params: {
-          userKey,
-        },
-      })
-      .then((res) => {
-        setAlltotal(res.data);
-      });
-  };
+  // const inAndOutPlus = () => {
+  //   axios
+  //     .get('http://localhost:8080/account/total', {
+  //       params: {
+  //         userKey,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setInAndOut(res.data);
+  //     });
+  // };
 
-  const getTodayData = () => {
+  // const getTodayData = () => {
+  //   axios
+  //     .get(`http://localhost:8080/account`, {
+  //       params: {
+  //         userKey,
+  //         date,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         setGetData(res.data);
+  //         dispatch(calendarData(date));
+  //       }
+  //     });
+  // };
+
+  const getAlldata = () => {
     axios
       .get(`http://localhost:8080/account`, {
         params: {
@@ -73,10 +84,12 @@ const Book = () => {
         },
       })
       .then((res) => {
-        if (res.status === 200) {
-          setGetData(res.data);
-          dispatch(calendarData(date));
-        }
+        console.log('rerqrqewr', res);
+
+        // if (res.status === 200) {
+        //   setGetData(res.data);
+        //   dispatch(calendarData(date));
+        // }
       });
   };
 
@@ -85,6 +98,7 @@ const Book = () => {
   };
 
   const handleSubmit = (e: any) => {
+    //수입지출 변동시 남은 예산 계산요청
     e.preventDefault();
     axios
       .put(`http://localhost:8080/money/total`, {
@@ -92,13 +106,16 @@ const Book = () => {
         userKey,
       })
       .then((res) => {
-        setResTotal(res.data);
+        setTotalbudget(res.data);
       });
   };
-
+  getAlldata();
   useEffect(() => {
-    getTodayData();
-    getTotal();
+    getAlldata();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    getAlldata();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
   return (
@@ -136,7 +153,7 @@ const Book = () => {
             sx={{ border: '1px solid gray', height: '100vh', width: '100%' }}
           >
             <Box sx={{ display: 'flex' }}>
-              예산 : <Typography> {resTotal}원</Typography>
+              예산 : <Typography> {totalbudget}원</Typography>
             </Box>
             <form onSubmit={handleSubmit}>
               <input
@@ -146,7 +163,7 @@ const Book = () => {
               />
               <button type="submit">입력</button>
             </form>
-            남은예산 :{resTotal + totaldata} 원
+            남은예산 :{totalbudget + InOutTotal} 원
             <div>(예산 = 예산 + (지출+수입))</div>
           </Box>
         </Drawer>
@@ -156,15 +173,19 @@ const Book = () => {
         >
           <Toolbar />
           <Cal
-            getTodayData={getTodayData}
+            // getTodayData={getTodayData}
             getData={getData}
             setGetData={setGetData}
             date={date}
             setDate={setDate}
           />
           <Box sx={{ display: 'flex' }}>
-            <Calcul getTodayData={getTodayData} />
-            <Board getTodayData={getTodayData} myData={getData} />
+            <Calcul
+            // getTodayData={getTodayData}
+            />
+            <Board
+            // getTodayData={getTodayData} myData={getData}
+            />
           </Box>
         </Box>
       </Box>
