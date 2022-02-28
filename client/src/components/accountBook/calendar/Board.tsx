@@ -1,8 +1,14 @@
 import React from 'react';
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import axios from 'axios';
-import { getMydata } from '../../../module/accReducer';
-import { ContactlessOutlined } from '@mui/icons-material';
+
+interface getData {
+  id: number;
+  expendive: boolean | null | undefined;
+  import: string;
+  iprice: number;
+  eprice: number;
+}
 
 const Board = ({ getData, getAlldata }: any) => {
   const reqDelete = (id: number) => {
@@ -17,7 +23,7 @@ const Board = ({ getData, getAlldata }: any) => {
       });
   };
 
-  const importData = getData[0]?.map((el: any) => {
+  const importData = getData[0]?.map((el: getData) => {
     return (
       <>
         <Typography
@@ -41,7 +47,7 @@ const Board = ({ getData, getAlldata }: any) => {
     );
   });
 
-  const expendiveData = getData[0]?.map((el: any) => {
+  const expendiveData = getData[0]?.map((el: getData) => {
     return (
       <Typography
         key={el.id}
@@ -60,20 +66,17 @@ const Board = ({ getData, getAlldata }: any) => {
         >
           {el.eprice}
         </Box>
-        {/* <Button>{btn.length}</Button> */}
       </Typography>
     );
   });
 
-  // let arrayPrice = myData?.map((a: any) => {
-  //   return a.iprice + a.eprice;
-  // });
+  let arrayPrice = getData[0]?.map((a: any) => {
+    return a.iprice + a.eprice;
+  });
 
-  // let priceReducer = arrayPrice?.reduce((a: any, b: any) => {
-  //   return a + b;
-  // }, null);
-
-  // console.log();
+  let priceReducer = arrayPrice?.reduce((a: number, b: number) => {
+    return a + b;
+  }, null);
 
   return (
     <Box sx={{ width: '50%', height: '300px' }}>
@@ -98,8 +101,15 @@ const Board = ({ getData, getAlldata }: any) => {
           sx={{ display: 'flex', width: '100%', marginTop: '20px' }}
           variant="h6"
         >
-          <Box sx={{ width: '100%' }}>합계</Box>
-          {/* <Box>{priceReducer}₩</Box> */}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
+          >
+            합계 <Box>{priceReducer ? priceReducer : 0}원</Box>
+          </Box>
         </Typography>
       </Box>
     </Box>
@@ -107,7 +117,3 @@ const Board = ({ getData, getAlldata }: any) => {
 };
 
 export default Board;
-
-function getTodayData() {
-  throw new Error('Function not implemented.');
-}

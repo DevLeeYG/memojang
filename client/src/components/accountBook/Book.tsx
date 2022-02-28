@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import axios from 'axios';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import Cal from './calendar/Cal';
 import Board from './calendar/Board';
 import Calcul from './calendar/Calcul';
 import { calendarData } from '../../module/accReducer';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import { ContactlessOutlined } from '@mui/icons-material';
+import Sidebar from './calendar/Sidebar';
 const drawerWidth = 240;
 
 const Book = () => {
@@ -24,10 +22,9 @@ const Book = () => {
   const [total, setTotal] = useState<number>(0);
   const [totalbudget, setTotalbudget] = useState<number>(0);
   const [date, setDate] = useState(new Date());
+  const [month, setMonth] = useState(new Date());
+  const [year, setYear] = useState(new Date());
   const [getData, setGetData] = useState<any[]>([]);
-  const [inAndOut, setInAndOut] = useState([]);
-
-  console.log('date', date);
 
   useEffect(() => {
     getAlldata();
@@ -35,76 +32,27 @@ const Book = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const ArrayInOut = inAndOut.map((el: any) => {
-  //   return el.iprice + el.eprice;
-  // });
-
-  // const InOutTotal = ArrayInOut.reduce((a, b) => {
-  //   return a + b;
-  // }, null);
-
-  // const handleToTalbudget = () => {
-  //   //나의 총예산
-  //   axios
-  //     .get(`http://localhost:8080/money/total`, {
-  //       params: {
-  //         userKey,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setTotalbudget(res.data.data);
-  //     });
-  // };
-
-  // const inAndOutPlus = () => {
-  //   axios
-  //     .get('http://localhost:8080/account/total', {
-  //       params: {
-  //         userKey,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setInAndOut(res.data);
-  //     });
-  // };
-
-  // const getTodayData = () => {
-  //   axios
-  //     .get(`http://localhost:8080/account`, {
-  //       params: {
-  //         userKey,
-  //         date,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //         setGetData(res.data);
-  //         dispatch(calendarData(date));
-  //       }
-  //     });
-  // };
-
   const getAlldata = () => {
     axios
       .get(`http://localhost:8080/account`, {
         params: {
           userKey,
           date,
+          month,
         },
       })
       .then((res) => {
         if (res.status === 200) {
-          // setGetData(res.data);
-          // console.log(res.data[1]);
           setTotalbudget(res.data[1][0].money);
           setGetData(res.data);
-
           dispatch(calendarData(date));
         }
       });
   };
 
-  const handleTotalChange = (e: any) => {
+  const handleTotalChange = (e: {
+    target: { value: React.SetStateAction<number> };
+  }) => {
     setTotal(e.target.value);
   };
 
@@ -125,7 +73,7 @@ const Book = () => {
     getAlldata();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date]);
+  }, [date, month, year]);
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -143,38 +91,13 @@ const Book = () => {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
-              width: drawerWidth,
-              boxSizing: 'border-box',
-            },
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <Toolbar />
-          <Divider />
-          <Box
-            sx={{ border: '1px solid gray', height: '100vh', width: '100%' }}
-          >
-            <Box sx={{ display: 'flex' }}>
-              예산 : <Typography> {totalbudget}원</Typography>
-            </Box>
-            <form onSubmit={handleSubmit}>
-              <input
-                placeholder="예산입력"
-                onChange={handleTotalChange}
-                value={total}
-              />
-              <button type="submit">입력</button>
-            </form>
-            {/* 남은예산 :{totalbudget + InOutTotal}  원 */}
-            <div>(예산 = 예산 + (지출+수입))</div>
-          </Box>
-        </Drawer>
+        <Sidebar
+          getData={getData}
+          totalbudget={totalbudget}
+          total={total}
+          handleSubmit={handleSubmit}
+          handleTotalChange={handleTotalChange}
+        />
         <Box
           component="main"
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
@@ -185,6 +108,8 @@ const Book = () => {
             getData={getData}
             setGetData={setGetData}
             date={date}
+            month={month}
+            setMonth={setMonth}
             setDate={setDate}
           />
           <Box sx={{ display: 'flex' }}>

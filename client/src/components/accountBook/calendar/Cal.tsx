@@ -1,62 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CalendarPicker, { CalendarPickerProps } from '@mui/lab/CalendarPicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import { calendarData } from '../../../module/accReducer';
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import axios from 'axios';
-import { getMydata } from '../../../module/accReducer';
-const Cal = ({ getData, setGetData, date, setDate, getTodayData }: any) => {
-  // const dispatch = useDispatch();
-  // const [date, setDate] = useState(new Date());
-  // const [getData, setGetData] = useState([]);
-  // const myData = useSelector((state: RootStateOrAny) => state.acReducer.myData);
+import { constants } from 'buffer';
 
-  // const dateDate = useSelector(
-  //   (state: RootStateOrAny) => state.acReducer.calendar.date,
-  // );
-  // const userKey = useSelector(
-  //   (state: RootStateOrAny) => state.userReducer.userLogin.id,
-  // );
-
+const Cal = ({ date, setDate, month, setMonth, getData }: any) => {
   const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
     margin: 0;
     width: 100%;
   `;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // const getTodayData = () => {
-  //   axios
-  //     .get(`http://localhost:8080/account`, {
-  //       params: {
-  //         userKey,
-  //         date,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //         setGetData(res.data);
-  //         dispatch(getMydata(getData));
-  //       }
-  //     });
-  // };
+
+  const MonthTotal = getData[2]?.map(
+    (el: { iprice: number; eprice: number }) => {
+      return el.iprice + el.eprice;
+    },
+  );
+
+  const reduceMonthTotal = MonthTotal?.reduce((a: number, b: number) => {
+    return a + b;
+  }, null);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box
         sx={(theme) => ({
+          display: 'flex',
           width: '100%',
           height: '50%',
           backgroundColor: theme.palette.grey[50],
         })}
       >
-        <CustomCalendarPicker
-          views={['day']}
-          date={date}
-          onChange={(newValue: any) => setDate(newValue)}
-          showDaysOutsideCurrentMonth
-        />
+        <Box sx={{ width: '50%' }}>
+          <CustomCalendarPicker
+            views={['day']}
+            date={date}
+            onChange={(newValue: any) => setDate(newValue)}
+            showDaysOutsideCurrentMonth
+          />
+        </Box>
+        <Box sx={{ width: '50%' }}>
+          <CustomCalendarPicker
+            views={['month']}
+            date={month}
+            onChange={(newValue: any) => setMonth(newValue)}
+          />
+          <Box sx={{ pt: 3, pr: 12, textAlign: 'right', fontSize: '30px' }}>
+            월 현황: {reduceMonthTotal ? reduceMonthTotal : 0}
+          </Box>
+        </Box>
       </Box>
     </LocalizationProvider>
   );
