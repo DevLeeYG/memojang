@@ -5,33 +5,27 @@ const mysql = require('mysql');
 const SQL = require('sql-template-strings');
 const connection = mysql.createConnection(dbconfig);
 
-router.get('/account', function (req, res) {
-  const { userKey, date, month } = req.query;
+router.get('/account/totalmoney', function (req, res) {
+  const { userKey } = req.query;
   const findMyTotal = `Select * FROM Money WHERE user_key = ${userKey}`;
-  const today = new Date(date).toISOString().split('T')[0];
-  const monthData = new Date(month).toISOString().slice(5, 7);
-  const yearData = new Date(month).toISOString().slice(0, 4);
-  const findMonth = `SELECT * FROM Account WHERE user_key=${userKey} and YEAR(date)=${yearData} and MONTH(date)=${monthData}`;
-  const findToday = `SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)='${today}';`;
+  // const today = new Date(date).toISOString().split('T')[0];
+  // const monthData = new Date(month).toISOString().slice(5, 7);
+  // const yearData = new Date(month).toISOString().slice(0, 4);
+  // const findMonth = `SELECT * FROM Account WHERE user_key=${userKey} and YEAR(date)=${yearData} and MONTH(date)=${monthData}`;
+  // const findToday = `SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)='${today}';`;
   const totalBudget = `SELECT * FROM Account WHERE user_key = ${userKey};`;
 
-  const query =
-    `${findToday}` + `${findMyTotal};` + `${findMonth};` + `${totalBudget} `;
+  // const query =
+  //   `${findToday}` + `${findMyTotal};` + `${findMonth};` + `${totalBudget} `;
+
+  const query = `${totalBudget}` + `${findMyTotal}`;
 
   const selectData = [];
 
   connection.query(query, (err, result) => {
     if (err) throw err;
     else {
-      for (let values of result) {
-        selectData.push(values);
-      }
-
-      const mapData = selectData.map((el) => {
-        return [...el];
-      });
-      console.log(mapData);
-      res.status(200).send(mapData);
+      res.status(200).send(result);
     }
   });
 });

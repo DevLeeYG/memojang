@@ -28,7 +28,7 @@ app.use(
   }),
 );
 app.get('/money/total', account);
-app.get('/account/total', account);
+app.get('/account/totalmoney', account);
 app.get('/account', account);
 app.post('/account', account);
 app.put('/money/total', account);

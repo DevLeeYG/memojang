@@ -12,15 +12,16 @@ const Sidebar = ({
   handleTotalChange,
   totalbudget,
   handleSubmit,
-  getData,
+  injutyTotal,
 }: any) => {
-  const injuryBudget = getData[3].map(
+  const injuryBudget = injutyTotal?.map(
     (el: { iprice: number; eprice: number }) => {
       return el.iprice + el.eprice;
     },
   );
+  console.log(injuryBudget);
 
-  const reduceInjury = injuryBudget.reduce((a: number, b: number) => {
+  const reduceInjury = injuryBudget?.reduce((a: number, b: number) => {
     return a + b;
   }, null);
 

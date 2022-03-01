@@ -5,9 +5,9 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import axios from 'axios';
 import Typography from '@mui/material/Typography';
-import Cal from './calendar/Cal';
+import Calendar from './calendar/Calendar';
 import Board from './calendar/Board';
-import Calcul from './calendar/Calcul';
+import InAndOutPost from './calendar/InAndOutPostHead';
 import { calendarData } from '../../module/accReducer';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import Sidebar from './calendar/Sidebar';
@@ -19,33 +19,29 @@ const Book = () => {
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
-  const [total, setTotal] = useState<number>(0);
-  const [totalbudget, setTotalbudget] = useState<number>(0);
-  const [date, setDate] = useState(new Date());
-  const [month, setMonth] = useState(new Date());
-  const [year, setYear] = useState(new Date());
-  const [getData, setGetData] = useState<any[]>([]);
+  const [total, setTotal] = useState<number>(0); //처음 예산 입력 상태
+  const [injutyTotal, setInjuryTotal] = useState<any[]>([]); //총예산
+  const [date, setDate] = useState(new Date()); //날짜
+  const [month, setMonth] = useState(new Date()); //서버에 달계산을 위한 상태
+  const [year, setYear] = useState(new Date()); // 연상태
+  const [getData, setGetData] = useState<any[]>([]); //겟오쳥 데이터 다 받아옴
 
   useEffect(() => {
-    getAlldata();
+    getTotalMoney();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getAlldata = () => {
+  const getTotalMoney = () => {
     axios
-      .get(`http://localhost:8080/account`, {
+      .get(`http://localhost:8080/account/totalmoney`, {
         params: {
           userKey,
-          date,
-          month,
         },
       })
       .then((res) => {
         if (res.status === 200) {
-          setTotalbudget(res.data[1][0].money);
-          setGetData(res.data);
-          dispatch(calendarData(date));
+          console.log(res);
         }
       });
   };
@@ -64,16 +60,14 @@ const Book = () => {
         total,
         userKey,
       })
-      .then((res) => {
-        setTotalbudget(res.data);
-      });
+      .then((res) => {});
   };
+  //콘솔로그가 2번뜨는 이는 유즈 이펙트를 2개를 써서
+  // useEffect(() => {
+  //   getTotalMoney();
 
-  useEffect(() => {
-    getAlldata();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, month, year]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [date, month, year]);
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -92,8 +86,8 @@ const Book = () => {
           </Toolbar>
         </AppBar>
         <Sidebar
-          getData={getData}
-          totalbudget={totalbudget}
+          // getData={getData}
+          // injutyTotal={injutyTotal}
           total={total}
           handleSubmit={handleSubmit}
           handleTotalChange={handleTotalChange}
@@ -103,8 +97,8 @@ const Book = () => {
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
         >
           <Toolbar />
-          <Cal
-            getTodayData={getAlldata}
+          <Calendar
+            getTodayData={getTotalMoney}
             getData={getData}
             setGetData={setGetData}
             date={date}
@@ -113,8 +107,8 @@ const Book = () => {
             setDate={setDate}
           />
           <Box sx={{ display: 'flex' }}>
-            <Calcul getTodayData={getAlldata} />
-            <Board getAlldata={getAlldata} getData={getData} />
+            <InAndOutPost getTodayData={getTotalMoney} />
+            <Board getAlldata={getTotalMoney} getData={getData} />
           </Box>
         </Box>
       </Box>

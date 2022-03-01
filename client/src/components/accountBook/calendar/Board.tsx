@@ -4,13 +4,17 @@ import axios from 'axios';
 
 interface getData {
   id: number;
-  expendive: boolean | null | undefined;
+  expendive: boolean;
   import: string;
   iprice: number;
   eprice: number;
 }
+interface propsTyp {
+  getData: any[];
+  getAlldata: Function;
+}
 
-const Board = ({ getData, getAlldata }: any) => {
+const Board = ({ getData, getAlldata }: propsTyp) => {
   const reqDelete = (id: number) => {
     axios
       .delete(`http://localhost:8080/account/delete`, {
