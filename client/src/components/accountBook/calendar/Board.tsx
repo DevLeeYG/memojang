@@ -27,60 +27,60 @@ const Board = ({ getData, getAlldata }: propsTyp) => {
       });
   };
 
-  const importData = getData[0]?.map((el: getData) => {
-    return (
-      <>
-        <Typography
-          key={el.id}
-          sx={{ display: 'flex', width: '100%' }}
-          variant="h6"
-        >
-          <Box sx={{ width: '100%' }}>
-            <Box>{el.import}</Box>
-          </Box>
-          <Box
-            onClick={() => {
-              reqDelete(el.id);
-            }}
-            sx={{ display: 'flex', cursor: 'pointer' }}
-          >
-            {el.iprice}
-          </Box>
-        </Typography>
-      </>
-    );
-  });
+  // const importData = getData[0]?.map((el: getData) => {
+  //   return (
+  //     <>
+  //       <Typography
+  //         key={el.id}
+  //         sx={{ display: 'flex', width: '100%' }}
+  //         variant="h6"
+  //       >
+  //         <Box sx={{ width: '100%' }}>
+  //           <Box>{el.import}</Box>
+  //         </Box>
+  //         <Box
+  //           onClick={() => {
+  //             reqDelete(el.id);
+  //           }}
+  //           sx={{ display: 'flex', cursor: 'pointer' }}
+  //         >
+  //           {el.iprice}
+  //         </Box>
+  //       </Typography>
+  //     </>
+  //   );
+  // });
 
-  const expendiveData = getData[0]?.map((el: getData) => {
-    return (
-      <Typography
-        key={el.id}
-        sx={{
-          display: 'flex',
-          width: '100%',
-        }}
-        variant="h6"
-      >
-        <Box sx={{ width: '100%' }}>{el.expendive}</Box>{' '}
-        <Box
-          onClick={() => {
-            reqDelete(el.id);
-          }}
-          sx={{ display: 'flex', cursor: 'pointer' }}
-        >
-          {el.eprice}
-        </Box>
-      </Typography>
-    );
-  });
+  // const expendiveData = getData[0]?.map((el: getData) => {
+  //   return (
+  //     <Typography
+  //       key={el.id}
+  //       sx={{
+  //         display: 'flex',
+  //         width: '100%',
+  //       }}
+  //       variant="h6"
+  //     >
+  //       <Box sx={{ width: '100%' }}>{el.expendive}</Box>{' '}
+  //       <Box
+  //         onClick={() => {
+  //           reqDelete(el.id);
+  //         }}
+  //         sx={{ display: 'flex', cursor: 'pointer' }}
+  //       >
+  //         {el.eprice}
+  //       </Box>
+  //     </Typography>
+  //   );
+  // });
 
-  let arrayPrice = getData[0]?.map((a: any) => {
-    return a.iprice + a.eprice;
-  });
+  // let arrayPrice = getData[0]?.map((a: any) => {
+  //   return a.iprice + a.eprice;
+  // });
 
-  let priceReducer = arrayPrice?.reduce((a: number, b: number) => {
-    return a + b;
-  }, null);
+  // let priceReducer = arrayPrice?.reduce((a: number, b: number) => {
+  //   return a + b;
+  // }, null);
 
   return (
     <Box sx={{ width: '50%', height: '300px' }}>
@@ -98,8 +98,8 @@ const Board = ({ getData, getAlldata }: propsTyp) => {
         </Typography>
       </Box>
       <Box sx={{ padding: 6.5, width: '100%' }}>
-        {importData}
-        {expendiveData}
+        {/* {importData}
+        {expendiveData} */}
         <Divider />
         <Typography
           sx={{ display: 'flex', width: '100%', marginTop: '20px' }}
@@ -112,7 +112,7 @@ const Board = ({ getData, getAlldata }: propsTyp) => {
               width: '100%',
             }}
           >
-            합계 <Box>{priceReducer ? priceReducer : 0}원</Box>
+            {/* 합계 <Box>{priceReducer ? priceReducer : 0}원</Box> */}
           </Box>
         </Typography>
       </Box>

@@ -7,8 +7,6 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import Badge from '@mui/material/Badge';
 import PickersDay from '@mui/lab/PickersDay';
 const Cal = ({ date, setDate, month, setMonth, getData }: any) => {
-  console.log(getData);
-
   const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
     margin: 0;
     width: 100%;

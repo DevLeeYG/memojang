@@ -15,22 +15,20 @@ const drawerWidth = 240;
 
 const Book = () => {
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    getTotalMoney();
+    getTotalMoneyb();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
-  const [total, setTotal] = useState<number>(0); //처음 예산 입력 상태
-  const [injutyTotal, setInjuryTotal] = useState<any[]>([]); //총예산
+  const [total, setTotal] = useState(''); //처음 예산 입력 상태
+  const [injutyTotal, setInjuryTotal] = useState<any[]>([]); //총예산에서 뺄 데이터
   const [date, setDate] = useState(new Date()); //날짜
   const [month, setMonth] = useState(new Date()); //서버에 달계산을 위한 상태
   const [year, setYear] = useState(new Date()); // 연상태
-  const [getData, setGetData] = useState<any[]>([]); //겟오쳥 데이터 다 받아옴
-
-  useEffect(() => {
-    getTotalMoney();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [totalBudget, setTotalBudget] = useState([]); //총예산
 
   const getTotalMoney = () => {
     axios
@@ -41,13 +39,27 @@ const Book = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res);
+          setTotalBudget(res.data);
+        }
+      });
+  };
+
+  const getTotalMoneyb = () => {
+    axios
+      .get(`http://localhost:8080/account/totalmoneyb`, {
+        params: {
+          userKey,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setInjuryTotal(res.data);
         }
       });
   };
 
   const handleTotalChange = (e: {
-    target: { value: React.SetStateAction<number> };
+    target: { value: React.SetStateAction<string> };
   }) => {
     setTotal(e.target.value);
   };
@@ -60,7 +72,11 @@ const Book = () => {
         total,
         userKey,
       })
-      .then((res) => {});
+      .then((res) => {
+        setTotal('');
+        if (res.status === 200) getTotalMoney();
+        getTotalMoneyb();
+      });
   };
   //콘솔로그가 2번뜨는 이는 유즈 이펙트를 2개를 써서
   // useEffect(() => {
@@ -68,6 +84,7 @@ const Book = () => {
 
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [date, month, year]);
+
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -86,9 +103,10 @@ const Book = () => {
           </Toolbar>
         </AppBar>
         <Sidebar
-          // getData={getData}
-          // injutyTotal={injutyTotal}
           total={total}
+          // getData={getData}
+          injutyTotal={injutyTotal}
+          totalBudget={totalBudget}
           handleSubmit={handleSubmit}
           handleTotalChange={handleTotalChange}
         />
@@ -99,8 +117,6 @@ const Book = () => {
           <Toolbar />
           <Calendar
             getTodayData={getTotalMoney}
-            getData={getData}
-            setGetData={setGetData}
             date={date}
             month={month}
             setMonth={setMonth}
@@ -108,7 +124,7 @@ const Book = () => {
           />
           <Box sx={{ display: 'flex' }}>
             <InAndOutPost getTodayData={getTotalMoney} />
-            <Board getAlldata={getTotalMoney} getData={getData} />
+            {/* <Board getAlldata={getTotalMoney} /> */}
           </Box>
         </Box>
       </Box>

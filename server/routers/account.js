@@ -13,14 +13,24 @@ router.get('/account/totalmoney', function (req, res) {
   // const yearData = new Date(month).toISOString().slice(0, 4);
   // const findMonth = `SELECT * FROM Account WHERE user_key=${userKey} and YEAR(date)=${yearData} and MONTH(date)=${monthData}`;
   // const findToday = `SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)='${today}';`;
-  const totalBudget = `SELECT * FROM Account WHERE user_key = ${userKey};`;
 
   // const query =
   //   `${findToday}` + `${findMyTotal};` + `${findMonth};` + `${totalBudget} `;
 
-  const query = `${totalBudget}` + `${findMyTotal}`;
+  const query = `${findMyTotal}`;
 
-  const selectData = [];
+  connection.query(query, (err, result) => {
+    if (err) throw err;
+    else {
+      res.status(200).send(result);
+    }
+  });
+});
+
+router.get('/account/totalmoneyb', (req, res) => {
+  const { userKey } = req.query;
+  const total = `SELECT * FROM Account WHERE user_key = ${userKey};`;
+  const query = `${total}`;
 
   connection.query(query, (err, result) => {
     if (err) throw err;

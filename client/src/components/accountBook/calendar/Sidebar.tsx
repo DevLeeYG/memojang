@@ -7,21 +7,24 @@ import Divider from '@mui/material/Divider';
 
 const drawerWidth = 240;
 
-const Sidebar = ({
-  total,
+function Sidebar({
+  totalBudget,
   handleTotalChange,
-  totalbudget,
   handleSubmit,
+  total,
   injutyTotal,
-}: any) => {
-  const injuryBudget = injutyTotal?.map(
-    (el: { iprice: number; eprice: number }) => {
-      return el.iprice + el.eprice;
-    },
-  );
-  console.log(injuryBudget);
+}: any) {
+  const totalMoney = totalBudget?.map((el: any) => {
+    return el.money;
+  });
 
-  const reduceInjury = injuryBudget?.reduce((a: number, b: number) => {
+  console.log(totalMoney);
+
+  const injurydata = injutyTotal?.map((el: any) => {
+    return el.iprice + el.eprice;
+  });
+
+  const injury = injurydata?.reduce((a: any, b: any) => {
     return a + b;
   }, null);
 
@@ -42,7 +45,7 @@ const Sidebar = ({
       <Divider />
       <Box sx={{ border: '1px solid gray', height: '100vh', width: '100%' }}>
         <Box sx={{ display: 'flex' }}>
-          예산 : <Typography> {totalbudget ? totalbudget : 0}원</Typography>
+          예산 :<Typography> {totalMoney[0] ? totalMoney[0] : 0}원</Typography>
         </Box>
         <form onSubmit={handleSubmit}>
           <input
@@ -53,10 +56,10 @@ const Sidebar = ({
           <button type="submit">입력</button>
         </form>
 
-        <div>남은 예산:{reduceInjury ? totalbudget + reduceInjury : 0}</div>
+        <div>남은 예산:{totalMoney[0] ? totalMoney[0] + injury : 0}</div>
       </Box>
     </Drawer>
   );
-};
+}
 
 export default Sidebar;
