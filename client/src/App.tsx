@@ -1,12 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
+
 import './App.css';
+import { useNavigate } from 'react-router-dom';
 import AuthForm from './components/login/AuthForm';
 import Auth from './components/Auth';
 import { Route, Routes } from 'react-router-dom';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import Main from './components/main/Main';
 import Book from './components/accountBook/Book';
+import Menu from './components/menu/Menu';
 
 function App() {
   const loginState = useSelector(
@@ -18,8 +20,7 @@ function App() {
       <Routes>
         {loginState ? (
           <>
-            <Route path="/" element={<Main />} />
-            <Route path="/accountBook" element={<Book />} />
+            <Route path="/" element={<Menu />} />
           </>
         ) : (
           <>
@@ -28,6 +29,8 @@ function App() {
             <Route path="/signup" element={<Auth />} />
           </>
         )}
+        <Route path="/menu" element={<Main />} />
+        <Route path="/accountBook" element={<Book />} />
       </Routes>
     </div>
   );

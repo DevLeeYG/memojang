@@ -3,44 +3,39 @@ const router = express.Router();
 const dbconfig = require('../config/database.js');
 const mysql = require('mysql');
 const SQL = require('sql-template-strings');
-
 const connection = mysql.createConnection(dbconfig);
 
-router.get('/account', function (req, res) {
-  // const getYmd10 = (date) => {
-  //   let d = date;
-  //   return (
-  //     d.getFullYear() +
-  //     '-' +
-  //     (d.getMonth() + 1 > 9
-  //       ? (d.getMonth() + 1).toString()
-  //       : '0' + (d.getMonth() + 1)) +
-  //     '-' +
-  //     (d.getDate() > 9 ? d.getDate().toString() : '0' + d.getDate().toString())
-  //   );
-  // };
-  // .getTimezoneOffset()
-  const { userKey, date } = req.query;
+router.get('/account/totalmoney', function (req, res) {
+  const { userKey } = req.query;
+  const findMyTotal = `Select * FROM Money WHERE user_key = ${userKey}`;
+  // const today = new Date(date).toISOString().split('T')[0];
+  // const monthData = new Date(month).toISOString().slice(5, 7);
+  // const yearData = new Date(month).toISOString().slice(0, 4);
+  // const findMonth = `SELECT * FROM Account WHERE user_key=${userKey} and YEAR(date)=${yearData} and MONTH(date)=${monthData}`;
+  // const findToday = `SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)='${today}';`;
 
-  console.log('@@@@@@', req.query);
-  const today = new Date(date).toISOString().split('T')[0];
+  // const query =
+  //   `${findToday}` + `${findMyTotal};` + `${findMonth};` + `${totalBudget} `;
 
-  const data = SQL`SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)=${today}`;
+  const query = `${findMyTotal}`;
 
-  connection.query(data, (err, result) => {
-    let selectData = [];
+  connection.query(query, (err, result) => {
+    if (err) throw err;
+    else {
+      res.status(200).send(result);
+    }
+  });
+});
 
-    if (err) {
-      res.status(400).send('데이터를 불러오지 못했습니다');
-    } else {
-      for (let values of result) {
-        selectData.push(values);
-      }
-      const mapData = selectData.map((el) => {
-        return { ...el, date };
-      });
+router.get('/account/totalmoneyb', (req, res) => {
+  const { userKey } = req.query;
+  const total = `SELECT * FROM Account WHERE user_key = ${userKey};`;
+  const query = `${total}`;
 
-      res.status(200).send(mapData);
+  connection.query(query, (err, result) => {
+    if (err) throw err;
+    else {
+      res.status(200).send(result);
     }
   });
 });
@@ -72,9 +67,7 @@ router.post('/account', function (req, res) {
 
 router.put('/money/total', (req, res) => {
   const { total, userKey } = req.body;
-
   const numberTT = Number(total);
-
   const TTQuery = SQL`UPDATE Money SET money = ${numberTT}`;
   const SlectData = SQL`SELECT money FROM Money WHERE user_key=${userKey} `;
   const inserTotal = SQL`INSERT INTO Money(money,user_key) VALUES(${numberTT},${userKey})`;
@@ -121,14 +114,20 @@ router.put('/money/total', (req, res) => {
       });
     }
   });
+});
 
-  // connection.query(TTQuery, (err, result) => {
-  //   if (err) {
-  //     res.status(500).send('err');
-  //   } else {
-  //     console.log('@@@@', result);
-  //   }
-  // });
+router.delete('/account/delete', (req, res) => {
+  const id = req.body.id;
+
+  const deletePost = SQL`DELETE FROM Account WHERE id=${id}`;
+
+  connection.query(deletePost, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).send('삭제완료');
+    }
+  });
 });
 
 module.exports = router;

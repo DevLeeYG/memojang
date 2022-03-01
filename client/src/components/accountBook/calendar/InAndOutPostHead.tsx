@@ -1,7 +1,6 @@
-import { Box, Typography } from '@mui/material';
 import React from 'react';
-import Selec from './Selec';
-import CalPost from './CalPost';
+import { Box, Typography } from '@mui/material';
+import CalPost from './InAndOutPost';
 
 const Calcul = ({ getTodayData }: any) => {
   return (
@@ -15,7 +14,9 @@ const Calcul = ({ getTodayData }: any) => {
           height: '50px',
         }}
       >
-        <Typography variant="h3">오늘 수입과 지출</Typography>
+        <Typography sx={{ marginTop: '20px' }} variant="h3">
+          오늘 수입과 지출
+        </Typography>
       </Box>
 
       <Box

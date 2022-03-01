@@ -27,11 +27,13 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE'],
   }),
 );
-
+app.get('/money/total', account);
+app.get('/account/totalmoney', account);
+app.get('/account/totalmoneyb', account);
 app.get('/account', account);
 app.post('/account', account);
 app.put('/money/total', account);
-
+app.delete('/account/delete', account);
 app.post('/login', (req, res) => {
   console.log('req', req.body);
   const { user, password } = req.body;
@@ -61,7 +63,6 @@ app.get('/posts', (req, res) => {
   const userPost = {};
 
   connection.query(findPost, (err, result) => {
-    console.log('123', result);
     for (value of result) {
       userPost.data = result;
     }

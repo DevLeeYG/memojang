@@ -1,59 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import axios from 'axios';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import { getMydata } from '../../module/accReducer';
-import Cal from './calendar/Cal';
+import Calendar from './calendar/Calendar';
 import Board from './calendar/Board';
-import Calcul from './calendar/Calcul';
-import Selec from './calendar/Selec';
-import { TextField } from '@mui/material';
+import InAndOutPost from './calendar/InAndOutPostHead';
 import { calendarData } from '../../module/accReducer';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import Sidebar from './calendar/Sidebar';
 const drawerWidth = 240;
 
 const Book = () => {
   const dispatch = useDispatch();
-  const myData = useSelector((state: RootStateOrAny) => state.acReducer.myData);
-
-  const dateDate = useSelector(
-    (state: RootStateOrAny) => state.acReducer.calendar.date,
-  );
+  useEffect(() => {
+    getTotalMoney();
+    getTotalMoneyb();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
-  const [total, setTotal] = useState<number>(0);
-  const [resTotal, setResTotal] = useState<number>(0);
-  const [date, setDate] = useState(new Date());
-  const [getData, setGetData] = useState([]);
+  const [total, setTotal] = useState(''); //처음 예산 입력 상태
+  const [injutyTotal, setInjuryTotal] = useState<any[]>([]); //총예산에서 뺄 데이터
+  const [date, setDate] = useState(new Date()); //날짜
+  const [month, setMonth] = useState(new Date()); //서버에 달계산을 위한 상태
+  const [year, setYear] = useState(new Date()); // 연상태
+  const [totalBudget, setTotalBudget] = useState([]); //총예산
 
-  const getTodayData = () => {
+  const getTotalMoney = () => {
     axios
-      .get(`http://localhost:8080/account`, {
+      .get(`http://localhost:8080/account/totalmoney`, {
         params: {
           userKey,
-          date,
         },
       })
       .then((res) => {
         if (res.status === 200) {
-          setGetData(res.data);
-          dispatch(calendarData(date));
-          dispatch(getMydata(getData));
+          setTotalBudget(res.data);
         }
       });
   };
 
-  const handleTotalChange = (e: any) => {
+  const getTotalMoneyb = () => {
+    axios
+      .get(`http://localhost:8080/account/totalmoneyb`, {
+        params: {
+          userKey,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setInjuryTotal(res.data);
+        }
+      });
+  };
+
+  const handleTotalChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setTotal(e.target.value);
   };
 
   const handleSubmit = (e: any) => {
+    //수입지출 변동시 남은 예산 계산요청
     e.preventDefault();
     axios
       .put(`http://localhost:8080/money/total`, {
@@ -61,18 +73,18 @@ const Book = () => {
         userKey,
       })
       .then((res) => {
-        setResTotal(res.data);
+        setTotal('');
+        if (res.status === 200) getTotalMoney();
+        getTotalMoneyb();
       });
   };
-  useEffect(() => {
-    getTodayData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //콘솔로그가 2번뜨는 이는 유즈 이펙트를 2개를 써서
+  // useEffect(() => {
+  //   getTotalMoney();
 
-  useEffect(() => {
-    getTodayData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [date, month, year]);
+
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -90,58 +102,29 @@ const Book = () => {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
-              width: drawerWidth,
-              boxSizing: 'border-box',
-            },
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <Toolbar />
-          <Divider />
-
-          <Box
-            sx={{ border: '1px solid gray', height: '100vh', width: '100%' }}
-          >
-            <Box sx={{ display: 'flex' }}>
-              총 예산 : <Typography> {resTotal}원</Typography>
-            </Box>
-            <form onSubmit={handleSubmit}>
-              <input
-                placeholder="예산입력"
-                onChange={handleTotalChange}
-                value={total}
-              />
-              <button type="submit">입력</button>
-            </form>
-
-            <Box sx={{ display: 'flex' }}>
-              월 결산 : <Typography>원</Typography>
-            </Box>
-            <Box sx={{ display: 'flex' }}>
-              연 결산 : <Typography>원</Typography>
-            </Box>
-          </Box>
-        </Drawer>
+        <Sidebar
+          total={total}
+          // getData={getData}
+          injutyTotal={injutyTotal}
+          totalBudget={totalBudget}
+          handleSubmit={handleSubmit}
+          handleTotalChange={handleTotalChange}
+        />
         <Box
           component="main"
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
         >
           <Toolbar />
-          <Cal
-            getTodayData={getTodayData}
-            getData={getData}
-            setGetData={setGetData}
+          <Calendar
+            getTodayData={getTotalMoney}
             date={date}
+            month={month}
+            setMonth={setMonth}
             setDate={setDate}
           />
           <Box sx={{ display: 'flex' }}>
-            <Calcul getTodayData={getTodayData} /> <Board />
+            <InAndOutPost getTodayData={getTotalMoney} />
+            {/* <Board getAlldata={getTotalMoney} /> */}
           </Box>
         </Box>
       </Box>
