@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import axios from 'axios';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import Cal from './calendar/Cal';
+import Calendar from './calendar/Calendar';
 import Board from './calendar/Board';
-import Calcul from './calendar/Calcul';
+import InAndOutPost from './calendar/InAndOutPostHead';
 import { calendarData } from '../../module/accReducer';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import Sidebar from './calendar/Sidebar';
 const drawerWidth = 240;
 
 const Book = () => {
@@ -20,80 +19,36 @@ const Book = () => {
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
-  const [total, setTotal] = useState<number>(0);
-  const [totalbudget, setTotalbudget] = useState<number>(0);
-  const [date, setDate] = useState(new Date());
-  const [getData, setGetData] = useState([]);
-  const [inAndOut, setInAndOut] = useState([]);
+  const [total, setTotal] = useState<number>(0); //처음 예산 입력 상태
+  const [injutyTotal, setInjuryTotal] = useState<any[]>([]); //총예산
+  const [date, setDate] = useState(new Date()); //날짜
+  const [month, setMonth] = useState(new Date()); //서버에 달계산을 위한 상태
+  const [year, setYear] = useState(new Date()); // 연상태
+  const [getData, setGetData] = useState<any[]>([]); //겟오쳥 데이터 다 받아옴
 
-  const ArrayInOut = inAndOut.map((el: any) => {
-    return el.iprice + el.eprice;
-  });
+  useEffect(() => {
+    getTotalMoney();
 
-  const InOutTotal = ArrayInOut.reduce((a, b) => {
-    return a + b;
-  }, null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // const handleToTalbudget = () => {
-  //   //나의 총예산
-  //   axios
-  //     .get(`http://localhost:8080/money/total`, {
-  //       params: {
-  //         userKey,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setTotalbudget(res.data.data);
-  //     });
-  // };
-
-  // const inAndOutPlus = () => {
-  //   axios
-  //     .get('http://localhost:8080/account/total', {
-  //       params: {
-  //         userKey,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setInAndOut(res.data);
-  //     });
-  // };
-
-  // const getTodayData = () => {
-  //   axios
-  //     .get(`http://localhost:8080/account`, {
-  //       params: {
-  //         userKey,
-  //         date,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //         setGetData(res.data);
-  //         dispatch(calendarData(date));
-  //       }
-  //     });
-  // };
-
-  const getAlldata = () => {
+  const getTotalMoney = () => {
     axios
-      .get(`http://localhost:8080/account`, {
+      .get(`http://localhost:8080/account/totalmoney`, {
         params: {
           userKey,
-          date,
         },
       })
       .then((res) => {
-        console.log('rerqrqewr', res);
-
-        // if (res.status === 200) {
-        //   setGetData(res.data);
-        //   dispatch(calendarData(date));
-        // }
+        if (res.status === 200) {
+          console.log(res);
+        }
       });
   };
 
-  const handleTotalChange = (e: any) => {
+  const handleTotalChange = (e: {
+    target: { value: React.SetStateAction<number> };
+  }) => {
     setTotal(e.target.value);
   };
 
@@ -105,19 +60,14 @@ const Book = () => {
         total,
         userKey,
       })
-      .then((res) => {
-        setTotalbudget(res.data);
-      });
+      .then((res) => {});
   };
-  getAlldata();
-  useEffect(() => {
-    getAlldata();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    getAlldata();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date]);
+  //콘솔로그가 2번뜨는 이는 유즈 이펙트를 2개를 써서
+  // useEffect(() => {
+  //   getTotalMoney();
+
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [date, month, year]);
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -135,57 +85,30 @@ const Book = () => {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
-              width: drawerWidth,
-              boxSizing: 'border-box',
-            },
-          }}
-          variant="permanent"
-          anchor="left"
-        >
-          <Toolbar />
-          <Divider />
-          <Box
-            sx={{ border: '1px solid gray', height: '100vh', width: '100%' }}
-          >
-            <Box sx={{ display: 'flex' }}>
-              예산 : <Typography> {totalbudget}원</Typography>
-            </Box>
-            <form onSubmit={handleSubmit}>
-              <input
-                placeholder="예산입력"
-                onChange={handleTotalChange}
-                value={total}
-              />
-              <button type="submit">입력</button>
-            </form>
-            남은예산 :{totalbudget + InOutTotal} 원
-            <div>(예산 = 예산 + (지출+수입))</div>
-          </Box>
-        </Drawer>
+        <Sidebar
+          // getData={getData}
+          // injutyTotal={injutyTotal}
+          total={total}
+          handleSubmit={handleSubmit}
+          handleTotalChange={handleTotalChange}
+        />
         <Box
           component="main"
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
         >
           <Toolbar />
-          <Cal
-            // getTodayData={getTodayData}
+          <Calendar
+            getTodayData={getTotalMoney}
             getData={getData}
             setGetData={setGetData}
             date={date}
+            month={month}
+            setMonth={setMonth}
             setDate={setDate}
           />
           <Box sx={{ display: 'flex' }}>
-            <Calcul
-            // getTodayData={getTodayData}
-            />
-            <Board
-            // getTodayData={getTodayData} myData={getData}
-            />
+            <InAndOutPost getTodayData={getTotalMoney} />
+            <Board getAlldata={getTotalMoney} getData={getData} />
           </Box>
         </Box>
       </Box>

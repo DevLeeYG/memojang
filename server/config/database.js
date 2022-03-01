@@ -3,5 +3,5 @@ module.exports = {
   user: 'root',
   password: '4190',
   database: 'testdb',
-  multipleStatements: true,
+  multipleStatements: true, //다중쿼리 가능
 };

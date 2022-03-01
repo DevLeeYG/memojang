@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import CalPost from './CalPost';
+import CalPost from './InAndOutPost';
 
 const Calcul = ({ getTodayData }: any) => {
   return (

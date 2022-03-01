@@ -1,9 +1,20 @@
 import React from 'react';
-import { Box, Button, Divider, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import axios from 'axios';
-import { getMydata } from '../../../module/accReducer';
 
-const Board = ({ myData, getTodayData }: any) => {
+interface getData {
+  id: number;
+  expendive: boolean;
+  import: string;
+  iprice: number;
+  eprice: number;
+}
+interface propsTyp {
+  getData: any[];
+  getAlldata: Function;
+}
+
+const Board = ({ getData, getAlldata }: propsTyp) => {
   const reqDelete = (id: number) => {
     axios
       .delete(`http://localhost:8080/account/delete`, {
@@ -11,12 +22,12 @@ const Board = ({ myData, getTodayData }: any) => {
       })
       .then((res) => {
         if (res.status === 200) {
-          getTodayData();
+          getAlldata();
         }
       });
   };
 
-  const importData = myData.map((el: any) => {
+  const importData = getData[0]?.map((el: getData) => {
     return (
       <>
         <Typography
@@ -40,7 +51,7 @@ const Board = ({ myData, getTodayData }: any) => {
     );
   });
 
-  const expendiveData = myData.map((el: any) => {
+  const expendiveData = getData[0]?.map((el: getData) => {
     return (
       <Typography
         key={el.id}
@@ -59,20 +70,17 @@ const Board = ({ myData, getTodayData }: any) => {
         >
           {el.eprice}
         </Box>
-        {/* <Button>{btn.length}</Button> */}
       </Typography>
     );
   });
 
-  let arrayPrice = myData?.map((a: any) => {
+  let arrayPrice = getData[0]?.map((a: any) => {
     return a.iprice + a.eprice;
   });
 
-  let priceReducer = arrayPrice?.reduce((a: any, b: any) => {
+  let priceReducer = arrayPrice?.reduce((a: number, b: number) => {
     return a + b;
   }, null);
-
-  // console.log();
 
   return (
     <Box sx={{ width: '50%', height: '300px' }}>
@@ -91,15 +99,21 @@ const Board = ({ myData, getTodayData }: any) => {
       </Box>
       <Box sx={{ padding: 6.5, width: '100%' }}>
         {importData}
-
         {expendiveData}
         <Divider />
         <Typography
           sx={{ display: 'flex', width: '100%', marginTop: '20px' }}
           variant="h6"
         >
-          <Box sx={{ width: '100%' }}>합계</Box>
-          <Box>{priceReducer}₩</Box>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
+          >
+            합계 <Box>{priceReducer ? priceReducer : 0}원</Box>
+          </Box>
         </Typography>
       </Box>
     </Box>
@@ -107,7 +121,3 @@ const Board = ({ myData, getTodayData }: any) => {
 };
 
 export default Board;
-
-function getTodayData() {
-  throw new Error('Function not implemented.');
-}
