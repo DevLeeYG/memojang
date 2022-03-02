@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 
 import './App.css';
-import { useNavigate } from 'react-router-dom';
-import AuthForm from './components/login/AuthForm';
-import Auth from './components/Auth';
+
+import Auth from './components/authorization/Index';
 import { Route, Routes } from 'react-router-dom';
 import { RootStateOrAny, useSelector } from 'react-redux';
-import Main from './components/main/Main';
+import Main from './components/memojang/Main';
 import Book from './components/accountBook/Book';
 import Menu from './components/menu/Menu';
 

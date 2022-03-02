@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField } from '@mui/material';
 import { IconButton, makeStyles } from '@material-ui/core';
 
-import useInput from '../hooks/useInput';
+import useInput from '../../hooks/useInput';
 import { useDispatch } from 'react-redux';
-import { userLoggedin } from '../../module/userAuth';
+import { userLoggedin } from '../../../module/userAuth';
 import axios from 'axios';
 const container = makeStyles((theme) => ({
   root: {

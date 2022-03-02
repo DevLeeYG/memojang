@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 const drawerWidth = 240;
 
 function Sidebar({
+ 
   totalBudget,
   handleTotalChange,
   handleSubmit,
@@ -17,9 +18,7 @@ function Sidebar({
   const totalMoney = totalBudget?.map((el: any) => {
     return el.money;
   });
-
-  console.log(totalMoney);
-
+ 
   const injurydata = injutyTotal?.map((el: any) => {
     return el.iprice + el.eprice;
   });

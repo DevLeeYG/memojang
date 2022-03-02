@@ -1,8 +1,8 @@
 import { Container, Box } from '@material-ui/core';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import AuthForm from './login/AuthForm';
-import AuthHead from './login/AuthHead';
+import AuthForm from './form/AuthForm';
+import AuthHead from './form/AuthHead';
 
 const Auth = () => {
   const [formChange, setFormChange] = useState<Boolean>(false);

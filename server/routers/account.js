@@ -8,11 +8,6 @@ const connection = mysql.createConnection(dbconfig);
 router.get('/account/totalmoney', function (req, res) {
   const { userKey } = req.query;
   const findMyTotal = `Select * FROM Money WHERE user_key = ${userKey}`;
-  // const today = new Date(date).toISOString().split('T')[0];
-  // const monthData = new Date(month).toISOString().slice(5, 7);
-  // const yearData = new Date(month).toISOString().slice(0, 4);
-  // const findMonth = `SELECT * FROM Account WHERE user_key=${userKey} and YEAR(date)=${yearData} and MONTH(date)=${monthData}`;
-  // const findToday = `SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)='${today}';`;
 
   // const query =
   //   `${findToday}` + `${findMyTotal};` + `${findMonth};` + `${totalBudget} `;
@@ -37,6 +32,26 @@ router.get('/account/totalmoneyb', (req, res) => {
     else {
       res.status(200).send(result);
     }
+  });
+});
+
+router.get(`/account/today`, (req, res) => {
+  const { userKey, date, month } = req.query;
+
+  console.log(date, month);
+
+  const today = new Date(date).toISOString().split('T')[0];
+  const monthData = new Date(month).toISOString().slice(5, 7);
+  const yearData = new Date(month).toISOString().slice(0, 4);
+  const findMonth = `SELECT * FROM Account WHERE user_key=${userKey} and YEAR(date)=${yearData} and MONTH(date)=${monthData};`;
+  const findToday = `SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)='${today}';`;
+  // const a = `select ${CONVERT_TZ(date, '+0:00', '+9:00')} * from Account`;
+
+  const query = `${findToday}` + `${findMonth}`;
+  let find = [];
+  connection.query(query, (err, result) => {
+    if (err) throw err;
+    res.status(200).send(result);
   });
 });
 

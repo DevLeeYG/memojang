@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { Button, TextField } from '@mui/material';
 import { useSelector, RootStateOrAny } from 'react-redux';
 
-const CalPost = ({ getTodayData }: any) => {
+const InAndOutPost = ({ getTotalMoney, getTotalMoneyb }: any) => {
   const date = useSelector(
     (state: RootStateOrAny) => state.acReducer.calendar.date,
   );
@@ -26,9 +26,11 @@ const CalPost = ({ getTodayData }: any) => {
         })
         .then((res) => {
           if (res.status === 200) {
-            getTodayData();
           }
+          getTotalMoney();
+          getTotalMoneyb();
         });
+
       values.import = '';
       values.price = '';
     },
@@ -48,9 +50,11 @@ const CalPost = ({ getTodayData }: any) => {
         })
         .then((res) => {
           if (res.status === 200) {
-            getTodayData();
+            getTotalMoney();
+            getTotalMoneyb();
           }
         });
+
       values.expen = '';
       values.price = '';
     },
@@ -107,4 +111,4 @@ const CalPost = ({ getTodayData }: any) => {
     </>
   );
 };
-export default CalPost;
+export default InAndOutPost;

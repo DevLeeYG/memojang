@@ -6,7 +6,9 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 import Badge from '@mui/material/Badge';
 import PickersDay from '@mui/lab/PickersDay';
-const Cal = ({ date, setDate, month, setMonth, getData }: any) => {
+import DayCalendar from './dayCalendar/DayCalendar';
+import MonthCalendar from './monthCalendar/MonthCalendar';
+const Cal = ({ date, setDate, month, setMonth, monthData }: any) => {
   const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
     margin: 0;
     width: 100%;
@@ -22,36 +24,13 @@ const Cal = ({ date, setDate, month, setMonth, getData }: any) => {
           backgroundColor: theme.palette.grey[50],
         })}
       >
-        <Box sx={{ width: '50%' }}>
-          <CustomCalendarPicker
-            views={['day']}
-            date={date}
-            onChange={(newValue: any) => setDate(newValue)}
-            renderDay={(day, _value, DayComponentProps) => {
-              const isSelected = 1;
-              return (
-                <Badge
-                  overlap="circular"
-                  badgeContent={isSelected ? '🌚' : undefined}
-                >
-                  <PickersDay {...DayComponentProps} />
-                </Badge>
-              );
-            }}
-          />
-        </Box>
+        <DayCalendar date={date} setDate={setDate} />
 
-        <Box sx={{ width: '50%' }}>
-          <CustomCalendarPicker
-            views={['month']}
-            date={month}
-            onChange={(newValue: any) => setMonth(newValue)}
-          />
-          <Box sx={{ pt: 3, pr: 12, textAlign: 'right', fontSize: '30px' }}>
-            월 현황:
-          </Box>
-          <Box sx={{ textAlign: 'right' }}>적자일시 - 표시</Box>
-        </Box>
+        <MonthCalendar
+          month={month}
+          setMonth={setMonth}
+          monthData={monthData}
+        />
       </Box>
     </LocalizationProvider>
   );

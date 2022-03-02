@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import CalPost from './InAndOutPost';
 
-const Calcul = ({ getTodayData }: any) => {
+const Calcul = ({ getTotalMoney, getTotalMoneyb }: any) => {
   return (
     <Box sx={{ borderRight: '1px solid black', width: '50%', height: '300px' }}>
       <Box
@@ -28,7 +28,10 @@ const Calcul = ({ getTodayData }: any) => {
         }}
       >
         <Box>
-          <CalPost getTodayData={getTodayData} />
+          <CalPost
+            getTotalMoney={getTotalMoney}
+            getTotalMoneyb={getTotalMoneyb}
+          />
         </Box>
       </Box>
     </Box>

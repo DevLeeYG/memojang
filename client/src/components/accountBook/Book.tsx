@@ -6,20 +6,17 @@ import Toolbar from '@mui/material/Toolbar';
 import axios from 'axios';
 import Typography from '@mui/material/Typography';
 import Calendar from './calendar/Calendar';
-import Board from './calendar/Board';
-import InAndOutPost from './calendar/InAndOutPostHead';
+import Board from './today/todayResult/Board';
+import InAndOutPostHead from '../accountBook/today/todayInAndOut/InAndOutPostHead';
 import { calendarData } from '../../module/accReducer';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import Sidebar from './calendar/Sidebar';
+import Sidebar from './sidebar/Sidebar';
+
 const drawerWidth = 240;
 
 const Book = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    getTotalMoney();
-    getTotalMoneyb();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
@@ -27,7 +24,8 @@ const Book = () => {
   const [injutyTotal, setInjuryTotal] = useState<any[]>([]); //총예산에서 뺄 데이터
   const [date, setDate] = useState(new Date()); //날짜
   const [month, setMonth] = useState(new Date()); //서버에 달계산을 위한 상태
-  const [year, setYear] = useState(new Date()); // 연상태
+  const [todayData, setTodayData] = useState([]);
+  const [monthData, setMonthData] = useState([]);
   const [totalBudget, setTotalBudget] = useState([]); //총예산
 
   const getTotalMoney = () => {
@@ -40,6 +38,7 @@ const Book = () => {
       .then((res) => {
         if (res.status === 200) {
           setTotalBudget(res.data);
+          dispatch(calendarData(date));
         }
       });
   };
@@ -55,6 +54,21 @@ const Book = () => {
         if (res.status === 200) {
           setInjuryTotal(res.data);
         }
+      });
+  };
+
+  const getTodayData = () => {
+    axios
+      .get(`http://localhost:8080/account/today`, {
+        params: {
+          date,
+          userKey,
+          month,
+        },
+      })
+      .then((res) => {
+        setTodayData(res.data[0]);
+        setMonthData(res.data[1]);
       });
   };
 
@@ -74,17 +88,18 @@ const Book = () => {
       })
       .then((res) => {
         setTotal('');
-        if (res.status === 200) getTotalMoney();
-        getTotalMoneyb();
+        if (res.status === 200) {
+          getTotalMoney();
+          getTotalMoneyb();
+        }
       });
   };
-  //콘솔로그가 2번뜨는 이는 유즈 이펙트를 2개를 써서
-  // useEffect(() => {
-  //   getTotalMoney();
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [date, month, year]);
-
+  useEffect(() => {
+    getTotalMoney();
+    getTotalMoneyb();
+    getTodayData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date, month]);
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -119,12 +134,22 @@ const Book = () => {
             getTodayData={getTotalMoney}
             date={date}
             month={month}
+            monthData={monthData}
             setMonth={setMonth}
             setDate={setDate}
           />
           <Box sx={{ display: 'flex' }}>
-            <InAndOutPost getTodayData={getTotalMoney} />
-            {/* <Board getAlldata={getTotalMoney} /> */}
+            <InAndOutPostHead
+              getTotalMoney={getTotalMoney}
+              getTotalMoneyb={getTotalMoneyb}
+            />
+            <Board
+              getTotalMoney={getTotalMoney}
+              getTotalMoneyb={getTotalMoneyb}
+              getTodayData={getTodayData}
+              todayData={todayData}
+              monthData={monthData}
+            />
           </Box>
         </Box>
       </Box>

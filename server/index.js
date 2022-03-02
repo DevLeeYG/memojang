@@ -27,6 +27,7 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE'],
   }),
 );
+app.get('/account/today', account);
 app.get('/money/total', account);
 app.get('/account/totalmoney', account);
 app.get('/account/totalmoneyb', account);
