@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import CalPost from './InAndOutPost';
+import InAndOutPost from './InAndOutPost';
 
-const Calcul = ({ getTotalMoney, getTotalMoneyb }: any) => {
+const Calcul = ({ getTotalMoney, getTotalMoneyb, getCalendarData }: any) => {
   return (
     <Box sx={{ borderRight: '1px solid black', width: '50%', height: '300px' }}>
       <Box
@@ -28,7 +28,8 @@ const Calcul = ({ getTotalMoney, getTotalMoneyb }: any) => {
         }}
       >
         <Box>
-          <CalPost
+          <InAndOutPost
+            getCalendarData={getCalendarData}
             getTotalMoney={getTotalMoney}
             getTotalMoneyb={getTotalMoneyb}
           />

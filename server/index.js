@@ -27,10 +27,10 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE'],
   }),
 );
-app.get('/account/today', account);
+app.get('/account/calendar/data', account);
 app.get('/money/total', account);
-app.get('/account/totalmoney', account);
-app.get('/account/totalmoneyb', account);
+app.get('/account/total/budget', account);
+app.get('/account/total/money/spend', account);
 app.get('/account', account);
 app.post('/account', account);
 app.put('/money/total', account);

@@ -30,7 +30,7 @@ const Book = () => {
 
   const getTotalMoney = () => {
     axios
-      .get(`http://localhost:8080/account/totalmoney`, {
+      .get(`http://localhost:8080/account/total/budget`, {
         params: {
           userKey,
         },
@@ -45,7 +45,7 @@ const Book = () => {
 
   const getTotalMoneyb = () => {
     axios
-      .get(`http://localhost:8080/account/totalmoneyb`, {
+      .get(`http://localhost:8080/account/total/money/spend`, {
         params: {
           userKey,
         },
@@ -57,9 +57,9 @@ const Book = () => {
       });
   };
 
-  const getTodayData = () => {
+  const getCalendarData = () => {
     axios
-      .get(`http://localhost:8080/account/today`, {
+      .get(`http://localhost:8080/account/calendar/data`, {
         params: {
           date,
           userKey,
@@ -97,7 +97,7 @@ const Book = () => {
   useEffect(() => {
     getTotalMoney();
     getTotalMoneyb();
-    getTodayData();
+    getCalendarData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date, month]);
   return (
@@ -140,13 +140,14 @@ const Book = () => {
           />
           <Box sx={{ display: 'flex' }}>
             <InAndOutPostHead
+              getTodayData={getCalendarData}
               getTotalMoney={getTotalMoney}
               getTotalMoneyb={getTotalMoneyb}
             />
             <Board
               getTotalMoney={getTotalMoney}
               getTotalMoneyb={getTotalMoneyb}
-              getTodayData={getTodayData}
+              getTodayData={getCalendarData}
               todayData={todayData}
               monthData={monthData}
             />

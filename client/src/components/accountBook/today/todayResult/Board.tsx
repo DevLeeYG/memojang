@@ -15,7 +15,7 @@ interface propsTyp {
 }
 
 const Board = ({
-  getTodayData,
+  getCalendarData,
   todayData,
   monthData,
   getTotalMoney,
@@ -30,19 +30,15 @@ const Board = ({
         if (res.status === 200) {
           getTotalMoney();
           getTotalMoneyb();
-          getTodayData();
+          getCalendarData();
         }
       });
   };
 
   const importData = todayData?.map((el: getData) => {
     return (
-      <>
-        <Typography
-          key={el.id}
-          sx={{ display: 'flex', width: '100%' }}
-          variant="h6"
-        >
+      <div key={el.id}>
+        <Typography sx={{ display: 'flex', width: '100%' }} variant="h6">
           <Box sx={{ width: '100%' }}>
             <Box>{el.import}</Box>
           </Box>
@@ -55,30 +51,31 @@ const Board = ({
             {el.iprice}
           </Box>
         </Typography>
-      </>
+      </div>
     );
   });
 
   const expendiveData = todayData?.map((el: getData) => {
     return (
-      <Typography
-        key={el.id}
-        sx={{
-          display: 'flex',
-          width: '100%',
-        }}
-        variant="h6"
-      >
-        <Box sx={{ width: '100%' }}>{el.expendive}</Box>{' '}
-        <Box
-          onClick={() => {
-            reqDelete(el.id);
+      <div key={el.id}>
+        <Typography
+          sx={{
+            display: 'flex',
+            width: '100%',
           }}
-          sx={{ display: 'flex', cursor: 'pointer' }}
+          variant="h6"
         >
-          {el.eprice}
-        </Box>
-      </Typography>
+          <Box sx={{ width: '100%' }}>{el.expendive}</Box>{' '}
+          <Box
+            onClick={() => {
+              reqDelete(el.id);
+            }}
+            sx={{ display: 'flex', cursor: 'pointer' }}
+          >
+            {el.eprice}
+          </Box>
+        </Typography>
+      </div>
     );
   });
 

@@ -5,7 +5,7 @@ const mysql = require('mysql');
 const SQL = require('sql-template-strings');
 const connection = mysql.createConnection(dbconfig);
 
-router.get('/account/totalmoney', function (req, res) {
+router.get('/account/total/budget', function (req, res) {
   const { userKey } = req.query;
   const findMyTotal = `Select * FROM Money WHERE user_key = ${userKey}`;
 
@@ -22,7 +22,7 @@ router.get('/account/totalmoney', function (req, res) {
   });
 });
 
-router.get('/account/totalmoneyb', (req, res) => {
+router.get('/account/total/money/spend', (req, res) => {
   const { userKey } = req.query;
   const total = `SELECT * FROM Account WHERE user_key = ${userKey};`;
   const query = `${total}`;
@@ -35,7 +35,7 @@ router.get('/account/totalmoneyb', (req, res) => {
   });
 });
 
-router.get(`/account/today`, (req, res) => {
+router.get(`/account/calendar/data`, (req, res) => {
   const { userKey, date, month } = req.query;
 
   console.log(date, month);
