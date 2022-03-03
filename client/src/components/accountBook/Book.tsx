@@ -28,8 +28,6 @@ const Book = () => {
   const [monthData, setMonthData] = useState([]);
   const [totalBudget, setTotalBudget] = useState([]); //총예산
 
-  console.log(monthData);
-
   const getTotalMoney = () => {
     axios
       .get(`http://localhost:8080/account/total/budget`, {
@@ -65,7 +63,7 @@ const Book = () => {
         params: {
           date,
           userKey,
-          month,
+          month: date,
         },
       })
       .then((res) => {

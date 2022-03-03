@@ -27,6 +27,8 @@ const Cal = ({ date, setDate, month, setMonth, monthData }: any) => {
         <DayCalendar date={date} setDate={setDate} />
 
         <MonthCalendar
+          date={date}
+          setDate={setDate}
           month={month}
           setMonth={setMonth}
           monthData={monthData}
