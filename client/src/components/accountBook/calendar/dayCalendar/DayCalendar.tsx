@@ -18,7 +18,7 @@ const DayCalendar = ({ date, setDate }: any) => {
         date={date}
         onChange={(newValue: any) => setDate(newValue)}
         renderDay={(day, _value, DayComponentProps) => {
-          const isSelected = 1;
+          const isSelected = 0;
           return (
             <Badge
               overlap="circular"

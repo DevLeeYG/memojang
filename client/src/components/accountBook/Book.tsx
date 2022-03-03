@@ -28,6 +28,8 @@ const Book = () => {
   const [monthData, setMonthData] = useState([]);
   const [totalBudget, setTotalBudget] = useState([]); //총예산
 
+  console.log(monthData);
+
   const getTotalMoney = () => {
     axios
       .get(`http://localhost:8080/account/total/budget`, {
@@ -140,14 +142,14 @@ const Book = () => {
           />
           <Box sx={{ display: 'flex' }}>
             <InAndOutPostHead
-              getTodayData={getCalendarData}
+              getCalendarData={getCalendarData}
               getTotalMoney={getTotalMoney}
               getTotalMoneyb={getTotalMoneyb}
             />
             <Board
               getTotalMoney={getTotalMoney}
               getTotalMoneyb={getTotalMoneyb}
-              getTodayData={getCalendarData}
+              getCalendarData={getCalendarData}
               todayData={todayData}
               monthData={monthData}
             />
