@@ -9,11 +9,6 @@ import PickersDay from '@mui/lab/PickersDay';
 import DayCalendar from './dayCalendar/DayCalendar';
 import MonthCalendar from './monthCalendar/MonthCalendar';
 const Cal = ({ date, setDate, month, setMonth, monthData }: any) => {
-  const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
-    margin: 0;
-    width: 100%;
-  `;
-
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box
@@ -24,7 +19,7 @@ const Cal = ({ date, setDate, month, setMonth, monthData }: any) => {
           backgroundColor: theme.palette.grey[50],
         })}
       >
-        <DayCalendar date={date} setDate={setDate} />
+        <DayCalendar monthData={monthData} date={date} setDate={setDate} />
 
         <MonthCalendar
           date={date}
