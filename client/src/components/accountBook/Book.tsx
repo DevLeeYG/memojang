@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
@@ -28,7 +28,7 @@ const Book = () => {
   const [monthData, setMonthData] = useState([]);
   const [totalBudget, setTotalBudget] = useState([]); //총예산
 
-  const getTotalMoney = () => {
+  const getTotalMoney = useCallback(() => {
     axios
       .get(`http://localhost:8080/account/total/budget`, {
         params: {
@@ -41,9 +41,9 @@ const Book = () => {
           dispatch(calendarData(date));
         }
       });
-  };
+  }, []);
 
-  const getTotalMoneyb = () => {
+  const getTotalMoneyb = useCallback(() => {
     axios
       .get(`http://localhost:8080/account/total/money/spend`, {
         params: {
@@ -55,7 +55,7 @@ const Book = () => {
           setInjuryTotal(res.data);
         }
       });
-  };
+  }, [userKey]);
 
   const getCalendarData = () => {
     axios
@@ -63,7 +63,7 @@ const Book = () => {
         params: {
           date,
           userKey,
-          month,
+          month: date,
         },
       })
       .then((res) => {
@@ -78,22 +78,26 @@ const Book = () => {
     setTotal(e.target.value);
   };
 
-  const handleSubmit = (e: any) => {
-    //수입지출 변동시 남은 예산 계산요청
-    e.preventDefault();
-    axios
-      .put(`http://localhost:8080/money/total`, {
-        total,
-        userKey,
-      })
-      .then((res) => {
-        setTotal('');
-        if (res.status === 200) {
-          getTotalMoney();
-          getTotalMoneyb();
-        }
-      });
-  };
+  const handleSubmit = useCallback(
+    (e: any) => {
+      //수입지출 변동시 남은 예산 계산요청
+      e.preventDefault();
+      axios
+        .put(`http://localhost:8080/money/total`, {
+          total,
+          userKey,
+        })
+        .then((res) => {
+          setTotal('');
+          if (res.status === 200) {
+            getTotalMoney();
+            getTotalMoneyb();
+          }
+        });
+    },
+    [getTotalMoney, getTotalMoneyb, total, userKey],
+  );
+
   useEffect(() => {
     getTotalMoney();
     getTotalMoneyb();
@@ -140,14 +144,14 @@ const Book = () => {
           />
           <Box sx={{ display: 'flex' }}>
             <InAndOutPostHead
-              getTodayData={getCalendarData}
+              getCalendarData={getCalendarData}
               getTotalMoney={getTotalMoney}
               getTotalMoneyb={getTotalMoneyb}
             />
             <Board
               getTotalMoney={getTotalMoney}
               getTotalMoneyb={getTotalMoneyb}
-              getTodayData={getCalendarData}
+              getCalendarData={getCalendarData}
               todayData={todayData}
               monthData={monthData}
             />

@@ -9,10 +9,6 @@ interface getData {
   iprice: number;
   eprice: number;
 }
-interface propsTyp {
-  getData: any[];
-  getAlldata: Function;
-}
 
 const Board = ({
   getCalendarData,

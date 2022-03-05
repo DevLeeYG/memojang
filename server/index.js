@@ -3,7 +3,9 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const dbconfig = require('./config/database.js');
 const connection = mysql.createConnection(dbconfig);
-
+var moment = require('moment');
+require('moment-timezone');
+moment.tz.setDefault('Asia/Seoul');
 const cors = require('cors');
 
 const router = express.Router();

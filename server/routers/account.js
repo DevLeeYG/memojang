@@ -5,6 +5,8 @@ const mysql = require('mysql');
 const SQL = require('sql-template-strings');
 const connection = mysql.createConnection(dbconfig);
 
+var moment = require('moment'); // require
+
 router.get('/account/total/budget', function (req, res) {
   const { userKey } = req.query;
   const findMyTotal = `Select * FROM Money WHERE user_key = ${userKey}`;
@@ -30,6 +32,7 @@ router.get('/account/total/money/spend', (req, res) => {
   connection.query(query, (err, result) => {
     if (err) throw err;
     else {
+      console.log('spend', result);
       res.status(200).send(result);
     }
   });
@@ -37,8 +40,6 @@ router.get('/account/total/money/spend', (req, res) => {
 
 router.get(`/account/calendar/data`, (req, res) => {
   const { userKey, date, month } = req.query;
-
-  console.log(date, month);
 
   const today = new Date(date).toISOString().split('T')[0];
   const monthData = new Date(month).toISOString().slice(5, 7);
@@ -50,6 +51,7 @@ router.get(`/account/calendar/data`, (req, res) => {
   const query = `${findToday}` + `${findMonth}`;
   let find = [];
   connection.query(query, (err, result) => {
+    console.log('data', result);
     if (err) throw err;
     res.status(200).send(result);
   });
@@ -62,8 +64,10 @@ router.post('/account', function (req, res) {
   const Price = data.values.price;
   const userKey = data.userKey;
   const date = data.date;
-  const today = new Date(date).toISOString().split('T')[0];
+  const today = new Date(date);
   const findData = SQL`SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)=${today}`;
+
+  console.log('12313', data);
 
   if (imp) {
     connection.query(
