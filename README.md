@@ -1,6 +1,6 @@
 
 
-맥북 db 
+
 
 CREATE DATABASE IF NOT EXISTS my_db;
 
