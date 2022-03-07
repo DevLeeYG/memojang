@@ -32,7 +32,6 @@ router.get('/account/total/money/spend', (req, res) => {
   connection.query(query, (err, result) => {
     if (err) throw err;
     else {
-      console.log('spend', result);
       res.status(200).send(result);
     }
   });
@@ -44,11 +43,13 @@ router.get(`/account/calendar/data`, (req, res) => {
   const today = new Date(date).toISOString().split('T')[0];
   const monthData = new Date(month).toISOString().slice(5, 7);
   const yearData = new Date(month).toISOString().slice(0, 4);
+  console.log(yearData);
+  const findYear = `SELECT * FROM Account WHERE user_key=${userKey} and YEAR(date)=${yearData};`;
   const findMonth = `SELECT * FROM Account WHERE user_key=${userKey} and YEAR(date)=${yearData} and MONTH(date)=${monthData};`;
   const findToday = `SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)='${today}';`;
   // const a = `select ${CONVERT_TZ(date, '+0:00', '+9:00')} * from Account`;
 
-  const query = `${findToday}` + `${findMonth}`;
+  const query = `${findToday}` + `${findMonth}` + `${findYear}`;
   let find = [];
   connection.query(query, (err, result) => {
     console.log('data', result);
@@ -58,6 +59,8 @@ router.get(`/account/calendar/data`, (req, res) => {
 });
 
 router.post('/account', function (req, res) {
+  console.log('reqreq', req.body);
+
   let data = req.body; //데이타 변함
   const imp = data.values.import;
   const exp = data.values.expen;

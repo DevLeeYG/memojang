@@ -27,35 +27,35 @@ const Book = () => {
   const [todayData, setTodayData] = useState([]);
   const [monthData, setMonthData] = useState([]);
   const [totalBudget, setTotalBudget] = useState([]); //총예산
+  const [yearData, setYearData] = useState([]);
 
-  const getTotalMoney = useCallback(() => {
-    axios
-      .get(`http://localhost:8080/account/total/budget`, {
-        params: {
-          userKey,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setTotalBudget(res.data);
-          dispatch(calendarData(date));
-        }
-      });
-  }, []);
+  // const getTotalMoney = useCallback(() => {
+  //   axios
+  //     .get(`http://localhost:8080/account/total/budget`, {
+  //       params: {
+  //         userKey,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         setTotalBudget(res.data);
+  //       }
+  //     });
+  // }, []);
 
-  const getTotalMoneyb = useCallback(() => {
-    axios
-      .get(`http://localhost:8080/account/total/money/spend`, {
-        params: {
-          userKey,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          setInjuryTotal(res.data);
-        }
-      });
-  }, [userKey]);
+  // const getTotalMoneyb = useCallback(() => {
+  //   axios
+  //     .get(`http://localhost:8080/account/total/money/spend`, {
+  //       params: {
+  //         userKey,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         setInjuryTotal(res.data);
+  //       }
+  //     });
+  // }, [userKey]);
 
   const getCalendarData = () => {
     axios
@@ -67,8 +67,11 @@ const Book = () => {
         },
       })
       .then((res) => {
+        console.log(res.data[2]);
+
         setTodayData(res.data[0]);
         setMonthData(res.data[1]);
+        setYearData(res.data[2]);
       });
   };
 
@@ -78,29 +81,29 @@ const Book = () => {
     setTotal(e.target.value);
   };
 
-  const handleSubmit = useCallback(
-    (e: any) => {
-      //수입지출 변동시 남은 예산 계산요청
-      e.preventDefault();
-      axios
-        .put(`http://localhost:8080/money/total`, {
-          total,
-          userKey,
-        })
-        .then((res) => {
-          setTotal('');
-          if (res.status === 200) {
-            getTotalMoney();
-            getTotalMoneyb();
-          }
-        });
-    },
-    [getTotalMoney, getTotalMoneyb, total, userKey],
-  );
+  // const handleSubmit = useCallback(
+  //   (e: any) => {
+  //     //수입지출 변동시 남은 예산 계산요청
+  //     e.preventDefault();
+  //     axios
+  //       .put(`http://localhost:8080/money/total`, {
+  //         total,
+  //         userKey,
+  //       })
+  //       .then((res) => {
+  //         setTotal('');
+  //         if (res.status === 200) {
+  //           getTotalMoney();
+  //           getTotalMoneyb();
+  //         }
+  //       });
+  //   },
+  //   [getTotalMoney, getTotalMoneyb, total, userKey],
+  // );
 
   useEffect(() => {
-    getTotalMoney();
-    getTotalMoneyb();
+    // getTotalMoney();
+    // getTotalMoneyb();
     getCalendarData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date, month]);
@@ -110,10 +113,12 @@ const Book = () => {
         <CssBaseline />
         <AppBar
           position="fixed"
-          sx={{
-            width: `calc(100% - ${drawerWidth}px)`,
-            ml: `${drawerWidth}px`,
-          }}
+          sx={
+            {
+              // width: `calc(100% - ${drawerWidth}px)`,
+              // ml: `${drawerWidth}px`,
+            }
+          }
         >
           <Toolbar>
             <Typography variant="h6" noWrap component="div">
@@ -121,21 +126,22 @@ const Book = () => {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Sidebar
+        {/* <Sidebar
           total={total}
-          // getData={getData}
+          getData={getData}
           injutyTotal={injutyTotal}
           totalBudget={totalBudget}
           handleSubmit={handleSubmit}
           handleTotalChange={handleTotalChange}
-        />
+        /> */}
         <Box
           component="main"
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
         >
           <Toolbar />
           <Calendar
-            getTodayData={getTotalMoney}
+            yearData={yearData}
+            // getTodayData={getTotalMoney}
             date={date}
             month={month}
             monthData={monthData}
@@ -144,13 +150,14 @@ const Book = () => {
           />
           <Box sx={{ display: 'flex' }}>
             <InAndOutPostHead
+              date={date}
               getCalendarData={getCalendarData}
-              getTotalMoney={getTotalMoney}
-              getTotalMoneyb={getTotalMoneyb}
+              // getTotalMoney={getTotalMoney}
+              // getTotalMoneyb={getTotalMoneyb}
             />
             <Board
-              getTotalMoney={getTotalMoney}
-              getTotalMoneyb={getTotalMoneyb}
+              // getTotalMoney={getTotalMoney}
+              // getTotalMoneyb={getTotalMoneyb}
               getCalendarData={getCalendarData}
               todayData={todayData}
               monthData={monthData}

@@ -7,6 +7,10 @@ const MonthCalendar = ({ date, setDate, month, setMonth, monthData }: any) => {
   const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
     margin: 0;
     width: 100%;
+
+    .css-1dozdou {
+      display: none;
+    }
   `;
   const a = monthData?.map((el: any) => {
     return el.iprice + el.eprice;
@@ -18,17 +22,22 @@ const MonthCalendar = ({ date, setDate, month, setMonth, monthData }: any) => {
 
   return (
     <div>
-      <Box sx={{ widht: '50%' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          widht: '50%',
+          height: '350px',
+        }}
+      >
         <CustomCalendarPicker
           views={['month']}
           date={date}
           onChange={(newValue: any) => setDate(newValue)}
         />
-        <Box sx={{ pt: 3, pr: 12, textAlign: 'right', fontSize: '30px' }}>
-          월 현황:{monthDatas ? monthDatas : 0}원
-        </Box>
-        <Box sx={{ textAlign: 'right' }}>적자일시 - 표시</Box>
       </Box>
+      <Box>월 현황:{monthDatas ? monthDatas : 0}원</Box>
     </div>
   );
 };

@@ -30,7 +30,15 @@ const DayCalendar = ({ monthData, date, setDate }: any) => {
   }, [monthData]);
 
   return (
-    <Box sx={{ width: '50%' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        pt: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '50%',
+      }}
+    >
       <CalendarPicker
         className={classes.root}
         views={['day']}
@@ -50,7 +58,6 @@ const DayCalendar = ({ monthData, date, setDate }: any) => {
           );
         }}
       />
-      <PaidIcon></PaidIcon>
     </Box>
   );
 };

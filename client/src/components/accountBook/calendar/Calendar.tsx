@@ -8,7 +8,8 @@ import Badge from '@mui/material/Badge';
 import PickersDay from '@mui/lab/PickersDay';
 import DayCalendar from './dayCalendar/DayCalendar';
 import MonthCalendar from './monthCalendar/MonthCalendar';
-const Cal = ({ date, setDate, month, setMonth, monthData }: any) => {
+import YearCalendar from './yearCalendar/YearCalendar';
+const Cal = ({ yearData, date, setDate, month, setMonth, monthData }: any) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box
@@ -20,14 +21,8 @@ const Cal = ({ date, setDate, month, setMonth, monthData }: any) => {
         })}
       >
         <DayCalendar monthData={monthData} date={date} setDate={setDate} />
-
-        <MonthCalendar
-          date={date}
-          setDate={setDate}
-          month={month}
-          setMonth={setMonth}
-          monthData={monthData}
-        />
+        <MonthCalendar date={date} setDate={setDate} monthData={monthData} />
+        <YearCalendar date={date} setDate={setDate} yearData={yearData} />
       </Box>
     </LocalizationProvider>
   );
