@@ -8,54 +8,18 @@ import Typography from '@mui/material/Typography';
 import Calendar from './calendar/Calendar';
 import Board from './today/todayResult/Board';
 import InAndOutPostHead from '../accountBook/today/todayInAndOut/InAndOutPostHead';
-import { calendarData } from '../../module/accReducer';
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import Sidebar from './sidebar/Sidebar';
-
-const drawerWidth = 240;
+import { useSelector, RootStateOrAny } from 'react-redux';
 
 const Book = () => {
-  const dispatch = useDispatch();
-
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
-  const [total, setTotal] = useState(''); //처음 예산 입력 상태
-  const [injutyTotal, setInjuryTotal] = useState<any[]>([]); //총예산에서 뺄 데이터
+
   const [date, setDate] = useState(new Date()); //날짜
   const [month, setMonth] = useState(new Date()); //서버에 달계산을 위한 상태
   const [todayData, setTodayData] = useState([]);
   const [monthData, setMonthData] = useState([]);
-  const [totalBudget, setTotalBudget] = useState([]); //총예산
   const [yearData, setYearData] = useState([]);
-
-  // const getTotalMoney = useCallback(() => {
-  //   axios
-  //     .get(`http://localhost:8080/account/total/budget`, {
-  //       params: {
-  //         userKey,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //         setTotalBudget(res.data);
-  //       }
-  //     });
-  // }, []);
-
-  // const getTotalMoneyb = useCallback(() => {
-  //   axios
-  //     .get(`http://localhost:8080/account/total/money/spend`, {
-  //       params: {
-  //         userKey,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //         setInjuryTotal(res.data);
-  //       }
-  //     });
-  // }, [userKey]);
 
   const getCalendarData = () => {
     axios
@@ -75,35 +39,7 @@ const Book = () => {
       });
   };
 
-  const handleTotalChange = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setTotal(e.target.value);
-  };
-
-  // const handleSubmit = useCallback(
-  //   (e: any) => {
-  //     //수입지출 변동시 남은 예산 계산요청
-  //     e.preventDefault();
-  //     axios
-  //       .put(`http://localhost:8080/money/total`, {
-  //         total,
-  //         userKey,
-  //       })
-  //       .then((res) => {
-  //         setTotal('');
-  //         if (res.status === 200) {
-  //           getTotalMoney();
-  //           getTotalMoneyb();
-  //         }
-  //       });
-  //   },
-  //   [getTotalMoney, getTotalMoneyb, total, userKey],
-  // );
-
   useEffect(() => {
-    // getTotalMoney();
-    // getTotalMoneyb();
     getCalendarData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date, month]);
@@ -111,29 +47,14 @@ const Book = () => {
     <>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar
-          position="fixed"
-          sx={
-            {
-              // width: `calc(100% - ${drawerWidth}px)`,
-              // ml: `${drawerWidth}px`,
-            }
-          }
-        >
+        <AppBar position="fixed">
           <Toolbar>
             <Typography variant="h6" noWrap component="div">
-              월별 가계부
+              가계부
             </Typography>
           </Toolbar>
         </AppBar>
-        {/* <Sidebar
-          total={total}
-          getData={getData}
-          injutyTotal={injutyTotal}
-          totalBudget={totalBudget}
-          handleSubmit={handleSubmit}
-          handleTotalChange={handleTotalChange}
-        /> */}
+
         <Box
           component="main"
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
@@ -141,7 +62,6 @@ const Book = () => {
           <Toolbar />
           <Calendar
             yearData={yearData}
-            // getTodayData={getTotalMoney}
             date={date}
             month={month}
             monthData={monthData}
@@ -149,15 +69,8 @@ const Book = () => {
             setDate={setDate}
           />
           <Box sx={{ display: 'flex' }}>
-            <InAndOutPostHead
-              date={date}
-              getCalendarData={getCalendarData}
-              // getTotalMoney={getTotalMoney}
-              // getTotalMoneyb={getTotalMoneyb}
-            />
+            <InAndOutPostHead date={date} getCalendarData={getCalendarData} />
             <Board
-              // getTotalMoney={getTotalMoney}
-              // getTotalMoneyb={getTotalMoneyb}
               getCalendarData={getCalendarData}
               todayData={todayData}
               monthData={monthData}
