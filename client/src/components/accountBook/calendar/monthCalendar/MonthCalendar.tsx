@@ -2,8 +2,9 @@ import React from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CalendarPicker, { CalendarPickerProps } from '@mui/lab/CalendarPicker';
+import { monthData } from '../../../Type/Types';
 
-const MonthCalendar = ({ date, setDate, month, setMonth, monthData }: any) => {
+const MonthCalendar = ({ date, setDate, monthData }: monthData) => {
   const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
     margin: 0;
     width: 100%;
@@ -18,27 +19,27 @@ const MonthCalendar = ({ date, setDate, month, setMonth, monthData }: any) => {
 
   const monthDatas = a?.reduce((a: number, b: number) => {
     return a + b;
-  }, null);
+  }, 0);
 
   return (
-    <div>
+    <Box>
       <Box
         sx={{
           display: 'flex',
+          p: 5,
           justifyContent: 'center',
           alignItems: 'center',
-          widht: '50%',
-          height: '350px',
+          width: '80%',
         }}
       >
         <CustomCalendarPicker
           views={['month']}
           date={date}
-          onChange={(newValue: any) => setDate(newValue)}
+          onChange={(newValue: Date | unknown) => setDate(newValue)}
         />
       </Box>
-      <Box>월 현황:{monthDatas ? monthDatas : 0}원</Box>
-    </div>
+      <Box sx={{ textAlign: 'center' }}>월 현황:{monthDatas}원</Box>
+    </Box>
   );
 };
 

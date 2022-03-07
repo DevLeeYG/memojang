@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import CalendarPicker, { CalendarPickerProps } from '@mui/lab/CalendarPicker';
+import CalendarPicker from '@mui/lab/CalendarPicker';
 import Badge from '@mui/material/Badge';
 import PickersDay from '@mui/lab/PickersDay';
 import { makeStyles } from '@material-ui/core';
-import PaidIcon from '@mui/icons-material/Paid';
+import { monthData } from '../../../Type/Types';
+
 const useStyles = makeStyles({
   root: {
     '& svg': { display: 'none' },
@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-const DayCalendar = ({ monthData, date, setDate }: any) => {
+const DayCalendar = ({ monthData, date, setDate }: monthData) => {
   const classes = useStyles();
   const [highlightedDays, setHighlightedDays] = useState<any[]>([]);
 
@@ -33,7 +33,7 @@ const DayCalendar = ({ monthData, date, setDate }: any) => {
     <Box
       sx={{
         display: 'flex',
-        pt: 5,
+        p: 5,
         justifyContent: 'center',
         alignItems: 'center',
         width: '50%',
@@ -43,7 +43,7 @@ const DayCalendar = ({ monthData, date, setDate }: any) => {
         className={classes.root}
         views={['day']}
         date={date}
-        onChange={(newValue: any) => setDate(newValue)}
+        onChange={(newValue: Date | null) => setDate(newValue)}
         renderDay={(day, _value, DayComponentProps) => {
           const isSelected =
             !DayComponentProps.outsideCurrentMonth &&

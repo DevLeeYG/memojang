@@ -7,21 +7,20 @@ import axios from 'axios';
 import Typography from '@mui/material/Typography';
 import Calendar from './calendar/Calendar';
 import Board from './today/todayResult/Board';
-import InAndOutPostHead from '../accountBook/today/todayInAndOut/InAndOutPostHead';
+import InAndOutPost from './today/InAndOut/InAndOutPost';
 import { useSelector, RootStateOrAny } from 'react-redux';
 
 const Book = () => {
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
-
   const [date, setDate] = useState(new Date()); //날짜
   const [month, setMonth] = useState(new Date()); //서버에 달계산을 위한 상태
   const [todayData, setTodayData] = useState([]);
   const [monthData, setMonthData] = useState([]);
   const [yearData, setYearData] = useState([]);
 
-  const getCalendarData = () => {
+  const getCalendarData = useCallback(() => {
     axios
       .get(`http://localhost:8080/account/calendar/data`, {
         params: {
@@ -31,18 +30,15 @@ const Book = () => {
         },
       })
       .then((res) => {
-        console.log(res.data[2]);
-
         setTodayData(res.data[0]);
         setMonthData(res.data[1]);
         setYearData(res.data[2]);
       });
-  };
+  }, [date, userKey]);
 
   useEffect(() => {
     getCalendarData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, month]);
+  }, [date, getCalendarData, month]);
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -63,13 +59,11 @@ const Book = () => {
           <Calendar
             yearData={yearData}
             date={date}
-            month={month}
             monthData={monthData}
-            setMonth={setMonth}
             setDate={setDate}
           />
           <Box sx={{ display: 'flex' }}>
-            <InAndOutPostHead date={date} getCalendarData={getCalendarData} />
+            <InAndOutPost date={date} getCalendarData={getCalendarData} />
             <Board
               getCalendarData={getCalendarData}
               todayData={todayData}

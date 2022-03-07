@@ -1,15 +1,12 @@
 import { Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import CalendarPicker, { CalendarPickerProps } from '@mui/lab/CalendarPicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-
-import Badge from '@mui/material/Badge';
-import PickersDay from '@mui/lab/PickersDay';
 import DayCalendar from './dayCalendar/DayCalendar';
 import MonthCalendar from './monthCalendar/MonthCalendar';
 import YearCalendar from './yearCalendar/YearCalendar';
-const Cal = ({ yearData, date, setDate, month, setMonth, monthData }: any) => {
+import { calendar } from '../../Type/Types';
+
+const Calendar = ({ yearData, date, setDate, monthData }: calendar) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box
@@ -28,4 +25,4 @@ const Cal = ({ yearData, date, setDate, month, setMonth, monthData }: any) => {
   );
 };
 
-export default Cal;
+export default Calendar;
