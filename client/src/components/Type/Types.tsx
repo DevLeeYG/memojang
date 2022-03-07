@@ -5,6 +5,7 @@ export interface yearData {
 }
 
 export interface monthData {
+  yearData: any[];
   date: Date;
   setDate: Function;
   monthData: any[];

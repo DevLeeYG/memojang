@@ -7,6 +7,10 @@ const minDate = new Date('2022-01-01T00:00:00.000');
 const maxDate = new Date('2030-01-01T00:00:00.000');
 
 const YearCalendar = ({ yearData, date, setDate }: yearData) => {
+  // date.filter((el)=>{
+  //   return yearData.date === el.date
+  // })
+
   const a = yearData?.map((el: { eprice: number; iprice: number }) => {
     return el.iprice + el.eprice;
   });

@@ -17,8 +17,18 @@ const Calendar = ({ yearData, date, setDate, monthData }: calendar) => {
           backgroundColor: theme.palette.grey[50],
         })}
       >
-        <DayCalendar monthData={monthData} date={date} setDate={setDate} />
-        <MonthCalendar date={date} setDate={setDate} monthData={monthData} />
+        <DayCalendar
+          yearData={yearData}
+          monthData={monthData}
+          date={date}
+          setDate={setDate}
+        />
+        <MonthCalendar
+          yearData={yearData}
+          date={date}
+          setDate={setDate}
+          monthData={monthData}
+        />
         <YearCalendar date={date} setDate={setDate} yearData={yearData} />
       </Box>
     </LocalizationProvider>

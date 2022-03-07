@@ -14,20 +14,29 @@ const useStyles = makeStyles({
   },
 });
 
-const DayCalendar = ({ monthData, date, setDate }: monthData) => {
+const DayCalendar = ({ monthData, date, setDate, yearData }: monthData) => {
   const classes = useStyles();
   const [highlightedDays, setHighlightedDays] = useState<any[]>([]);
 
   const mappingDayData = () => {
-    const dayData = monthData?.map((el: any) => {
-      return Number(el.date.slice(8, 10));
+    const yearDate = yearData.map((el) => {
+      return el.date;
     });
-    setHighlightedDays(dayData);
+
+    const filteredDate = yearDate.filter((el) => {
+      return new Date(el).getMonth() + 1 === new Date(date).getMonth() + 1;
+    });
+
+    const resultDay = filteredDate.map((el) => {
+      return Number(new Date(el).getDate());
+    });
+
+    setHighlightedDays(resultDay);
   };
 
   useEffect(() => {
     mappingDayData();
-  }, [monthData]);
+  }, [yearData]);
 
   return (
     <Box

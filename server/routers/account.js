@@ -11,9 +11,6 @@ router.get('/account/total/budget', function (req, res) {
   const { userKey } = req.query;
   const findMyTotal = `Select * FROM Money WHERE user_key = ${userKey}`;
 
-  // const query =
-  //   `${findToday}` + `${findMyTotal};` + `${findMonth};` + `${totalBudget} `;
-
   const query = `${findMyTotal}`;
 
   connection.query(query, (err, result) => {
@@ -38,18 +35,14 @@ router.get('/account/total/money/spend', (req, res) => {
 });
 
 router.get(`/account/calendar/data`, (req, res) => {
-  const { userKey, date, month } = req.query;
+  const { userKey, date } = req.query;
 
-  const today = new Date(date).toISOString().split('T')[0];
-  const monthData = new Date(month).toISOString().slice(5, 7);
-  const yearData = new Date(month).toISOString().slice(0, 4);
-  console.log(yearData);
+  // const today = new Date(date).toISOString().split('T')[0];
+  // const monthData = new Date(month).toISOString().slice(5, 7);
+  const yearData = new Date(date).toISOString().slice(0, 4);
   const findYear = `SELECT * FROM Account WHERE user_key=${userKey} and YEAR(date)=${yearData};`;
-  const findMonth = `SELECT * FROM Account WHERE user_key=${userKey} and YEAR(date)=${yearData} and MONTH(date)=${monthData};`;
-  const findToday = `SELECT * FROM Account WHERE user_key=${userKey} and DATE(date)='${today}';`;
-  // const a = `select ${CONVERT_TZ(date, '+0:00', '+9:00')} * from Account`;
-
-  const query = `${findToday}` + `${findMonth}` + `${findYear}`;
+  console.log(yearData);
+  const query = `${findYear}`;
   let find = [];
   connection.query(query, (err, result) => {
     console.log('data', result);

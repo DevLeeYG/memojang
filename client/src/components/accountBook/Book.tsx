@@ -26,19 +26,17 @@ const Book = () => {
         params: {
           date,
           userKey,
-          month: date,
         },
       })
       .then((res) => {
-        setTodayData(res.data[0]);
-        setMonthData(res.data[1]);
-        setYearData(res.data[2]);
+        setYearData(res.data);
       });
   }, [date, userKey]);
 
   useEffect(() => {
     getCalendarData();
   }, [date, getCalendarData, month]);
+
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -65,8 +63,9 @@ const Book = () => {
           <Box sx={{ display: 'flex' }}>
             <InAndOutPost date={date} getCalendarData={getCalendarData} />
             <Board
+              date={date}
               getCalendarData={getCalendarData}
-              todayData={todayData}
+              todayData={yearData}
               monthData={monthData}
             />
           </Box>

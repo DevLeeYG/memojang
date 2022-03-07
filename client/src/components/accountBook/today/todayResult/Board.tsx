@@ -10,13 +10,7 @@ interface getData {
   eprice: number;
 }
 
-const Board = ({
-  getCalendarData,
-  todayData,
-  monthData,
-  getTotalMoney,
-  getTotalMoneyb,
-}: any) => {
+const Board = ({ getCalendarData, todayData, monthData, date }: any) => {
   const reqDelete = (id: number) => {
     axios
       .delete(`http://localhost:8080/account/delete`, {
@@ -24,14 +18,21 @@ const Board = ({
       })
       .then((res) => {
         if (res.status === 200) {
-          getTotalMoney();
-          getTotalMoneyb();
           getCalendarData();
         }
       });
   };
+  const filteredDate = todayData?.filter((el: any) => {
+    return new Date(el.date).getDate() === new Date(date).getDate();
+  });
 
-  const importData = todayData?.map((el: getData) => {
+  let arrayPrice = filteredDate?.map((a: any) => {
+    return a.iprice + a.eprice;
+  });
+
+  console.log(arrayPrice);
+
+  const importData = filteredDate?.map((el: getData) => {
     return (
       <div key={el.id}>
         <Typography sx={{ display: 'flex', width: '100%' }} variant="h6">
@@ -51,7 +52,7 @@ const Board = ({
     );
   });
 
-  const expendiveData = todayData?.map((el: getData) => {
+  const expendiveData = filteredDate?.map((el: getData) => {
     return (
       <div key={el.id}>
         <Typography
@@ -73,10 +74,6 @@ const Board = ({
         </Typography>
       </div>
     );
-  });
-
-  let arrayPrice = todayData?.map((a: any) => {
-    return a.iprice + a.eprice;
   });
 
   let priceReducer = arrayPrice?.reduce((a: number, b: number) => {

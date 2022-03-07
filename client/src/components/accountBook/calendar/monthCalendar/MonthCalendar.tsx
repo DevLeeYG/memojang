@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CalendarPicker, { CalendarPickerProps } from '@mui/lab/CalendarPicker';
 import { monthData } from '../../../Type/Types';
 
-const MonthCalendar = ({ date, setDate, monthData }: monthData) => {
+const MonthCalendar = ({ yearData, date, setDate, monthData }: monthData) => {
   const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
     margin: 0;
     width: 100%;
@@ -13,7 +13,12 @@ const MonthCalendar = ({ date, setDate, monthData }: monthData) => {
       display: none;
     }
   `;
-  const a = monthData?.map((el: any) => {
+
+  const filteredDate = yearData.filter((el: any) => {
+    return new Date(el.date).getMonth() + 1 === new Date(date).getMonth() + 1;
+  });
+
+  const a = filteredDate?.map((el: any) => {
     return el.iprice + el.eprice;
   });
 
