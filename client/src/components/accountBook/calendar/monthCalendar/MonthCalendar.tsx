@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CalendarPicker, { CalendarPickerProps } from '@mui/lab/CalendarPicker';
-import { monthData } from '../../../Type/Types';
+import { CalendarProps, YmdData } from '../../../Type/Types';
 const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
   margin: 0;
   width: 100%;
@@ -13,15 +13,15 @@ const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
   }
 `;
 
-const MonthCalendar = ({ yearData, date, setDate }: monthData) => {
+const MonthCalendar = ({ yearData, date, setDate }: CalendarProps) => {
   const [monthData, setMonthData] = useState<number>(0);
 
   const mappingMonthData = () => {
-    const filteredDate = yearData.filter((el: any) => {
-      return new Date(el.date).getMonth() + 1 === new Date(date).getMonth() + 1;
+    const filteredDate = yearData.filter((el: YmdData) => {
+      return new Date(el.date).getMonth() === new Date(date).getMonth();
     });
 
-    const getPlusPrice = filteredDate?.map((el: any) => {
+    const getPlusPrice = filteredDate?.map((el: YmdData) => {
       return el.iprice + el.eprice;
     });
 

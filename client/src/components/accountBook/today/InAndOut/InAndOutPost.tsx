@@ -3,9 +3,9 @@ import { useSelector, RootStateOrAny } from 'react-redux';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { Button, TextField } from '@mui/material';
-import { inout } from '../../../Type/Types';
+import { Inout } from '../../../Type/Types';
 
-const InAndOutPost = ({ date, getCalendarData }: inout) => {
+const InAndOutPost = ({ date, getCalendarData }: Inout) => {
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );

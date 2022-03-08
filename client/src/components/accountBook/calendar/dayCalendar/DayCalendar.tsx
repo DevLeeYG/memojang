@@ -5,7 +5,7 @@ import CalendarPicker from '@mui/lab/CalendarPicker';
 import Badge from '@mui/material/Badge';
 import PickersDay from '@mui/lab/PickersDay';
 import { makeStyles } from '@material-ui/core';
-import { monthData } from '../../../Type/Types';
+import { CalendarProps } from '../../../Type/Types';
 
 const useStyles = makeStyles({
   root: {
@@ -14,9 +14,9 @@ const useStyles = makeStyles({
   },
 });
 
-const DayCalendar = ({ date, setDate, yearData }: monthData) => {
+const DayCalendar = ({ date, setDate, yearData }: CalendarProps) => {
   const classes = useStyles();
-  const [highlightedDays, setHighlightedDays] = useState<any[]>([]);
+  const [highlightedDays, setHighlightedDays] = useState<number[]>([]);
 
   const mappingDayData = () => {
     const yearDate = yearData.map((el) => {
@@ -57,8 +57,10 @@ const DayCalendar = ({ date, setDate, yearData }: monthData) => {
           const isSelected =
             !DayComponentProps.outsideCurrentMonth &&
             highlightedDays.indexOf(day.getDate()) >= 0;
+
           return (
             <Badge
+              key={DayComponentProps.key}
               overlap="circular"
               badgeContent={isSelected ? '$' : undefined}
             >

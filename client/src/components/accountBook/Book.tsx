@@ -9,10 +9,10 @@ import Calendar from './calendar/Calendar';
 import Board from './today/todayResult/Board';
 import InAndOutPost from './today/InAndOut/InAndOutPost';
 import { useSelector, RootStateOrAny } from 'react-redux';
-import { ymdData } from '../Type/Types';
+import { YmdData } from '../Type/Types';
 const Book = () => {
   const [date, setDate] = useState<Date>(new Date()); //날짜
-  const [yearData, setYearData] = useState<ymdData[]>([]);
+  const [yearData, setYearData] = useState<YmdData[]>([]);
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );

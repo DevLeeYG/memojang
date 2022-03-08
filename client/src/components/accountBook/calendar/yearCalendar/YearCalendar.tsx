@@ -1,23 +1,22 @@
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import CalendarPicker, { CalendarPickerProps } from '@mui/lab/CalendarPicker';
-import { yearData } from '../../../Type/Types';
+import { CalendarProps, YmdData } from '../../../Type/Types';
 
-const minDate = new Date('2022-01-01T00:00:00.000');
-const maxDate = new Date('2030-01-01T00:00:00.000');
+const minDate = new Date('2018-01-01T00:00:00.000');
+const maxDate = new Date('2023-01-01T00:00:00.000');
 
-const YearCalendar = ({ yearData, date, setDate }: yearData) => {
-  // date.filter((el)=>{
-  //   return yearData.date === el.date
-  // })
-
-  const a = yearData?.map((el: { eprice: number; iprice: number }) => {
+const YearCalendar = ({ yearData, date, setDate }: CalendarProps) => {
+  const totalPrice = yearData?.map((el: YmdData) => {
     return el.iprice + el.eprice;
   });
 
-  const yearDatas = a?.reduce((a: number, b: number) => {
-    return a + b;
-  }, 0);
+  const yearGetPrice = totalPrice?.reduce(
+    (prevPrice: number, curPrice: number) => {
+      return prevPrice + curPrice;
+    },
+    0,
+  );
 
   const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
     display: 'flex';
@@ -44,7 +43,7 @@ const YearCalendar = ({ yearData, date, setDate }: yearData) => {
           onChange={(newValue: Date | unknown) => setDate(newValue)}
         />
       </Box>
-      <Box sx={{ textAlign: 'center' }}>연 현황 : {yearDatas}</Box>
+      <Box sx={{ textAlign: 'center' }}>연 현황 : {yearGetPrice}원</Box>
     </Box>
   );
 };

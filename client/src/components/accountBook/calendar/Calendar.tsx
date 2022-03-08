@@ -4,9 +4,9 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DayCalendar from './dayCalendar/DayCalendar';
 import MonthCalendar from './monthCalendar/MonthCalendar';
 import YearCalendar from './yearCalendar/YearCalendar';
-import { calendar } from '../../Type/Types';
+import { CalendarProps } from '../../Type/Types';
 
-const Calendar = ({ yearData, date, setDate }: calendar) => {
+const Calendar = ({ yearData, date, setDate }: CalendarProps) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box
@@ -19,7 +19,7 @@ const Calendar = ({ yearData, date, setDate }: calendar) => {
       >
         <DayCalendar yearData={yearData} date={date} setDate={setDate} />
         <MonthCalendar yearData={yearData} date={date} setDate={setDate} />
-        <YearCalendar date={date} setDate={setDate} yearData={yearData} />
+        <YearCalendar yearData={yearData} date={date} setDate={setDate} />
       </Box>
     </LocalizationProvider>
   );

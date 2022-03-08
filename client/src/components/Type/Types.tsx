@@ -1,38 +1,26 @@
-export interface yearData {
-  yearData: any[];
+export interface YmdData {
+  id: number;
+  date: Date;
+  eprice: number;
+  expendive: string | null;
+  import: string;
+  iprice: number;
+  user_key: number;
+}
+
+export interface CalendarProps {
+  yearData: YmdData[];
   date: Date;
   setDate: Function;
 }
 
-export interface monthData {
-  yearData: any[];
-  date: Date;
-  setDate: Function;
-}
-
-export interface calendar {
-  yearData: any[];
-  date: Date;
-  setDate: Function;
-}
-
-export interface inout {
+export interface Inout {
   date: Date;
   getCalendarData: Function;
 }
 
-export interface ymdData {
-  id: number;
-  date: Date;
-  eprice: number | null;
-  expendive: string | null;
-  import: string;
-  iprice: number | null;
-  user_key: number;
-}
-
 export interface BoardProps {
-  yearData: ymdData[];
+  yearData: YmdData[];
   date: Date;
   getCalendarData: Function;
 }

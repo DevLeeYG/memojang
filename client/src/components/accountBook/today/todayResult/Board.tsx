@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Divider, Typography } from '@mui/material';
 import axios from 'axios';
-import { BoardProps } from '../../../Type/Types';
-interface getData {
-  id: number;
-  expendive: boolean;
-  import: string;
-  iprice: number;
-  eprice: number;
-}
+import { BoardProps, YmdData } from '../../../Type/Types';
 
 const Board = ({ getCalendarData, yearData, date }: BoardProps) => {
-  console.log('123', yearData, date);
-
   const reqDelete = (id: number) => {
     axios
       .delete(`http://localhost:8080/account/delete`, {
@@ -25,7 +16,7 @@ const Board = ({ getCalendarData, yearData, date }: BoardProps) => {
       });
   };
 
-  const filteredDate = yearData?.filter((day: any) => {
+  const filteredDate = yearData?.filter((day: YmdData) => {
     return new Date(day.date).getDate() === new Date(date).getDate();
   });
 
@@ -39,7 +30,7 @@ const Board = ({ getCalendarData, yearData, date }: BoardProps) => {
     0,
   );
 
-  const importData = filteredDate?.map((el: getData) => {
+  const importData = filteredDate?.map((el: YmdData) => {
     return (
       <div key={el.id}>
         <Typography sx={{ display: 'flex', width: '100%' }} variant="h6">
@@ -59,7 +50,7 @@ const Board = ({ getCalendarData, yearData, date }: BoardProps) => {
     );
   });
 
-  const expendiveData = filteredDate?.map((el: getData) => {
+  const expendiveData = filteredDate?.map((el: YmdData) => {
     return (
       <div key={el.id}>
         <Typography
