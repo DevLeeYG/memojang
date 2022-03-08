@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import CalendarPicker, { CalendarPickerProps } from '@mui/lab/CalendarPicker';
+import CalendarPicker from '@mui/lab/CalendarPicker';
 import Badge from '@mui/material/Badge';
 import PickersDay from '@mui/lab/PickersDay';
 import { makeStyles } from '@material-ui/core';
-import PaidIcon from '@mui/icons-material/Paid';
+import { CalendarProps } from '../../../Type/Types';
+
 const useStyles = makeStyles({
   root: {
     '& svg': { display: 'none' },
@@ -14,34 +14,53 @@ const useStyles = makeStyles({
   },
 });
 
-const DayCalendar = ({ monthData, date, setDate }: any) => {
+const DayCalendar = ({ date, setDate, yearData }: CalendarProps) => {
   const classes = useStyles();
-  const [highlightedDays, setHighlightedDays] = useState<any[]>([]);
+  const [highlightedDays, setHighlightedDays] = useState<number[]>([]);
 
   const mappingDayData = () => {
-    const dayData = monthData?.map((el: any) => {
-      return Number(el.date.slice(8, 10));
+    const yearDate = yearData.map((el) => {
+      return el.date;
     });
-    setHighlightedDays(dayData);
+
+    const filteredDate = yearDate.filter((el) => {
+      return new Date(el).getMonth() + 1 === new Date(date).getMonth() + 1;
+    });
+
+    const resultDay = filteredDate.map((el) => {
+      return Number(new Date(el).getDate());
+    });
+
+    setHighlightedDays(resultDay);
   };
 
   useEffect(() => {
     mappingDayData();
-  }, [monthData]);
+  }, [yearData]);
 
   return (
-    <Box sx={{ width: '50%' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        p: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '50%',
+      }}
+    >
       <CalendarPicker
         className={classes.root}
         views={['day']}
         date={date}
-        onChange={(newValue: any) => setDate(newValue)}
+        onChange={(newValue: Date | null) => setDate(newValue)}
         renderDay={(day, _value, DayComponentProps) => {
           const isSelected =
             !DayComponentProps.outsideCurrentMonth &&
             highlightedDays.indexOf(day.getDate()) >= 0;
+
           return (
             <Badge
+              key={DayComponentProps.key}
               overlap="circular"
               badgeContent={isSelected ? '$' : undefined}
             >
@@ -50,7 +69,6 @@ const DayCalendar = ({ monthData, date, setDate }: any) => {
           );
         }}
       />
-      <PaidIcon></PaidIcon>
     </Box>
   );
 };

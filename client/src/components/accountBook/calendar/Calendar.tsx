@@ -1,14 +1,12 @@
 import { Box } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import CalendarPicker, { CalendarPickerProps } from '@mui/lab/CalendarPicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-
-import Badge from '@mui/material/Badge';
-import PickersDay from '@mui/lab/PickersDay';
 import DayCalendar from './dayCalendar/DayCalendar';
 import MonthCalendar from './monthCalendar/MonthCalendar';
-const Cal = ({ date, setDate, month, setMonth, monthData }: any) => {
+import YearCalendar from './yearCalendar/YearCalendar';
+import { CalendarProps } from '../../Type/Types';
+
+const Calendar = ({ yearData, date, setDate }: CalendarProps) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box
@@ -19,18 +17,12 @@ const Cal = ({ date, setDate, month, setMonth, monthData }: any) => {
           backgroundColor: theme.palette.grey[50],
         })}
       >
-        <DayCalendar monthData={monthData} date={date} setDate={setDate} />
-
-        <MonthCalendar
-          date={date}
-          setDate={setDate}
-          month={month}
-          setMonth={setMonth}
-          monthData={monthData}
-        />
+        <DayCalendar yearData={yearData} date={date} setDate={setDate} />
+        <MonthCalendar yearData={yearData} date={date} setDate={setDate} />
+        <YearCalendar yearData={yearData} date={date} setDate={setDate} />
       </Box>
     </LocalizationProvider>
   );
 };
 
-export default Cal;
+export default Calendar;

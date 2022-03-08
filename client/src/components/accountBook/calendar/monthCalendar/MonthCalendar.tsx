@@ -1,35 +1,60 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CalendarPicker, { CalendarPickerProps } from '@mui/lab/CalendarPicker';
+import { CalendarProps, YmdData } from '../../../Type/Types';
+const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
+  margin: 0;
+  width: 100%;
 
-const MonthCalendar = ({ date, setDate, month, setMonth, monthData }: any) => {
-  const CustomCalendarPicker = styled(CalendarPicker)<CalendarPickerProps<any>>`
-    margin: 0;
-    width: 100%;
-  `;
-  const a = monthData?.map((el: any) => {
-    return el.iprice + el.eprice;
-  });
+  .css-1dozdou {
+    display: none;
+  }
+`;
 
-  const monthDatas = a?.reduce((a: number, b: number) => {
-    return a + b;
-  }, null);
+const MonthCalendar = ({ yearData, date, setDate }: CalendarProps) => {
+  const [monthData, setMonthData] = useState<number>(0);
+
+  const mappingMonthData = () => {
+    const filteredDate = yearData.filter((el: YmdData) => {
+      return new Date(el.date).getMonth() === new Date(date).getMonth();
+    });
+
+    const getPlusPrice = filteredDate?.map((el: YmdData) => {
+      return el.iprice + el.eprice;
+    });
+
+    const monthDatas = getPlusPrice?.reduce((a: number, b: number) => {
+      return a + b;
+    }, 0);
+
+    setMonthData(monthDatas);
+  };
+
+  useEffect(() => {
+    mappingMonthData();
+  }, [mappingMonthData, yearData]);
 
   return (
-    <div>
-      <Box sx={{ widht: '50%' }}>
+    <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          p: 5,
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '80%',
+        }}
+      >
         <CustomCalendarPicker
           views={['month']}
           date={date}
-          onChange={(newValue: any) => setDate(newValue)}
+          onChange={(newValue: Date | unknown) => setDate(newValue)}
         />
-        <Box sx={{ pt: 3, pr: 12, textAlign: 'right', fontSize: '30px' }}>
-          월 현황:{monthDatas ? monthDatas : 0}원
-        </Box>
-        <Box sx={{ textAlign: 'right' }}>적자일시 - 표시</Box>
       </Box>
-    </div>
+      <Box sx={{ textAlign: 'center' }}>월 현황:{monthData}원</Box>
+    </Box>
   );
 };
 

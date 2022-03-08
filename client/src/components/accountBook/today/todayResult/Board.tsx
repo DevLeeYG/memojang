@@ -1,22 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Divider, Typography } from '@mui/material';
 import axios from 'axios';
+import { BoardProps, YmdData } from '../../../Type/Types';
 
-interface getData {
-  id: number;
-  expendive: boolean;
-  import: string;
-  iprice: number;
-  eprice: number;
-}
-
-const Board = ({
-  getCalendarData,
-  todayData,
-  monthData,
-  getTotalMoney,
-  getTotalMoneyb,
-}: any) => {
+const Board = ({ getCalendarData, yearData, date }: BoardProps) => {
   const reqDelete = (id: number) => {
     axios
       .delete(`http://localhost:8080/account/delete`, {
@@ -24,14 +11,26 @@ const Board = ({
       })
       .then((res) => {
         if (res.status === 200) {
-          getTotalMoney();
-          getTotalMoneyb();
           getCalendarData();
         }
       });
   };
 
-  const importData = todayData?.map((el: getData) => {
+  const filteredDate = yearData?.filter((day: YmdData) => {
+    return new Date(day.date).getDate() === new Date(date).getDate();
+  });
+
+  let arrayPrice = filteredDate?.map((day: any) => {
+    return day.iprice + day.eprice;
+  });
+  let priceReducer = arrayPrice?.reduce(
+    (prevPrice: number, curPrice: number) => {
+      return prevPrice + curPrice;
+    },
+    0,
+  );
+
+  const importData = filteredDate?.map((el: YmdData) => {
     return (
       <div key={el.id}>
         <Typography sx={{ display: 'flex', width: '100%' }} variant="h6">
@@ -51,7 +50,7 @@ const Board = ({
     );
   });
 
-  const expendiveData = todayData?.map((el: getData) => {
+  const expendiveData = filteredDate?.map((el: YmdData) => {
     return (
       <div key={el.id}>
         <Typography
@@ -74,14 +73,6 @@ const Board = ({
       </div>
     );
   });
-
-  let arrayPrice = todayData?.map((a: any) => {
-    return a.iprice + a.eprice;
-  });
-
-  let priceReducer = arrayPrice?.reduce((a: number, b: number) => {
-    return a + b;
-  }, null);
 
   return (
     <Box sx={{ width: '50%', height: '300px' }}>
@@ -113,7 +104,7 @@ const Board = ({
               width: '100%',
             }}
           >
-            합계 <Box>{priceReducer ? priceReducer : 0}원</Box>
+            합계 <Box>{priceReducer}원</Box>
           </Box>
         </Typography>
       </Box>
