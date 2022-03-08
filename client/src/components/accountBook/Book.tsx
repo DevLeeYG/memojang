@@ -9,17 +9,13 @@ import Calendar from './calendar/Calendar';
 import Board from './today/todayResult/Board';
 import InAndOutPost from './today/InAndOut/InAndOutPost';
 import { useSelector, RootStateOrAny } from 'react-redux';
-
+import { ymdData } from '../Type/Types';
 const Book = () => {
+  const [date, setDate] = useState<Date>(new Date()); //날짜
+  const [yearData, setYearData] = useState<ymdData[]>([]);
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
-  const [date, setDate] = useState(new Date()); //날짜
-  const [month, setMonth] = useState(new Date()); //서버에 달계산을 위한 상태
-  const [todayData, setTodayData] = useState([]);
-  const [monthData, setMonthData] = useState([]);
-  const [yearData, setYearData] = useState([]);
-
   const getCalendarData = useCallback(() => {
     axios
       .get(`http://localhost:8080/account/calendar/data`, {
@@ -35,7 +31,7 @@ const Book = () => {
 
   useEffect(() => {
     getCalendarData();
-  }, [date, getCalendarData, month]);
+  }, [date, getCalendarData]);
 
   return (
     <>
@@ -54,19 +50,13 @@ const Book = () => {
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
         >
           <Toolbar />
-          <Calendar
-            yearData={yearData}
-            date={date}
-            monthData={monthData}
-            setDate={setDate}
-          />
+          <Calendar yearData={yearData} date={date} setDate={setDate} />
           <Box sx={{ display: 'flex' }}>
             <InAndOutPost date={date} getCalendarData={getCalendarData} />
             <Board
               date={date}
               getCalendarData={getCalendarData}
-              todayData={yearData}
-              monthData={monthData}
+              yearData={yearData}
             />
           </Box>
         </Box>

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Divider, Typography } from '@mui/material';
 import axios from 'axios';
-
+import { BoardProps } from '../../../Type/Types';
 interface getData {
   id: number;
   expendive: boolean;
@@ -10,7 +10,9 @@ interface getData {
   eprice: number;
 }
 
-const Board = ({ getCalendarData, todayData, monthData, date }: any) => {
+const Board = ({ getCalendarData, yearData, date }: BoardProps) => {
+  console.log('123', yearData, date);
+
   const reqDelete = (id: number) => {
     axios
       .delete(`http://localhost:8080/account/delete`, {
@@ -22,15 +24,20 @@ const Board = ({ getCalendarData, todayData, monthData, date }: any) => {
         }
       });
   };
-  const filteredDate = todayData?.filter((el: any) => {
-    return new Date(el.date).getDate() === new Date(date).getDate();
+
+  const filteredDate = yearData?.filter((day: any) => {
+    return new Date(day.date).getDate() === new Date(date).getDate();
   });
 
-  let arrayPrice = filteredDate?.map((a: any) => {
-    return a.iprice + a.eprice;
+  let arrayPrice = filteredDate?.map((day: any) => {
+    return day.iprice + day.eprice;
   });
-
-  console.log(arrayPrice);
+  let priceReducer = arrayPrice?.reduce(
+    (prevPrice: number, curPrice: number) => {
+      return prevPrice + curPrice;
+    },
+    0,
+  );
 
   const importData = filteredDate?.map((el: getData) => {
     return (
@@ -76,10 +83,6 @@ const Board = ({ getCalendarData, todayData, monthData, date }: any) => {
     );
   });
 
-  let priceReducer = arrayPrice?.reduce((a: number, b: number) => {
-    return a + b;
-  }, null);
-
   return (
     <Box sx={{ width: '50%', height: '300px' }}>
       <Box
@@ -110,7 +113,7 @@ const Board = ({ getCalendarData, todayData, monthData, date }: any) => {
               width: '100%',
             }}
           >
-            합계 <Box>{priceReducer ? priceReducer : 0}원</Box>
+            합계 <Box>{priceReducer}원</Box>
           </Box>
         </Typography>
       </Box>

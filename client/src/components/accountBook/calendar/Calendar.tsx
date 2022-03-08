@@ -6,7 +6,7 @@ import MonthCalendar from './monthCalendar/MonthCalendar';
 import YearCalendar from './yearCalendar/YearCalendar';
 import { calendar } from '../../Type/Types';
 
-const Calendar = ({ yearData, date, setDate, monthData }: calendar) => {
+const Calendar = ({ yearData, date, setDate }: calendar) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Box
@@ -17,18 +17,8 @@ const Calendar = ({ yearData, date, setDate, monthData }: calendar) => {
           backgroundColor: theme.palette.grey[50],
         })}
       >
-        <DayCalendar
-          yearData={yearData}
-          monthData={monthData}
-          date={date}
-          setDate={setDate}
-        />
-        <MonthCalendar
-          yearData={yearData}
-          date={date}
-          setDate={setDate}
-          monthData={monthData}
-        />
+        <DayCalendar yearData={yearData} date={date} setDate={setDate} />
+        <MonthCalendar yearData={yearData} date={date} setDate={setDate} />
         <YearCalendar date={date} setDate={setDate} yearData={yearData} />
       </Box>
     </LocalizationProvider>

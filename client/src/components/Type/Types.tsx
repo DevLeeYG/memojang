@@ -8,17 +8,31 @@ export interface monthData {
   yearData: any[];
   date: Date;
   setDate: Function;
-  monthData: any[];
 }
 
 export interface calendar {
   yearData: any[];
   date: Date;
   setDate: Function;
-  monthData: any[];
 }
 
 export interface inout {
+  date: Date;
+  getCalendarData: Function;
+}
+
+export interface ymdData {
+  id: number;
+  date: Date;
+  eprice: number | null;
+  expendive: string | null;
+  import: string;
+  iprice: number | null;
+  user_key: number;
+}
+
+export interface BoardProps {
+  yearData: ymdData[];
   date: Date;
   getCalendarData: Function;
 }

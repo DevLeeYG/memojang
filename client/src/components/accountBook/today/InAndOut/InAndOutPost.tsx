@@ -5,11 +5,7 @@ import { useFormik } from 'formik';
 import { Button, TextField } from '@mui/material';
 import { inout } from '../../../Type/Types';
 
-const InAndOutPost = ({
-  date,
-
-  getCalendarData,
-}: inout) => {
+const InAndOutPost = ({ date, getCalendarData }: inout) => {
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );

@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-const DayCalendar = ({ monthData, date, setDate, yearData }: monthData) => {
+const DayCalendar = ({ date, setDate, yearData }: monthData) => {
   const classes = useStyles();
   const [highlightedDays, setHighlightedDays] = useState<any[]>([]);
 
