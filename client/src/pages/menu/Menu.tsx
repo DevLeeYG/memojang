@@ -20,7 +20,7 @@ const Menu = () => {
         >
           <Typography
             className={classes.left}
-            onClick={() => navigate('/menu')}
+            onClick={() => navigate('/memojang')}
             variant="h2"
           >
             메모장
@@ -41,6 +41,23 @@ const Menu = () => {
             variant="h2"
           >
             가계부
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '50%',
+            height: '100vh',
+          }}
+        >
+          <Typography
+            className={classes.right}
+            onClick={() => navigate('/notepad')}
+            variant="h2"
+          >
+            NotePad
           </Typography>
         </Box>
       </Box>

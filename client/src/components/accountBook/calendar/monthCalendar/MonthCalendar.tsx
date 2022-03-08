@@ -50,7 +50,7 @@ const MonthCalendar = ({ yearData, date, setDate }: CalendarProps) => {
         <CustomCalendarPicker
           views={['month']}
           date={date}
-          onChange={(newValue: Date | unknown) => setDate(newValue)}
+          onChange={(changeMonth: Date | unknown) => setDate(changeMonth)}
         />
       </Box>
       <Box sx={{ textAlign: 'center' }}>월 현황:{monthData}원</Box>

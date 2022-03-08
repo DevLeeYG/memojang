@@ -16,12 +16,12 @@ const Board = ({ getCalendarData, yearData, date }: BoardProps) => {
       });
   };
 
-  const filteredDate = yearData?.filter((day: YmdData) => {
-    return new Date(day.date).getDate() === new Date(date).getDate();
+  const filteredDate = yearData?.filter((yearElement: YmdData) => {
+    return new Date(yearElement.date).getDate() === new Date(date).getDate();
   });
 
-  let arrayPrice = filteredDate?.map((day: any) => {
-    return day.iprice + day.eprice;
+  let arrayPrice = filteredDate?.map((yearElement: any) => {
+    return yearElement.iprice + yearElement.eprice;
   });
   let priceReducer = arrayPrice?.reduce(
     (prevPrice: number, curPrice: number) => {
@@ -30,29 +30,29 @@ const Board = ({ getCalendarData, yearData, date }: BoardProps) => {
     0,
   );
 
-  const importData = filteredDate?.map((el: YmdData) => {
+  const importData = filteredDate?.map((yearElement: YmdData) => {
     return (
-      <div key={el.id}>
+      <div key={yearElement.id}>
         <Typography sx={{ display: 'flex', width: '100%' }} variant="h6">
           <Box sx={{ width: '100%' }}>
-            <Box>{el.import}</Box>
+            <Box>{yearElement.import}</Box>
           </Box>
           <Box
             onClick={() => {
-              reqDelete(el.id);
+              reqDelete(yearElement.id);
             }}
             sx={{ display: 'flex', cursor: 'pointer' }}
           >
-            {el.iprice}
+            {yearElement.iprice}
           </Box>
         </Typography>
       </div>
     );
   });
 
-  const expendiveData = filteredDate?.map((el: YmdData) => {
+  const expendiveData = filteredDate?.map((yearElement: YmdData) => {
     return (
-      <div key={el.id}>
+      <div key={yearElement.id}>
         <Typography
           sx={{
             display: 'flex',
@@ -60,14 +60,14 @@ const Board = ({ getCalendarData, yearData, date }: BoardProps) => {
           }}
           variant="h6"
         >
-          <Box sx={{ width: '100%' }}>{el.expendive}</Box>{' '}
+          <Box sx={{ width: '100%' }}>{yearElement.expendive}</Box>{' '}
           <Box
             onClick={() => {
-              reqDelete(el.id);
+              reqDelete(yearElement.id);
             }}
             sx={{ display: 'flex', cursor: 'pointer' }}
           >
-            {el.eprice}
+            {yearElement.eprice}
           </Box>
         </Typography>
       </div>
