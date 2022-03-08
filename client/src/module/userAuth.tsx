@@ -45,6 +45,7 @@ const LoginFailureAction = (data: any) => {
 export const userLoggedin = (data: any) => {
   return (dispatch: any) => {
     dispatch(LoginRequestAction(true)); //로딩 페이지 만들어주면될거같고
+
     axios
       .post('http://localhost:8080/login', {
         user: data.id,

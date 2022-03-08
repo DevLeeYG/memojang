@@ -5,9 +5,10 @@ import './App.css';
 import Auth from './components/authorization/Index';
 import { Route, Routes } from 'react-router-dom';
 import { RootStateOrAny, useSelector } from 'react-redux';
-import Main from './components/memojang/Main';
-import Book from './components/accountBook/Book';
-import Menu from './components/menu/Menu';
+import Main from './pages/memojang/Main';
+import Book from './pages/accountBook/Book';
+import Menu from './pages/menu/Menu';
+import NotePad from './pages/notepad/NotePad';
 
 function App() {
   const loginState = useSelector(
@@ -28,8 +29,9 @@ function App() {
             <Route path="/signup" element={<Auth />} />
           </>
         )}
-        <Route path="/menu" element={<Main />} />
+        <Route path="/memojang" element={<Main />} />
         <Route path="/accountBook" element={<Book />} />
+        <Route path="/notepad" element={<NotePad />} />
       </Routes>
     </div>
   );
