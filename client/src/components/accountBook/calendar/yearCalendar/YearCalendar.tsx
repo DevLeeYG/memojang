@@ -40,7 +40,7 @@ const YearCalendar = ({ yearData, date, setDate }: CalendarProps) => {
           minDate={minDate}
           maxDate={maxDate}
           date={date}
-          onChange={(newValue: Date | unknown) => setDate(newValue)}
+          onChange={(changeYear: Date | unknown) => setDate(changeYear)}
         />
       </Box>
       <Box sx={{ textAlign: 'center' }}>연 현황 : {yearGetPrice}원</Box>

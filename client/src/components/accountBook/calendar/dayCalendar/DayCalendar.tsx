@@ -28,7 +28,7 @@ const DayCalendar = ({ date, setDate, yearData }: CalendarProps) => {
     });
 
     const resultDay = filteredDate.map((el) => {
-      return Number(new Date(el).getDate());
+      return new Date(el).getDate();
     });
 
     setHighlightedDays(resultDay);
@@ -52,7 +52,7 @@ const DayCalendar = ({ date, setDate, yearData }: CalendarProps) => {
         className={classes.root}
         views={['day']}
         date={date}
-        onChange={(newValue: Date | null) => setDate(newValue)}
+        onChange={(changeDate: Date | null) => setDate(changeDate)}
         renderDay={(day, _value, DayComponentProps) => {
           const isSelected =
             !DayComponentProps.outsideCurrentMonth &&

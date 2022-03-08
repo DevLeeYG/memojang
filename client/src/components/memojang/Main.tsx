@@ -98,7 +98,7 @@ const Main = () => {
 
   useEffect(() => {
     getMyPost();
-  }, []);
+  }, [getMyPost]);
 
   const list = myPost.map((el: any) => {
     return (
