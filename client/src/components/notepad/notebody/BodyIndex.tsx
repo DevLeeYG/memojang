@@ -7,7 +7,7 @@ const BodyIndex = ({ fontColors }: any) => {
   return (
     <div className={classes.root}>
       <SidebarIndex />
-      <MainIndex fontColors={fontColors} />
+      <MainIndex />
     </div>
   );
 };
