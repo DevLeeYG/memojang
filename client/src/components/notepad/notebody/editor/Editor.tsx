@@ -6,7 +6,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const EditorComponent = ({ text, setText }: any) => {
-  const QuillRef = useRef<ReactQuill>();
+  //   const QuillRef = useRef<ReactQuill>();
 
   const modules = useMemo(
     () => ({
@@ -32,11 +32,6 @@ const EditorComponent = ({ text, setText }: any) => {
   return (
     <>
       <ReactQuill
-        ref={(element) => {
-          if (element !== null) {
-            QuillRef.current = element;
-          }
-        }}
         value={text}
         onChange={setText}
         modules={modules}
