@@ -2,23 +2,18 @@ import el from 'date-fns/esm/locale/el/index.js';
 import React, { useState } from 'react';
 import { NoteBody, NoteTop } from '../../../makeStyles/MakeNotePad';
 import BodyIndex from '../notebody/BodyIndex';
-import { fontColor } from './Source';
 
 const Topindex = () => {
   const [fontColors, setFontColors] = useState('');
+  const [fontSize, setFontSize] = useState(0);
 
   const onChangeValue = (e: any) => {
     setFontColors(e.target.value);
   };
-  const fontColorChange = fontColor.map((el) => {
-    return (
-      <>
-        <option key={el.id} value={el.color}>
-          {el.Title}
-        </option>
-      </>
-    );
-  });
+
+  const onChangeSize = (e: any) => {
+    setFontSize(e.target.value);
+  };
 
   const classes = NoteTop();
 
@@ -27,18 +22,8 @@ const Topindex = () => {
       <div className={classes.root}>
         <div className={classes.left}>메모장</div>
         <div className={classes.right}>
-          <div>
-            <select className={classes.colorChange} onChange={onChangeValue}>
-              <option value="black">색상</option>
-              {fontColorChange}
-            </select>
-          </div>
-          <div>
-            <select className={classes.colorChange} onChange={onChangeValue}>
-              <option value="black">폰트</option>
-              {fontColorChange}
-            </select>
-          </div>
+          <button className={classes.button}>저장하기</button>
+          <button className={classes.button}>삭제하기</button>
         </div>
       </div>
       <div>

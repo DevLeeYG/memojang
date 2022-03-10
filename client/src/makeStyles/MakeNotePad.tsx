@@ -5,28 +5,40 @@ export const NoteTop = makeStyles((theme) => ({
     display: 'flex',
 
     height: '80px',
-    border: '1px solid black',
   },
 
   left: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    border: '1px solid yellow',
+    border: '1px solid gray',
+
     height: '100%',
     width: '25%',
   },
   right: {
     display: 'flex',
-    border: '1px solid green',
+    borderTop: '1px solid gray',
+    borderBottom: '1px solid gray',
     height: '100%',
     width: '100%',
+    justifyContent: 'right',
   },
 
   colorChange: {
-    fontSize: '20px',
-    width: '70px',
-    height: '40px',
+    fontSize: '15px',
+    width: '65px',
+    height: '22px',
+  },
+
+  button: {
+    margin: '5px',
+    border: 'none',
+    borderRadius: '5px',
+    '&:hover': {
+      boxShadow: '5px 5px 5px gray',
+      backgroundColor: 'blue',
+    },
   },
 }));
 
@@ -35,16 +47,17 @@ export const NoteBody = makeStyles((theme) => ({
     display: 'flex',
     width: '100%',
     height: '90vh',
-    border: '1px solid red',
+    borderBottom: '1px solid gray',
   },
 
   sidebar: {
-    border: '1px solid green',
+    borderLeft: '1px solid gray',
     width: '25%',
     height: '90vh',
   },
   main: {
-    border: '2px solid green',
+    borderLeft: '1px solid gray',
+    borderRight: '1px solid gray',
     height: '90vh',
     width: '100%',
   },
