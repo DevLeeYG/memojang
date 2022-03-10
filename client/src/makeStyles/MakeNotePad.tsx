@@ -38,8 +38,7 @@ export const NoteTop = makeStyles((theme) => ({
     border: 'none',
     borderRadius: '5px',
     '&:hover': {
-      boxShadow: '5px 5px 5px gray',
-      backgroundColor: 'blue',
+      backgroundColor: '#80f2ce',
     },
   },
 }));
@@ -49,7 +48,7 @@ export const NoteBody = makeStyles((theme) => ({
     display: 'flex',
     width: '100%',
     height: '90vh',
-    borderBottom: '1px solid gray',
+    boxShadow: 'rgb(0 0 0 / 30%) 0px 8px 8px',
   },
 
   sidebar: {
