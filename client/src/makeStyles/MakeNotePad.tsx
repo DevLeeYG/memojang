@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core';
 export const NoteTop = makeStyles((theme) => ({
   root: {
     display: 'flex',
-
+    boxShadow: 'rgb(0 0 0 / 30%) 0px 0px 8px',
     height: '80px',
   },
 
@@ -11,15 +11,15 @@ export const NoteTop = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    border: '1px solid gray',
-
+    boxShadow: 'rgb(0 0 0 / 30%) 0px 0px 8px',
     height: '100%',
     width: '25%',
   },
   right: {
+    backgroundColor: '#FCFDFC',
     display: 'flex',
-    borderTop: '1px solid gray',
-    borderBottom: '1px solid gray',
+    boxShadow: 'rgb(0 0 0 / 30%) 0px 0px 8px',
+    borderLeft: 'none',
     height: '100%',
     width: '100%',
     justifyContent: 'right',
@@ -32,12 +32,13 @@ export const NoteTop = makeStyles((theme) => ({
   },
 
   button: {
+    color: 'white',
+    backgroundColor: '#63E5BD',
     margin: '5px',
     border: 'none',
     borderRadius: '5px',
     '&:hover': {
-      boxShadow: '5px 5px 5px gray',
-      backgroundColor: 'blue',
+      backgroundColor: '#80f2ce',
     },
   },
 }));
@@ -47,17 +48,17 @@ export const NoteBody = makeStyles((theme) => ({
     display: 'flex',
     width: '100%',
     height: '90vh',
-    borderBottom: '1px solid gray',
+    boxShadow: 'rgb(0 0 0 / 30%) 0px 8px 8px',
   },
 
   sidebar: {
-    borderLeft: '1px solid gray',
+    boxShadow: 'rgb(0 0 0 / 30%) 0px 8px 8px',
+
     width: '25%',
     height: '90vh',
   },
   main: {
-    borderLeft: '1px solid gray',
-    borderRight: '1px solid gray',
+    boxShadow: 'rgb(0 0 0 / 10%) 0px 0px 8px',
     height: '90vh',
     width: '100%',
   },
