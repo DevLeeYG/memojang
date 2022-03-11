@@ -29,14 +29,10 @@ const BodyIndex = ({ fontColors }: any) => {
   return (
     <div>
       <div className={classes.root}>
-        <SidebarIndex />
         <MainIndex text={text} setText={setText} />
       </div>
-      <div className={classses.right}>
-        <button onClick={handleWriteSave} className={classses.button}>
-          저장하기
-        </button>
-        <button className={classses.button}>삭제하기</button>
+      <div className={classses.writeFoot}>
+        <button className={classses.button}>저장하기</button>
       </div>
     </div>
   );
