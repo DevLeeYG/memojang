@@ -4,7 +4,6 @@ export const NoteTop = makeStyles((theme) => ({
   root: {
     display: 'flex',
     boxShadow: 'rgb(0 0 0 / 30%) 0px 0px 8px',
-    height: '80px',
   },
 
   left: {
@@ -12,7 +11,7 @@ export const NoteTop = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     boxShadow: 'rgb(0 0 0 / 30%) 0px 0px 8px',
-    height: '100%',
+
     width: '25%',
   },
   right: {
@@ -20,7 +19,7 @@ export const NoteTop = makeStyles((theme) => ({
     display: 'flex',
     boxShadow: 'rgb(0 0 0 / 30%) 0px 0px 8px',
     borderLeft: 'none',
-    height: '100%',
+    height: '100px',
     width: '100%',
     justifyContent: 'right',
   },
@@ -34,8 +33,9 @@ export const NoteTop = makeStyles((theme) => ({
   button: {
     color: 'white',
     backgroundColor: '#63E5BD',
-    margin: '5px',
+    margin: '15px',
     border: 'none',
+
     borderRadius: '5px',
     '&:hover': {
       backgroundColor: '#80f2ce',
@@ -47,19 +47,34 @@ export const NoteBody = makeStyles((theme) => ({
   root: {
     display: 'flex',
     width: '100%',
-    height: '90vh',
+    height: '100%',
     boxShadow: 'rgb(0 0 0 / 30%) 0px 8px 8px',
   },
 
   sidebar: {
-    boxShadow: 'rgb(0 0 0 / 30%) 0px 8px 8px',
-
     width: '25%',
-    height: '90vh',
+    overflow: 'scroll',
   },
   main: {
     boxShadow: 'rgb(0 0 0 / 10%) 0px 0px 8px',
-    height: '90vh',
+    height: '75vh',
+    width: '100%',
+    overflow: 'scroll',
+  },
+
+  list: {
+    padding: 5,
+    marginBottom: 3,
+    boxShadow: 'rgb(0 0 0 / 10%) 0px 0px 8px 8px',
+    height: '50px',
+    width: '100%',
+  },
+  listT: {
+    height: '50%',
+    width: '100%',
+  },
+  listB: {
+    height: '50%',
     width: '100%',
   },
 }));
