@@ -8,11 +8,11 @@ require('moment-timezone');
 moment.tz.setDefault('Asia/Seoul');
 const cors = require('cors');
 
-const router = express.Router();
 const app = express();
 const account = require('./routers/account');
+const note = require('./routers/notepad');
 const SQL = require('sql-template-strings');
-const { default: axios } = require('axios');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -29,6 +29,7 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE'],
   }),
 );
+
 app.get('/account/calendar/data', account);
 app.get('/money/total', account);
 app.get('/account/total/budget', account);
@@ -38,7 +39,6 @@ app.post('/account', account);
 app.put('/money/total', account);
 app.delete('/account/delete', account);
 app.post('/login', (req, res) => {
-  console.log('req', req.body);
   const { user, password } = req.body;
   const findUser = SQL`SELECT * FROM User WHERE user_name=${user} and user_password=${password}`;
 
@@ -181,7 +181,7 @@ app.delete('/delete', (req, res) => {
   });
 });
 
-app.post('/put', (req, res) => {});
+app.post('/notepad/save', note);
 
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));

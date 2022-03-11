@@ -5,9 +5,8 @@ import { NoteBody } from '../../../../makeStyles/MakeNotePad';
 import 'react-quill/dist/quill.bubble.css';
 
 import Editor from '../editor/Editor';
-const MainIndex = () => {
+const MainIndex = ({ text, setText }: any) => {
   const classes = NoteBody();
-  const [text, setText] = useState('');
 
   return (
     <div className={classes.main}>

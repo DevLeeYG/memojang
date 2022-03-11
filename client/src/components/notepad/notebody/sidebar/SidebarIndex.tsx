@@ -3,7 +3,7 @@ import { NoteBody } from '../../../../makeStyles/MakeNotePad';
 const SidebarIndex = () => {
   const classes = NoteBody();
 
-  return <div className={classes.sidebar}></div>;
+  return <div></div>;
 };
 
 export default SidebarIndex;
