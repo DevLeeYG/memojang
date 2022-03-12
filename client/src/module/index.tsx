@@ -4,6 +4,7 @@ import acReducer from './accReducer';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userAuth from './userAuth';
+import notePadReducer from './notePad';
 export type RootState = ReturnType<typeof rootReducer>;
 const persistConfig = {
   key: 'root',
@@ -11,6 +12,6 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ userReducer, acReducer });
+const rootReducer = combineReducers({ userReducer, acReducer, notePadReducer });
 
 export default persistReducer(persistConfig, rootReducer);
