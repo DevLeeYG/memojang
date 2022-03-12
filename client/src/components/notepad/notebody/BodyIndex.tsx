@@ -1,38 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import aixos from 'axios';
 import MainIndex from './main/MainIndex';
-import SidebarIndex from './sidebar/SidebarIndex';
 import { NoteTop, NoteBody } from '../../../makeStyles/MakeNotePad';
-import axios from 'axios';
 import { RootStateOrAny, useSelector } from 'react-redux';
-
-const BodyIndex = ({ fontColors }: any) => {
+import { writeSave } from '../../../module/notePad';
+import { useDispatch } from 'react-redux';
+const BodyIndex = ({ title, text, setText }: any) => {
+  const dispatch = useDispatch();
+  const classes = NoteBody();
+  const classses = NoteTop();
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
 
-  const [text, setText] = useState('');
-
-  const handleWriteSave = () => {
-    axios
-      .post('http://localhost:8080/notepad/save', {
-        userKey,
-        text,
-      })
-      .then((res) => {
-        console.log(res);
-      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const reqData = () => {
+    dispatch(writeSave({ userKey, title, text }));
   };
 
-  const classes = NoteBody();
-  const classses = NoteTop();
   return (
     <div>
       <div className={classes.root}>
         <MainIndex text={text} setText={setText} />
       </div>
       <div className={classses.writeFoot}>
-        <button className={classses.button}>저장하기</button>
+        <button onClick={reqData} className={classses.button}>
+          저장하기
+        </button>
       </div>
     </div>
   );
