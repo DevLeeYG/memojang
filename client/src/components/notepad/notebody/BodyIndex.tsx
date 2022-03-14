@@ -6,7 +6,7 @@ import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 import { writeSave } from '../../../module/notePad';
 import { pickListId } from '../../../module/notePad';
 import { useNavigate } from 'react-router-dom';
-const BodyIndex = ({ getList, title, text, setText }: any) => {
+const BodyIndex = ({ handleReq, title, text, setText }: any) => {
   const navigate = useNavigate();
   const [date, setDate] = useState<Date>(new Date());
 
@@ -21,7 +21,7 @@ const BodyIndex = ({ getList, title, text, setText }: any) => {
   const reqData = () => {
     dispatch(writeSave({ userKey, title, text, date }));
     navigate('/notepad');
-    getList();
+    handleReq();
   };
 
   return (

@@ -7,7 +7,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { requestList } from '../../../module/notePad';
+import { getList, requestList } from '../../../module/notePad';
 const Topindex = () => {
   const classes = NoteTop();
   const navigate = useNavigate();
@@ -21,17 +21,9 @@ const Topindex = () => {
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
 
-  const getList = () => {
-    axios
-      .get('http://localhost:8080/notepad/list', {
-        params: { userkey: userKey },
-      })
-
-      .then((res) => {
-        if (res.status === 200) {
-          dispatch(requestList(res.data));
-        }
-      });
+  const handleReq = () => {
+    dispatch(getList(userKey));
+    navigate('/notepad');
   };
 
   const onTitleChange = (e: {
@@ -40,9 +32,9 @@ const Topindex = () => {
     setTitle(e.target.value);
   };
 
-  useEffect(() => {
-    getList();
-  }, []);
+  // useEffect(() => {
+  //   getList();
+  // }, [getList]);
 
   return (
     <>
@@ -60,14 +52,14 @@ const Topindex = () => {
             onChange={onTitleChange}
             placeholder="제목을 입력하세요"
           />
-          <i onClick={() => navigate('/notepad')} className={classes.back}>
+          <i onClick={() => handleReq()} className={classes.back}>
             <ArrowBackIosIcon />
           </i>
         </div>
       </div>
       <div>
         <BodyIndex
-          getList={getList}
+          handleReq={handleReq}
           title={title}
           text={text}
           setText={setText}

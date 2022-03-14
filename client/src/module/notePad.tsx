@@ -27,16 +27,29 @@ export const requestList = (data: any) => {
   };
 };
 
+export const getList = (key: number) => {
+  return (dispatch: any) => {
+    axios
+      .get('http://localhost:8080/notepad/list', {
+        params: { userkey: key },
+      })
+
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch(requestList(res.data));
+        }
+      });
+  };
+};
+
 export const deleteContent = (id: any) => {
+  console.log(id);
   return (dispatch: any) => {
     axios
       .delete(`http://localhost:8080/notepad/delete`, {
         data: { id },
       })
-      .then((res) => {
-        if (res.status === 200) {
-        }
-      });
+      .then((res) => {});
   };
 };
 
@@ -66,7 +79,7 @@ const notePadReducer = (state = initialState, action: any) => {
     case REQUEST_LIST:
       return {
         ...state,
-        content: action.data,
+        content: [...action.data],
       };
     case PICK_ID:
       return {
@@ -77,4 +90,5 @@ const notePadReducer = (state = initialState, action: any) => {
       return state;
   }
 };
+
 export default notePadReducer;
