@@ -16,9 +16,13 @@ const Read = () => {
   const selectId = useSelector(
     (state: RootStateOrAny) => state.notePadReducer.id,
   );
+  const userKey = useSelector(
+    (state: RootStateOrAny) => state.userReducer.userLogin.id,
+  );
 
   const handleDelete = (id: number) => {
-    dispatch(deleteContent(id));
+    dispatch(deleteContent({ id, userKey }));
+    navigate('/notepad/main');
   };
 
   const classes = NoteRead();

@@ -23,7 +23,7 @@ const Topindex = () => {
 
   const handleReq = () => {
     dispatch(getList(userKey));
-    navigate('/notepad');
+    navigate('/notepad/main');
   };
 
   const onTitleChange = (e: {
@@ -31,10 +31,6 @@ const Topindex = () => {
   }) => {
     setTitle(e.target.value);
   };
-
-  // useEffect(() => {
-  //   getList();
-  // }, [getList]);
 
   return (
     <>

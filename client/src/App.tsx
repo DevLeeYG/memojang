@@ -10,11 +10,17 @@ import NotePad from './pages/notepad/write/Write';
 import './index.css';
 import Index from './pages/notepad/home/Index';
 import Read from './pages/notepad/read/Read';
+import { getList } from './module/notePad';
 function App() {
   const loginState = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.login,
   );
-
+  const userKey = useSelector(
+    (state: RootStateOrAny) => state.userReducer.userLogin.id,
+  );
+  useEffect(() => {
+    getList(userKey);
+  }, []);
   return (
     <div>
       <Routes>
@@ -32,7 +38,7 @@ function App() {
         <Route path="/notepad/read/:id" element={<Read />} />
         <Route path="/memojang" element={<Main />} />
         <Route path="/accountBook" element={<Book />} />
-        <Route path="/notepad/" element={<Index />} />
+        <Route path="/notepad/main" element={<Index />} />
         <Route path="/notepad/write" element={<NotePad />} />
       </Routes>
     </div>

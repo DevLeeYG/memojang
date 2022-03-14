@@ -54,7 +54,7 @@ const Menu = () => {
         >
           <Typography
             className={classes.right}
-            onClick={() => navigate('/notepad')}
+            onClick={() => navigate('/notepad/main')}
             variant="h2"
           >
             NotePad

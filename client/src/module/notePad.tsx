@@ -42,14 +42,16 @@ export const getList = (key: number) => {
   };
 };
 
-export const deleteContent = (id: any) => {
-  console.log(id);
+export const deleteContent = (data: any) => {
   return (dispatch: any) => {
     axios
       .delete(`http://localhost:8080/notepad/delete`, {
-        data: { id },
+        data: { data },
       })
-      .then((res) => {});
+      .then((res) => {
+        console.log('123123', res.data);
+        dispatch(getList(data.userKey));
+      });
   };
 };
 
@@ -79,7 +81,7 @@ const notePadReducer = (state = initialState, action: any) => {
     case REQUEST_LIST:
       return {
         ...state,
-        content: [...action.data],
+        content: action.data,
       };
     case PICK_ID:
       return {
