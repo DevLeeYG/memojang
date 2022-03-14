@@ -1,5 +1,5 @@
 import { Button, TextField, Box } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -18,13 +18,13 @@ const Main = () => {
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
 
-  const getMyPost = () => {
+  const getMyPost = useCallback(() => {
     axios
       .get(`http://localhost:8080/posts/`, { params: userKey })
       .then((res) => {
         setMypost(res.data.data);
       });
-  };
+  }, [userKey]);
 
   const postWrite = () => {
     axios

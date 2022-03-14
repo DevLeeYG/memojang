@@ -29,6 +29,7 @@ app.use(
     methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE'],
   }),
 );
+app.delete('/notepad/delete', note);
 app.get('/notepad/list', note);
 app.get('/account/calendar/data', account);
 app.get('/money/total', account);

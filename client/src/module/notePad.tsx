@@ -1,38 +1,42 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 const WRITE_SUCCESS = 'userAUTH/WRITE_SUCCESS';
 const WRITE_FAILURE = 'userAUTH/WRITE_FAILURE';
 const WRITE_REQUEST = 'userAUTH/WRITE_REQUEST';
 const REQUEST_LIST = 'userAUTH/REQUEST_LIST';
-
-const WRITERequestAction = (data: boolean) => {
-  return {
-    type: WRITE_REQUEST,
-    data,
-  };
-};
-
-const WRITESuccessAction = (data: any) => {
-  return {
-    type: WRITE_SUCCESS,
-    data,
-  };
-};
-
-const WRITEFailureAction = (data: any) => {
-  return {
-    type: WRITE_FAILURE,
-    data,
-  };
-};
-
+const PICK_ID = 'useAUTH/PICK_ID';
+const PICK_DELETE = 'userAUTH/PICK_DELETE';
 const initialState = {
+  id: 0,
   content: [],
+};
+
+export const pickListId = (data: any) => {
+  return {
+    type: PICK_ID,
+    data,
+  };
 };
 
 export const requestList = (data: any) => {
   return {
     type: REQUEST_LIST,
     data,
+  };
+};
+
+export const deleteContent = (id: any) => {
+  return (dispatch: any) => {
+    axios
+      .delete(`http://localhost:8080/notepad/delete`, {
+        data: { id },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+        }
+      });
   };
 };
 
@@ -43,6 +47,7 @@ export const writeSave = (data: any) => {
         userKey: data.userKey,
         title: data.title,
         text: data.text,
+        date: data.date,
       })
       .then((res) => {
         if (res.status === 200) {
@@ -62,6 +67,11 @@ const notePadReducer = (state = initialState, action: any) => {
       return {
         ...state,
         content: action.data,
+      };
+    case PICK_ID:
+      return {
+        ...state,
+        id: action.data,
       };
     default:
       return state;

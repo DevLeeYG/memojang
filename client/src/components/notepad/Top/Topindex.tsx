@@ -4,13 +4,15 @@ import React, { useEffect, useState } from 'react';
 import { NoteBody, NoteTop } from '../../../makeStyles/MakeNotePad';
 import BodyIndex from '../notebody/BodyIndex';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { requestList } from '../../../module/notePad';
 const Topindex = () => {
   const classes = NoteTop();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
 
@@ -19,16 +21,12 @@ const Topindex = () => {
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
 
-  const data = useSelector(
-    (state: RootStateOrAny) => state.notePadReducer.content,
-  );
-  console.log(data);
-
   const getList = () => {
     axios
       .get('http://localhost:8080/notepad/list', {
         params: { userkey: userKey },
       })
+
       .then((res) => {
         if (res.status === 200) {
           dispatch(requestList(res.data));
@@ -68,7 +66,12 @@ const Topindex = () => {
         </div>
       </div>
       <div>
-        <BodyIndex title={title} text={text} setText={setText} />
+        <BodyIndex
+          getList={getList}
+          title={title}
+          text={text}
+          setText={setText}
+        />
       </div>
     </>
   );
