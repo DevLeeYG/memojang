@@ -130,8 +130,6 @@ export const NoteBody = makeStyles((theme) => ({
     boxShadow: 'rgb(0 0 0 / 30%) 0px 8px 8px',
   },
 
-  title: {},
-
   main: {
     padding: '100px',
     boxShadow: 'rgb(0 0 0 / 10%) 0px 0px 8px',
@@ -219,6 +217,7 @@ export const NoteRead = makeStyles((theme) => ({
   },
   option: {
     display: 'flex',
+    boxShadow: 'rgb(0 0 0 / 30%) 0px 0px 8px',
     justifyContent: 'right',
     width: '80%',
     marginLeft: 'auto',
@@ -236,5 +235,13 @@ export const NoteRead = makeStyles((theme) => ({
   },
   inContent: {
     width: '80%',
+  },
+  btn: {
+    backgroundColor: '#f8f9fa',
+    border: 'none',
+    '&:hover': {
+      backgroundColor: '#edf1f4',
+      cursor: 'pointer',
+    },
   },
 }));

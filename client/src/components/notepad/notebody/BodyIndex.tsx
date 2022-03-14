@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import aixos from 'axios';
 import MainIndex from './main/MainIndex';
 import { NoteTop, NoteBody } from '../../../makeStyles/MakeNotePad';
-import { RootStateOrAny, useSelector } from 'react-redux';
+import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 import { writeSave } from '../../../module/notePad';
-import { useDispatch } from 'react-redux';
-const BodyIndex = ({ title, text, setText }: any) => {
+import { pickListId } from '../../../module/notePad';
+import { useNavigate } from 'react-router-dom';
+const BodyIndex = ({ getList, title, text, setText }: any) => {
+  const navigate = useNavigate();
+  const [date, setDate] = useState<Date>(new Date());
+
   const dispatch = useDispatch();
   const classes = NoteBody();
   const classses = NoteTop();
@@ -15,7 +19,9 @@ const BodyIndex = ({ title, text, setText }: any) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const reqData = () => {
-    dispatch(writeSave({ userKey, title, text }));
+    dispatch(writeSave({ userKey, title, text, date }));
+    navigate('/notepad');
+    getList();
   };
 
   return (

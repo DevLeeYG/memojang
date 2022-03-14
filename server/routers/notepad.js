@@ -17,9 +17,27 @@ router.get('/notepad/list', (req, res) => {
   });
 });
 
+router.delete('/notepad/delete', (req, res) => {
+  const { id } = req.body;
+
+  const query = `DELETE FROM Note WHERE id = ${id}`;
+
+  connection.query(query, (err, result) => {
+    if (err) throw err;
+    else {
+      res.status(200).send('삭제');
+    }
+  });
+});
+
 router.post('/notepad/save', (req, res) => {
-  console.log(req.body);
-  const { userKey, title, text } = req.body;
+  let data = req.body;
+
+  let userKey = data.userKey;
+  let title = data.title;
+  let text = data.text;
+  let date = data.date;
+  let today = new Date(date);
 
   const query = `INSERT INTO Note(user_key,title,data) VALUES(${userKey},'${title}','${text}')`;
   connection.query(query, (err, result) => {

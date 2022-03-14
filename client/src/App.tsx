@@ -29,10 +29,10 @@ function App() {
             <Route path="/signup" element={<Auth />} />
           </>
         )}
-        <Route path="/notepad/read" element={<Read />} />
+        <Route path="/notepad/read/:id" element={<Read />} />
         <Route path="/memojang" element={<Main />} />
         <Route path="/accountBook" element={<Book />} />
-        <Route path="/notepad" element={<Index />} />
+        <Route path="/notepad/" element={<Index />} />
         <Route path="/notepad/write" element={<NotePad />} />
       </Routes>
     </div>
