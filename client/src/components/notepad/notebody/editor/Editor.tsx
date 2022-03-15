@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const EditorComponent = ({ text, setText }: any) => {
+const EditorComponent = ({ pickText, text, setText }: any) => {
   const modules = useMemo(
     () => ({
       toolbar: {
@@ -26,13 +26,24 @@ const EditorComponent = ({ text, setText }: any) => {
 
   return (
     <>
-      <ReactQuill
-        value={text}
-        onChange={setText}
-        modules={modules}
-        theme="bubble"
-        placeholder="내용을 입력해주세요."
-      />
+      {pickText ? (
+        <ReactQuill
+          readOnly
+          value={pickText}
+          onChange={setText}
+          modules={modules}
+          theme="bubble"
+          placeholder="내용을 입력해주세요."
+        />
+      ) : (
+        <ReactQuill
+          value={text}
+          onChange={setText}
+          modules={modules}
+          theme="bubble"
+          placeholder="내용을 입력해주세요."
+        />
+      )}
     </>
   );
 };

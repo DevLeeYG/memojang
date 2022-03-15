@@ -3,11 +3,11 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Book from '../accountBook/Book';
+
 const Main = () => {
   const [memo, setMemo] = useState('');
   const [myPost, setMypost] = useState<any>([]);
-  const [memoid, setMemoId] = useState<number>(0);
+
   const [insertData, setInsertData] = useState('');
 
   const username = useSelector(

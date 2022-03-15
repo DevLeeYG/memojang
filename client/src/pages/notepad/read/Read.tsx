@@ -5,6 +5,7 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import { deleteContent } from '../../../module/notePad';
+import Editor from '../../../components/notepad/notebody/editor/Editor';
 
 const Read = () => {
   const dispatch = useDispatch();
@@ -65,12 +66,10 @@ const Read = () => {
           </span>
         </div>
         <div className={classes.body}>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: el.data,
-            }}
-            className={classes.inner}
-          ></div>
+          <div className={classes.inner}>
+            {' '}
+            <Editor pickText={el.data} />
+          </div>
         </div>
 
         <div className={classes.readFoot}>

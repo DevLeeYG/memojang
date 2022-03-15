@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, TextField } from '@mui/material';
-import { IconButton, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import useInput from '../../hooks/useInput';
 import { useDispatch } from 'react-redux';
@@ -31,11 +31,9 @@ const container = makeStyles((theme) => ({
 type Pprops = {
   singUp: Boolean;
   setSignUp: Function;
-  formChange: Boolean;
-  setFormChange: Function;
 };
 
-const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
+const AuthForm = ({ singUp, setSignUp }: Pprops) => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -50,7 +48,7 @@ const AuthForm = ({ singUp, setSignUp, formChange, setFormChange }: Pprops) => {
 
   const classes = container();
 
-  const onSubmitForm = useCallback(() => {}, [id, passWord]);
+  const onSubmitForm = useCallback(() => {}, []);
 
   const reqSignup = () => {
     if (passWord === rePassword) {
