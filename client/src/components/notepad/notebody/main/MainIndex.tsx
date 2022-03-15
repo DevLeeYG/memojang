@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import React, { useState } from 'react';
 import { NoteBody } from '../../../../makeStyles/MakeNotePad';
-
 import 'react-quill/dist/quill.bubble.css';
 
 import Editor from '../editor/Editor';

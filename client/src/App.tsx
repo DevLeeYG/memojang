@@ -1,6 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
-
 import Auth from './components/authorization/Index';
 import { Route, Routes } from 'react-router-dom';
 import { RootStateOrAny, useSelector } from 'react-redux';
@@ -11,17 +8,13 @@ import NotePad from './pages/notepad/write/Write';
 import './index.css';
 import Index from './pages/notepad/home/Index';
 import Read from './pages/notepad/read/Read';
-import { getList } from './module/notePad';
+
+import EditPost from './pages/notepad/editpost/EditPost';
 function App() {
   const loginState = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.login,
   );
-  const userKey = useSelector(
-    (state: RootStateOrAny) => state.userReducer.userLogin.id,
-  );
-  useEffect(() => {
-    getList(userKey);
-  }, []);
+
   return (
     <div>
       <Routes>
@@ -41,6 +34,7 @@ function App() {
         <Route path="/accountBook" element={<Book />} />
         <Route path="/notepad/main" element={<Index />} />
         <Route path="/notepad/write" element={<NotePad />} />
+        <Route path="/notepad/editpost" element={<EditPost />} />
       </Routes>
     </div>
   );

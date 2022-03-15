@@ -23,6 +23,9 @@ const Read = () => {
     dispatch(deleteContent({ id, userKey }));
     navigate('/notepad/main');
   };
+  const handlePostEdit = () => {
+    navigate('/notepad/editpost');
+  };
 
   const classes = NoteRead();
   const Top = NoteTop();
@@ -37,13 +40,23 @@ const Read = () => {
         <div className={classes.Top}>
           <div className={classes.readtitle}>{el.title}</div>
 
-          <button onClick={() => navigate('/notepad')} className={Top.button}>
+          <button
+            onClick={() => navigate('/notepad/main')}
+            className={Top.button}
+          >
             <ArrowBackIosIcon />
           </button>
         </div>
         <div className={classes.option}>
           <span>
-            <button className={classes.btn}>수정</button>
+            <button
+              onClick={() => {
+                handlePostEdit();
+              }}
+              className={classes.btn}
+            >
+              수정
+            </button>
           </span>
           <span>
             <button onClick={() => handleDelete(el.id)} className={classes.btn}>

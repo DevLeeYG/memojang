@@ -59,6 +59,7 @@ const Index = () => {
   return (
     <div>
       <div className={classes.Top}>
+        <div></div>
         <button
           onClick={() => navigate('/notepad/write')}
           className={Top.button}
