@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { NoteRead, NoteTop } from '../../../makeStyles/MakeNotePad';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';

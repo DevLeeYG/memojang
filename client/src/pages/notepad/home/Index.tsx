@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-danger-with-children */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { NoteHome, NoteTop } from '../../../makeStyles/MakeNotePad';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CreateIcon from '@mui/icons-material/Create';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
-import { getList, pickListId, requestList } from '../../../module/notePad';
+import { pickListId, requestList } from '../../../module/notePad';
 import axios from 'axios';
 const Index = () => {
   const userKey = useSelector(
@@ -23,7 +24,6 @@ const Index = () => {
     getListss();
   }, []);
 
-  const [selectData, setSelectData] = useState<number>(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const data = useSelector(

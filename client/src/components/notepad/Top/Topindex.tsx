@@ -1,28 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import el from 'date-fns/esm/locale/el/index.js';
-import React, { useEffect, useState } from 'react';
-import { NoteBody, NoteTop } from '../../../makeStyles/MakeNotePad';
+
+import React, { useState } from 'react';
+import { NoteTop } from '../../../makeStyles/MakeNotePad';
 import BodyIndex from '../notebody/BodyIndex';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { getList, requestList } from '../../../module/notePad';
+import { useNavigate } from 'react-router-dom';
+
 const Topindex = () => {
   const classes = NoteTop();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
 
-  const dispatch = useDispatch();
-  const userKey = useSelector(
-    (state: RootStateOrAny) => state.userReducer.userLogin.id,
-  );
-
   const handleReq = () => {
-    dispatch(getList(userKey));
     navigate('/notepad/main');
   };
 
