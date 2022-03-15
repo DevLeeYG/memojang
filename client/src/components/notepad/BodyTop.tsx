@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState } from 'react';
-import { NoteTop } from '../../../../makeStyles/MakeNotePad';
-import BodyIndex from '../Footer/BodyFooter';
+import { NoteTop } from '../../makeStyles/MakeNotePad';
+import BodyIndex from './noteWrite/Footer/BodyFooter';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 

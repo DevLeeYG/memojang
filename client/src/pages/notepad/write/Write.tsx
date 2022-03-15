@@ -1,5 +1,5 @@
 import React from 'react';
-import WriteComponent from '../../../components/notepad/noteWrite/Top/BodyTop';
+import WriteComponent from '../../../components/notepad/BodyTop';
 
 const Write = () => {
   return (

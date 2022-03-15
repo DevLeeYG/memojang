@@ -1,5 +1,5 @@
 import React from 'react';
-import Topindex from '../../../components/notepad/noteWrite/Top/BodyTop';
+import Topindex from '../../../components/notepad/BodyTop';
 import { useSelector, RootStateOrAny } from 'react-redux';
 const EditPost = () => {
   const selectId = useSelector(
