@@ -6,12 +6,12 @@ import BodyIndex from '../notebody/BodyIndex';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 
-const Topindex = () => {
+const Topindex = ({ pickdataTitle, pickdataData }: any) => {
   const classes = NoteTop();
   const navigate = useNavigate();
 
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
+  const [title, setTitle] = useState(pickdataTitle ? pickdataTitle : '');
+  const [text, setText] = useState(pickdataData ? pickdataData : '');
 
   const handleReq = () => {
     navigate('/notepad/main');

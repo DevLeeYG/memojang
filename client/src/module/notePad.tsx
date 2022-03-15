@@ -23,6 +23,19 @@ export const requestList = (data: any) => {
   };
 };
 
+export const requestEditPost = (data: any) => {
+  axios
+    .put('http://localhost:8080/notepad/editpost', {
+      data,
+    })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export const getList = (key: number) => {
   return (dispatch: any) => {
     axios

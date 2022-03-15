@@ -18,6 +18,8 @@ router.get('/notepad/list', (req, res) => {
   });
 });
 
+router.put('/notepad/editpost', (req, res) => {});
+
 router.delete('/notepad/delete', (req, res) => {
   const id = req.body.data.id;
 

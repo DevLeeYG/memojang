@@ -26,9 +26,11 @@ app.use(
   cors({
     origin: true,
     credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE'],
+    methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE', 'PUT'],
   }),
 );
+
+app.put('/notepad/editpost', note);
 app.delete('/notepad/delete', note);
 app.get('/notepad/list', note);
 app.get('/account/calendar/data', account);
