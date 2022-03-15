@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { NoteRead, NoteTop } from '../../../makeStyles/MakeNotePad';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -16,9 +15,13 @@ const Read = () => {
   const selectId = useSelector(
     (state: RootStateOrAny) => state.notePadReducer.id,
   );
+  const userKey = useSelector(
+    (state: RootStateOrAny) => state.userReducer.userLogin.id,
+  );
 
   const handleDelete = (id: number) => {
-    dispatch(deleteContent(id));
+    dispatch(deleteContent({ id, userKey }));
+    navigate('/notepad/main');
   };
 
   const classes = NoteRead();

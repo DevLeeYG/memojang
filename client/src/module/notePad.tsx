@@ -1,13 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const WRITE_SUCCESS = 'userAUTH/WRITE_SUCCESS';
-const WRITE_FAILURE = 'userAUTH/WRITE_FAILURE';
-const WRITE_REQUEST = 'userAUTH/WRITE_REQUEST';
 const REQUEST_LIST = 'userAUTH/REQUEST_LIST';
 const PICK_ID = 'useAUTH/PICK_ID';
-const PICK_DELETE = 'userAUTH/PICK_DELETE';
 const initialState = {
   id: 0,
   content: [],
@@ -27,15 +23,33 @@ export const requestList = (data: any) => {
   };
 };
 
-export const deleteContent = (id: any) => {
+export const getList = (key: number) => {
+  return (dispatch: any) => {
+    axios
+      .get('http://localhost:8080/notepad/list', {
+        params: { userkey: key },
+      })
+
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch(requestList(res.data));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+export const deleteContent = (data: any) => {
   return (dispatch: any) => {
     axios
       .delete(`http://localhost:8080/notepad/delete`, {
-        data: { id },
+        data: { data },
       })
-      .then((res) => {
-        if (res.status === 200) {
-        }
+
+      .catch((err) => {
+        console.log(err);
       });
   };
 };
@@ -52,6 +66,9 @@ export const writeSave = (data: any) => {
       .then((res) => {
         if (res.status === 200) {
         }
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 };
@@ -77,4 +94,5 @@ const notePadReducer = (state = initialState, action: any) => {
       return state;
   }
 };
+
 export default notePadReducer;
