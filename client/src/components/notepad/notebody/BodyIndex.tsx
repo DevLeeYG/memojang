@@ -31,7 +31,7 @@ const BodyIndex = ({ handleReq, title, text, setText }: any) => {
   };
 
   const editData = () => {
-    dispatch(requestEditPost({ userKey, title, text, selectId }));
+    requestEditPost({ userKey, title, text, selectId });
     navigate('/notepad/main');
     handleReq();
   };

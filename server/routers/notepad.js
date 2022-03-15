@@ -18,7 +18,18 @@ router.get('/notepad/list', (req, res) => {
   });
 });
 
-router.put('/notepad/editpost', (req, res) => {});
+router.put('/notepad/editpost', (req, res) => {
+  const { userKey, title, text, selectId } = req.body.data;
+
+  const query = `UPDATE Note SET title='${title}' , data='${text}' WHERE  id = ${selectId} and user_key = ${userKey} `;
+
+  connection.query(query, (err, result) => {
+    if (err) throw err;
+    else {
+      res.status(200).send('수정완료');
+    }
+  });
+});
 
 router.delete('/notepad/delete', (req, res) => {
   const id = req.body.data.id;
