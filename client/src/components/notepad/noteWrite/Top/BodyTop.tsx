@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { NoteTop } from '../../../../makeStyles/MakeNotePad';
-import BodyIndex from '../middle/BodyIMiddle';
+import BodyIndex from '../Footer/BodyFooter';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 

@@ -35,80 +35,76 @@ const Read = () => {
   const pickData = data?.filter((el: any) => {
     return el.id === selectId;
   });
-  const nextData = data?.findIndex((el: any) => {
-    return el.id < selectId;
-  });
+  // const nextData = data?.findIndex((el: any) => {
+  //   return el.id < selectId;
+  // });
 
-  const prevData = data?.findIndex((el: any) => {
-    return el.id > selectId;
-  });
-  console.log(nextData, prevData);
+  // const prevData = data?.findIndex((el: any) => {
+  //   return el.id > selectId;
+  // });
 
-  console.log(pickData);
+  return (
+    <div>
+      <div className={classes.Top}>
+        <div className={classes.readtitle}>{pickData[0].title}</div>
 
-  const pick = pickData?.map((el: any) => {
-    return (
-      <div key={el.id}>
-        <div className={classes.Top}>
-          <div className={classes.readtitle}>{el.title}</div>
-
+        <button
+          onClick={() => navigate('/notepad/main')}
+          className={Top.button}
+        >
+          <ArrowBackIosIcon />
+        </button>
+      </div>
+      <div className={classes.option}>
+        <span>
           <button
-            onClick={() => navigate('/notepad/main')}
-            className={Top.button}
+            onClick={() => {
+              handlePostEdit();
+            }}
+            className={classes.btn}
           >
-            <ArrowBackIosIcon />
+            수정
           </button>
-        </div>
-        <div className={classes.option}>
-          <span>
-            <button
-              onClick={() => {
-                handlePostEdit();
-              }}
-              className={classes.btn}
-            >
-              수정
-            </button>
-          </span>
-          <span>
-            <button onClick={() => handleDelete(el.id)} className={classes.btn}>
-              삭제
-            </button>
-          </span>
-        </div>
-        <div className={classes.body}>
-          <div className={classes.inner}>
-            <Editor pickText={el.data} />
-          </div>
-        </div>
-
-        <div className={classes.readFoot}>
-          <div className={classes.prvNextRead}>
-            <i className={classes.icon}>
-              <ArrowCircleLeftIcon fontSize="large" />
-            </i>
-
-            <div className={classes.inContent}>
-              <p>이전글</p>
-              <h3>a</h3>
-            </div>
-          </div>
-
-          <div className={classes.prvNextRead}>
-            <div style={{ textAlign: 'right' }} className={classes.inContent}>
-              <p>다음 글</p>
-              <h3>a</h3>
-            </div>
-            <i className={classes.icon}>
-              <ArrowCircleRightIcon fontSize="large" />
-            </i>
-          </div>
+        </span>
+        <span>
+          <button
+            onClick={() => handleDelete(pickData[0].id)}
+            className={classes.btn}
+          >
+            삭제
+          </button>
+        </span>
+      </div>
+      <div className={classes.body}>
+        <div className={classes.inner}>
+          <Editor pickText={pickData[0].data} />
         </div>
       </div>
-    );
-  });
 
-  return <>{pick}</>;
+      <div className={classes.readFoot}>
+        <div className={classes.prvNextRead}>
+          <i className={classes.icon}>
+            <ArrowCircleLeftIcon fontSize="large" />
+          </i>
+
+          <div className={classes.inContent}>
+            <p>이전글</p>
+            <h3>a</h3>
+          </div>
+        </div>
+
+        <div className={classes.prvNextRead}>
+          <div style={{ textAlign: 'right' }} className={classes.inContent}>
+            <p>다음 글</p>
+            <h3>a</h3>
+          </div>
+          <i className={classes.icon}>
+            <ArrowCircleRightIcon fontSize="large" />
+          </i>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Read;
