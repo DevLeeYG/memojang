@@ -5,7 +5,7 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import { deleteContent } from '../../../module/notePad';
-import Editor from '../../../components/notepad/notebody/editor/Editor';
+import Editor from '../../../components/notepad/noteWrite/editor/Editor';
 
 const Read = () => {
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ const Read = () => {
   const data = useSelector(
     (state: RootStateOrAny) => state.notePadReducer.content,
   );
+
   const selectId = useSelector(
     (state: RootStateOrAny) => state.notePadReducer.id,
   );
@@ -31,11 +32,21 @@ const Read = () => {
   const classes = NoteRead();
   const Top = NoteTop();
 
-  const pickData = data.filter((el: any) => {
+  const pickData = data?.filter((el: any) => {
     return el.id === selectId;
   });
+  const nextData = data?.findIndex((el: any) => {
+    return el.id < selectId;
+  });
 
-  const pick = pickData.map((el: any) => {
+  const prevData = data?.findIndex((el: any) => {
+    return el.id > selectId;
+  });
+  console.log(nextData, prevData);
+
+  console.log(pickData);
+
+  const pick = pickData?.map((el: any) => {
     return (
       <div key={el.id}>
         <div className={classes.Top}>
@@ -67,7 +78,6 @@ const Read = () => {
         </div>
         <div className={classes.body}>
           <div className={classes.inner}>
-            {' '}
             <Editor pickText={el.data} />
           </div>
         </div>
@@ -77,15 +87,17 @@ const Read = () => {
             <i className={classes.icon}>
               <ArrowCircleLeftIcon fontSize="large" />
             </i>
+
             <div className={classes.inContent}>
               <p>이전글</p>
-              <h3>제목</h3>
+              <h3>a</h3>
             </div>
           </div>
+
           <div className={classes.prvNextRead}>
             <div style={{ textAlign: 'right' }} className={classes.inContent}>
               <p>다음 글</p>
-              <h3>제목</h3>
+              <h3>a</h3>
             </div>
             <i className={classes.icon}>
               <ArrowCircleRightIcon fontSize="large" />

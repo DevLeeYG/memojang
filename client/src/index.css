@@ -2,20 +2,3 @@ body {
   margin: 1;
   border: transparent;
 }
-.ql-container {
-  border: transparent;
-}
-
-/* Snow Theme */
-.ql-snow.ql-toolbar {
-  border: transparent;
-}
-
-/* Bubble Theme */
-.ql-bubble .ql-editor {
-  border: transparent;
-  border-radius: 0.5em;
-}
-.button {
-  border: 'none';
-}

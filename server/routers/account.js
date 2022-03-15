@@ -5,8 +5,6 @@ const mysql = require('mysql');
 const SQL = require('sql-template-strings');
 const connection = mysql.createConnection(dbconfig);
 
-var moment = require('moment'); // require
-
 router.get('/account/total/budget', function (req, res) {
   const { userKey } = req.query;
   const findMyTotal = `Select * FROM Money WHERE user_key = ${userKey}`;
@@ -37,13 +35,11 @@ router.get('/account/total/money/spend', (req, res) => {
 router.get(`/account/calendar/data`, (req, res) => {
   const { userKey, date } = req.query;
 
-  // const today = new Date(date).toISOString().split('T')[0];
-  // const monthData = new Date(month).toISOString().slice(5, 7);
   const yearData = new Date(date).toISOString().slice(0, 4);
   const findYear = `SELECT * FROM Account WHERE user_key=${userKey} and YEAR(date)=${yearData};`;
-  console.log(yearData);
+
   const query = `${findYear}`;
-  let find = [];
+
   connection.query(query, (err, result) => {
     console.log('data', result);
     if (err) throw err;

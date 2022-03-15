@@ -1,10 +1,10 @@
 import React from 'react';
-import Topindex from '../../../components/notepad/Top/Topindex';
+import Body from '../../../components/notepad/noteWrite/Top/BodyTop';
 
 const Write = () => {
   return (
     <div>
-      <Topindex />
+      <Body />
     </div>
   );
 };

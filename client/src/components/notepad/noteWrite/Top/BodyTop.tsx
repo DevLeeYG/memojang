@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState } from 'react';
-import { NoteTop } from '../../../makeStyles/MakeNotePad';
-import BodyIndex from '../notebody/BodyIndex';
+import { NoteTop } from '../../../../makeStyles/MakeNotePad';
+import BodyIndex from '../middle/BodyIMiddle';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 
-const Topindex = ({ pickdataTitle, pickdataData }: any) => {
+const BodyTop = ({ pickdataTitle, pickdataData }: any) => {
   const classes = NoteTop();
   const navigate = useNavigate();
 
@@ -56,4 +56,4 @@ const Topindex = ({ pickdataTitle, pickdataData }: any) => {
   );
 };
 
-export default Topindex;
+export default BodyTop;
