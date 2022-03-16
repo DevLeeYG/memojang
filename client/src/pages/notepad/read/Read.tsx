@@ -28,8 +28,8 @@ const Read = () => {
     return postElement.id === selectId;
   });
 
-  const index = data?.findIndex((postElement: postElement) => {
-    return postElement === selectId;
+  const index = data?.findIndex((el: postElement) => {
+    return el.id === selectId;
   });
 
   let prevdata = data[index - 1];
