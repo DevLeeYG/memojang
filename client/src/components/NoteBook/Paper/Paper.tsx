@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import { NoteBody } from '../../../../makeStyles/MakeNotePad';
+import { NoteBody } from '../../../makeStyles/MakeNotePad';
 import 'react-quill/dist/quill.bubble.css';
 import { useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const MainIndex = ({ pickText, text, setText }: any) => {
+const Paper = ({ pickText, text, setText }: any) => {
   const classes = NoteBody();
 
   const modules = useMemo(
@@ -53,4 +53,4 @@ const MainIndex = ({ pickText, text, setText }: any) => {
   );
 };
 
-export default MainIndex;
+export default Paper;

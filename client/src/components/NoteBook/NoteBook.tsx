@@ -1,12 +1,11 @@
 /* eslint-disable no-lone-blocks */
-import React, { useState } from 'react';
-import MainIndex from '../main/MainIndex';
-import { NoteTop, NoteBody } from '../../../../makeStyles/MakeNotePad';
+import Paper from './Paper/Paper';
+import { NoteTop, NoteBody } from '../../makeStyles/MakeNotePad';
 import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
-import { requestEditPost, writeSave } from '../../../../module/notePad';
+import { requestEditPost, writeSave } from '../../module/notePad';
 import { useLocation } from 'react-router-dom';
 
-const BodyMiddle = ({ handleReq, title, text, setText }: any) => {
+const NoteBook = ({ handleReq, title, text, setText }: any) => {
   const date = new Date();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -38,7 +37,7 @@ const BodyMiddle = ({ handleReq, title, text, setText }: any) => {
   return (
     <div>
       <div className={classes.root}>
-        <MainIndex text={text} setText={setText} />
+        <Paper text={text} setText={setText} />
       </div>
       <div className={classses.writeFoot}>
         {path === '/notepad/editpost' ? (
@@ -55,4 +54,4 @@ const BodyMiddle = ({ handleReq, title, text, setText }: any) => {
   );
 };
 
-export default BodyMiddle;
+export default NoteBook;

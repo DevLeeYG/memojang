@@ -131,7 +131,6 @@ export const NoteBody = makeStyles((theme) => ({
   },
 
   main: {
-    padding: '100px',
     boxShadow: 'rgb(0 0 0 / 10%) 0px 0px 8px',
     height: '55vh',
     width: '100%',
@@ -177,8 +176,6 @@ export const NoteRead = makeStyles((theme) => ({
     marginTop: '10px',
 
     width: '100%',
-    padding: '85px',
-    overflow: 'scroll',
   },
   list: {
     boxShadow: 'rgb(0 0 0 / 5%) 0px 5px 0px 0px',

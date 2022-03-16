@@ -24,3 +24,16 @@ export interface BoardProps {
   date: Date;
   getCalendarData: Function;
 }
+
+export interface WriteProps {
+  pickdataTitle: string;
+  pickdataData: string;
+}
+
+export interface postElement {
+  id: number;
+  user_key: number;
+  title: string;
+  data: string;
+  date: Date;
+}

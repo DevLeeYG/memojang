@@ -5,7 +5,7 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import { deleteContent } from '../../../module/notePad';
-import MainIndex from '../../../components/notepad/noteWrite/main/MainIndex';
+import Paper from '../../../components/NoteBook/Paper/Paper';
 
 const Read = () => {
   const dispatch = useDispatch();
@@ -70,7 +70,7 @@ const Read = () => {
       </div>
       <div className={classes.body}>
         <div className={classes.inner}>
-          <MainIndex pickText={pickData[0].data} />
+          <Paper pickText={pickData[0].data} />
         </div>
       </div>
 

@@ -7,6 +7,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import { pickListId, requestList } from '../../../module/notePad';
 import axios from 'axios';
+import { postElement } from '../../../components/Type/Types';
 const Index = () => {
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
@@ -38,7 +39,7 @@ const Index = () => {
     navigate(`/notepad/read/${id}`);
   };
 
-  const list = data.map((listArray: any) => {
+  const list = data.map((listArray: postElement) => {
     let date = new Date(listArray.date);
     return (
       <div
