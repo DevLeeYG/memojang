@@ -35,13 +35,6 @@ const Read = () => {
   const pickData = data?.filter((el: any) => {
     return el.id === selectId;
   });
-  // const nextData = data?.findIndex((el: any) => {
-  //   return el.id < selectId;
-  // });
-
-  // const prevData = data?.findIndex((el: any) => {
-  //   return el.id > selectId;
-  // });
 
   return (
     <div>
