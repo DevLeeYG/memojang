@@ -37,9 +37,11 @@ const Read = () => {
 
   const pickPrev = (prevdataID: any) => {
     dispatch(pickListId(prevdataID));
+    navigate(`/notepad/read/${prevdataID}`);
   };
   const pickNext = (nextdataID: any) => {
     dispatch(pickListId(nextdataID));
+    navigate(`/notepad/read/${nextdataID}`);
   };
 
   const handleDelete = (id: number) => {
@@ -49,16 +51,6 @@ const Read = () => {
   const handlePostEdit = () => {
     navigate('/notepad/editpost');
   };
-
-  // const handlePrevData = (id: number) => {
-  //   dispatch(pickPrevData(prevdata));
-  //   navigate(`/notepad/read/${id}`);
-  // };
-
-  // const handleNextData = (id: number) => {
-  //   dispatch(pickNextData(nextdata));
-  //   navigate(`/notepad/read/${id}`);
-  // };
 
   return (
     <div>

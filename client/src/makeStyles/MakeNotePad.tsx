@@ -36,9 +36,17 @@ export const NoteHome = makeStyles((theme) => ({
     },
   },
   list: {
+    width: '100%',
     boxShadow: 'rgb(0 0 0 / 5%) 0px 5px 0px 0px',
     paddingBottom: '30px',
     padding: '10px',
+  },
+  listItem: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: '-webkit-box',
+    '-webkit-line-clamp': 1,
+    '-webkit-box-orient': 'vertical',
   },
 
   readtitle: {
