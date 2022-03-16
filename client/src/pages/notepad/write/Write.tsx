@@ -5,15 +5,16 @@ import { NoteTop } from '../../../makeStyles/MakeNotePad';
 import NoteBook from '../../../components/NoteBook/NoteBook';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
+import { WriteProps } from '../../../components/Type/Types';
 
-const Write = ({ pickdataTitle, pickdataData }: any) => {
+const Write = ({ pickdataTitle, pickdataData }: WriteProps) => {
   const classes = NoteTop();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState<string>(
     pickdataTitle ? pickdataTitle : '',
   );
-  const [text, setText] = useState<string>(pickdataData ? pickdataData : '');
+  const [text, setText] = useState(pickdataData ? pickdataData : '');
 
   const handleReq = () => {
     navigate('/notepad/main');

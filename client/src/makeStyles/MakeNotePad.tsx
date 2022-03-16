@@ -4,7 +4,7 @@ export const NoteHome = makeStyles((theme) => ({
   Top: {
     display: 'flex',
     width: '80%',
-    height: '65px',
+    height: '100%',
     justifyContent: 'space-between',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -36,9 +36,17 @@ export const NoteHome = makeStyles((theme) => ({
     },
   },
   list: {
+    width: '100%',
     boxShadow: 'rgb(0 0 0 / 5%) 0px 5px 0px 0px',
     paddingBottom: '30px',
     padding: '10px',
+  },
+  listItem: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    display: '-webkit-box',
+    '-webkit-line-clamp': 1,
+    '-webkit-box-orient': 'vertical',
   },
 
   readtitle: {
@@ -112,7 +120,7 @@ export const NoteTop = makeStyles((theme) => ({
     backgroundColor: '#63E5BD',
     margin: '10px',
     border: 'none',
-
+    height: '70px',
     borderRadius: '5px',
     '&:hover': {
       backgroundColor: '#80f2ce',
@@ -157,8 +165,9 @@ export const NoteBody = makeStyles((theme) => ({
 export const NoteRead = makeStyles((theme) => ({
   Top: {
     display: 'flex',
+    alignItems: 'center',
     width: '80%',
-    height: '65px',
+    height: '100%',
     justifyContent: 'space-between',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -188,6 +197,9 @@ export const NoteRead = makeStyles((theme) => ({
     height: '100%',
     paddingLeft: '15px',
     fontSize: '2.5rem',
+    [theme.breakpoints.up('xs')]: {
+      fontSize: '1.5rem',
+    },
   },
   readFoot: {
     backgroundColor: '#FCFDFC',
@@ -196,21 +208,32 @@ export const NoteRead = makeStyles((theme) => ({
     marginRight: 'auto',
     boxShadow: 'rgb(0 0 0 / 30%) 0px 0px 8px',
     borderLeft: 'none',
-    height: '100px',
+    height: '100%',
     width: '80%',
     justifyContent: 'center',
     alignItems: 'center',
+    [theme.breakpoints.up('xs')]: {
+      flexDirection: 'column',
+    },
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row',
+    },
   },
   prvNextRead: {
     display: 'flex',
+    alignItems: 'center',
     margin: '10px',
     backgroundColor: '#f8f9fa',
-    height: '80px',
-    width: '300px',
+    height: '100%',
+    width: '100%',
     borderRadius: '5px',
     '& h3': {
       marginTop: '10px',
     },
+  },
+  footTitle: {
+    fontSize: '22px',
+    fontStyle: 'bold',
   },
   option: {
     display: 'flex',

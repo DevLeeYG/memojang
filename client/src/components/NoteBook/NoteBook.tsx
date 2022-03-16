@@ -23,13 +23,13 @@ const NoteBook = ({ handleReq, title, text, setText }: noteBookProps) => {
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const reqData = () => {
+  const reqData = (): void => {
     dispatch(writeSave({ userKey, title, text, date }));
 
     handleReq();
   };
 
-  const editData = () => {
+  const editData = (): void => {
     requestEditPost({ userKey, title, text, selectId });
 
     handleReq();

@@ -26,8 +26,8 @@ export interface BoardProps {
 }
 
 export interface WriteProps {
-  pickdataTitle: string;
-  pickdataData: string;
+  pickdataTitle?: string;
+  pickdataData?: string;
 }
 
 export interface postElement {
@@ -42,11 +42,28 @@ export interface noteBookProps {
   handleReq: Function;
   title: string;
   text: string;
-  setText: Function;
+  setText: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface PaperProps {
-  pickText: string;
+  pickText?: string;
+  text?: string;
+  setText?: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface dispatchData {
+  userKey: number;
+  title: string;
   text: string;
-  setText: Function;
+  date?: Date;
+  selectId?: number;
+}
+export interface deleteData {
+  id: number;
+  userKey: number;
+}
+
+export interface actionType {
+  type: string;
+  data: postElement;
 }

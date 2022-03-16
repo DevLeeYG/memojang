@@ -28,18 +28,20 @@ const Read = () => {
     return postElement.id === selectId;
   });
 
-  const index = data?.findIndex((el: any) => {
-    return el.id === selectId;
+  const index = data?.findIndex((postElement: postElement) => {
+    return postElement === selectId;
   });
 
   let prevdata = data[index - 1];
   let nextdata = data[index + 1];
 
-  const pickPrev = (prevdataID: any) => {
+  const pickPrev = (prevdataID: number) => {
     dispatch(pickListId(prevdataID));
+    navigate(`/notepad/read/${prevdataID}`);
   };
-  const pickNext = (nextdataID: any) => {
+  const pickNext = (nextdataID: number) => {
     dispatch(pickListId(nextdataID));
+    navigate(`/notepad/read/${nextdataID}`);
   };
 
   const handleDelete = (id: number) => {
@@ -49,16 +51,6 @@ const Read = () => {
   const handlePostEdit = () => {
     navigate('/notepad/editpost');
   };
-
-  // const handlePrevData = (id: number) => {
-  //   dispatch(pickPrevData(prevdata));
-  //   navigate(`/notepad/read/${id}`);
-  // };
-
-  // const handleNextData = (id: number) => {
-  //   dispatch(pickNextData(nextdata));
-  //   navigate(`/notepad/read/${id}`);
-  // };
 
   return (
     <div>
@@ -94,7 +86,7 @@ const Read = () => {
       </div>
       <div className={classes.body}>
         <div className={classes.inner}>
-          <Paper pickText={pickData[0].data} />
+          <Paper pickText={pickData[0].data} text={''} />
         </div>
       </div>
 
@@ -107,7 +99,7 @@ const Read = () => {
 
             <div className={classes.inContent}>
               <p>이전글</p>
-              <h3>{nextdata.title}</h3>
+              <div className={classes.footTitle}>{nextdata.title}</div>
             </div>
           </div>
         ) : null}
@@ -115,7 +107,7 @@ const Read = () => {
           <div className={classes.prvNextRead}>
             <div style={{ textAlign: 'right' }} className={classes.inContent}>
               <p>다음 글</p>
-              <h3>{prevdata.title}</h3>
+              <div className={classes.footTitle}>{prevdata.title}</div>
             </div>
             <i onClick={() => pickPrev(prevdata.id)} className={classes.icon}>
               <ArrowCircleRightIcon fontSize="large" />

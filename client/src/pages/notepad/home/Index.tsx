@@ -49,8 +49,9 @@ const Index = () => {
       >
         <h2>{listArray.title}</h2>
         <p
+          className={classes.listItem}
           dangerouslySetInnerHTML={{
-            __html: listArray.data.slice(0, 20) + '...',
+            __html: listArray.data,
           }}
         ></p>
 
