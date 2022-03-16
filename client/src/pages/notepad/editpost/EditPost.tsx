@@ -1,5 +1,5 @@
 import React from 'react';
-import Topindex from '../../../components/notepad/BodyTop';
+import Write from '../write/Write';
 import { useSelector, RootStateOrAny } from 'react-redux';
 const EditPost = () => {
   const selectId = useSelector(
@@ -17,7 +17,7 @@ const EditPost = () => {
 
   return (
     <div>
-      <Topindex pickdataTitle={title} pickdataData={data} />
+      <Write pickdataTitle={title} pickdataData={data} />
     </div>
   );
 };
