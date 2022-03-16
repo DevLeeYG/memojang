@@ -107,7 +107,7 @@ const Read = () => {
 
             <div className={classes.inContent}>
               <p>이전글</p>
-              <h3>{nextdata.title}</h3>
+              <div className={classes.footTitle}>{nextdata.title}</div>
             </div>
           </div>
         ) : null}
@@ -115,7 +115,7 @@ const Read = () => {
           <div className={classes.prvNextRead}>
             <div style={{ textAlign: 'right' }} className={classes.inContent}>
               <p>다음 글</p>
-              <h3>{prevdata.title}</h3>
+              <div className={classes.footTitle}>{prevdata.title}</div>
             </div>
             <i onClick={() => pickPrev(prevdata.id)} className={classes.icon}>
               <ArrowCircleRightIcon fontSize="large" />
