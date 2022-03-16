@@ -4,17 +4,16 @@ import MainIndex from '../main/MainIndex';
 import { NoteTop, NoteBody } from '../../../../makeStyles/MakeNotePad';
 import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 import { requestEditPost, writeSave } from '../../../../module/notePad';
+import { useLocation } from 'react-router-dom';
 
-import { useNavigate, useLocation } from 'react-router-dom';
 const BodyMiddle = ({ handleReq, title, text, setText }: any) => {
-  const navigate = useNavigate();
   const date = new Date();
   const location = useLocation();
   const dispatch = useDispatch();
   const classes = NoteBody();
   const classses = NoteTop();
   const path = location.pathname;
-  console.log(date);
+
   const selectId = useSelector(
     (state: RootStateOrAny) => state.notePadReducer.id,
   );
