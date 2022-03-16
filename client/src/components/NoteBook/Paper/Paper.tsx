@@ -4,8 +4,9 @@ import 'react-quill/dist/quill.bubble.css';
 import { useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { PaperProps } from '../../Type/Types';
 
-const Paper = ({ pickText, text, setText }: any) => {
+const Paper = ({ pickText, text, setText }: PaperProps) => {
   const classes = NoteBody();
 
   const modules = useMemo(

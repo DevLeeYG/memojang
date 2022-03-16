@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import axios from 'axios';
+import { actionType, deleteData, dispatchData } from '../components/Type/Types';
 
-const WRITE_SUCCESS = 'userAUTH/WRITE_SUCCESS';
-const REQUEST_LIST = 'userAUTH/REQUEST_LIST';
-const PICK_ID = 'useAUTH/PICK_ID';
-const PICK_PREVDATA = 'useATUH/PICK_PREVDATA';
-const PICK_NEXTDATA = 'useATUH/PCIK_NEXTDATA';
+export const WRITE_SUCCESS = 'userAUTH/WRITE_SUCCESS';
+export const REQUEST_LIST = 'userAUTH/REQUEST_LIST';
+export const PICK_ID = 'useAUTH/PICK_ID';
+export const PICK_PREVDATA = 'useATUH/PICK_PREVDATA';
+export const PICK_NEXTDATA = 'useATUH/PCIK_NEXTDATA';
 const initialState = {
   id: 0,
   content: [],
@@ -13,34 +14,36 @@ const initialState = {
   nextdata: [],
 };
 
-export const pickNextData = (data: any) => {
+export const pickNextData = (data: dispatchData) => {
   return {
     type: PICK_NEXTDATA,
     data,
   };
 };
-export const pickPrevData = (data: any) => {
+export const pickPrevData = (data: dispatchData) => {
   return {
     type: PICK_PREVDATA,
     data,
   };
 };
 
-export const pickListId = (data: any) => {
+export const pickListId = (data: number) => {
   return {
     type: PICK_ID,
     data,
   };
 };
 
-export const requestList = (data: any) => {
+export const requestList = (data: dispatchData) => {
   return {
     type: REQUEST_LIST,
     data,
   };
 };
 
-export const requestEditPost = (data: any) => {
+export const requestEditPost = (data: dispatchData) => {
+  console.log('@', data);
+
   axios
     .put('http://localhost:8080/notepad/editpost', {
       data,
@@ -71,8 +74,8 @@ export const getList = (key: number) => {
   };
 };
 
-export const deleteContent = (data: any) => {
-  return (dispatch: any) => {
+export const deleteContent = (data: deleteData) => {
+  return () => {
     axios
       .delete(`http://localhost:8080/notepad/delete`, {
         data: { data },
@@ -84,8 +87,8 @@ export const deleteContent = (data: any) => {
   };
 };
 
-export const writeSave = (data: any) => {
-  return (dispatch: any) => {
+export const writeSave = (data: dispatchData) => {
+  return () => {
     axios
       .post('http://localhost:8080/notepad/save', {
         userKey: data.userKey,
@@ -103,7 +106,7 @@ export const writeSave = (data: any) => {
   };
 };
 
-const notePadReducer = (state = initialState, action: any) => {
+const notePadReducer = (state = initialState, action: actionType) => {
   switch (action.type) {
     case WRITE_SUCCESS:
       return {

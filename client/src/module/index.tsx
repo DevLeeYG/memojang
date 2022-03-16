@@ -3,8 +3,8 @@ import userReducer from './userAuth';
 import acReducer from './accReducer';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import userAuth from './userAuth';
 import notePadReducer from './notePad';
+
 export type RootState = ReturnType<typeof rootReducer>;
 const persistConfig = {
   key: 'root',

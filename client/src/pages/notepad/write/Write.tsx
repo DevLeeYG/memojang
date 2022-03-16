@@ -14,7 +14,7 @@ const Write = ({ pickdataTitle, pickdataData }: WriteProps) => {
   const [title, setTitle] = useState<string>(
     pickdataTitle ? pickdataTitle : '',
   );
-  const [text, setText] = useState<string>(pickdataData ? pickdataData : '');
+  const [text, setText] = useState(pickdataData ? pickdataData : '');
 
   const handleReq = () => {
     navigate('/notepad/main');

@@ -28,18 +28,18 @@ const Read = () => {
     return postElement.id === selectId;
   });
 
-  const index = data?.findIndex((el: any) => {
-    return el.id === selectId;
+  const index = data?.findIndex((postElement: postElement) => {
+    return postElement === selectId;
   });
 
   let prevdata = data[index - 1];
   let nextdata = data[index + 1];
 
-  const pickPrev = (prevdataID: any) => {
+  const pickPrev = (prevdataID: number) => {
     dispatch(pickListId(prevdataID));
     navigate(`/notepad/read/${prevdataID}`);
   };
-  const pickNext = (nextdataID: any) => {
+  const pickNext = (nextdataID: number) => {
     dispatch(pickListId(nextdataID));
     navigate(`/notepad/read/${nextdataID}`);
   };
@@ -86,7 +86,7 @@ const Read = () => {
       </div>
       <div className={classes.body}>
         <div className={classes.inner}>
-          <Paper pickText={pickData[0].data} />
+          <Paper pickText={pickData[0].data} text={''} />
         </div>
       </div>
 
