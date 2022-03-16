@@ -26,8 +26,8 @@ export interface BoardProps {
 }
 
 export interface WriteProps {
-  pickdataTitle: string;
-  pickdataData: string;
+  pickdataTitle?: string;
+  pickdataData?: string;
 }
 
 export interface postElement {
