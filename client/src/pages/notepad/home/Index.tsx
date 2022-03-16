@@ -7,12 +7,13 @@ import CreateIcon from '@mui/icons-material/Create';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import { pickListId, requestList } from '../../../module/notePad';
 import axios from 'axios';
+import { postElement } from '../../../components/Type/Types';
 const Index = () => {
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
 
-  const getListss = () => {
+  const getLists = () => {
     axios
       .get('http://localhost:8080/notepad/list', {
         params: { userKey: userKey },
@@ -21,7 +22,7 @@ const Index = () => {
   };
 
   useEffect(() => {
-    getListss();
+    getLists();
   }, []);
 
   const dispatch = useDispatch();
@@ -38,7 +39,8 @@ const Index = () => {
     navigate(`/notepad/read/${id}`);
   };
 
-  const list = data.map((listArray: any) => {
+  const list = data.map((listArray: postElement) => {
+    let date = new Date(listArray.date);
     return (
       <div
         key={listArray.id}
@@ -48,17 +50,21 @@ const Index = () => {
         <h2>{listArray.title}</h2>
         <p
           dangerouslySetInnerHTML={{
-            __html: listArray.data.slice(0, 5),
+            __html: listArray.data.slice(0, 20) + '...',
           }}
         ></p>
 
-        <div>2022-3-11</div>
+        <div>{`${date.getFullYear()} 년 ${
+          date.getMonth() + 1
+        }월 ${date.getDate()}일`}</div>
       </div>
     );
   });
+
   return (
     <div>
       <div className={classes.Top}>
+        <div></div>
         <button
           onClick={() => navigate('/notepad/write')}
           className={Top.button}

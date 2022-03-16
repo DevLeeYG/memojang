@@ -1,11 +1,9 @@
 import { Container, Box } from '@material-ui/core';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import AuthForm from './form/AuthForm';
 import AuthHead from './form/AuthHead';
 
 const Auth = () => {
-  const [formChange, setFormChange] = useState<Boolean>(false);
   const [singUp, setSignUp] = useState<Boolean>(false);
 
   return (
@@ -23,12 +21,7 @@ const Auth = () => {
         >
           <Box sx={{ border: '1px solid yellow' }}>
             <AuthHead />
-            <AuthForm
-              singUp={singUp}
-              setFormChange={setFormChange}
-              formChange={formChange}
-              setSignUp={setSignUp}
-            />
+            <AuthForm singUp={singUp} setSignUp={setSignUp} />
           </Box>
         </Box>
       </Container>

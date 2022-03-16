@@ -25,7 +25,6 @@ const Book = () => {
         },
       })
       .then((res) => {
-        console.log(123);
         setYearData(res.data);
       });
   }, [date, userKey]);

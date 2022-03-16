@@ -26,9 +26,11 @@ app.use(
   cors({
     origin: true,
     credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE'],
+    methods: ['GET', 'POST', 'PATCH', 'OPTIONS', 'DELETE', 'PUT'],
   }),
 );
+
+app.put('/notepad/editpost', note);
 app.delete('/notepad/delete', note);
 app.get('/notepad/list', note);
 app.get('/account/calendar/data', account);
@@ -46,7 +48,6 @@ app.post('/login', (req, res) => {
   const userfind = {};
 
   connection.query(findUser, (err, result) => {
-    console.log('reqrer', result);
     for (value of result) {
       userfind.id = value.user_key;
       userfind.username = value.user_name;
@@ -93,7 +94,6 @@ app.post('/signup', (req, res) => {
 
       if (array[0] !== undefined) {
         res.status(401).send('이미있는 회원입니다');
-        console.log('이미있는 회원');
       } else {
         connection.query(insertUser);
         res.status(200).send('회원가입 완료');

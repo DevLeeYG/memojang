@@ -25,7 +25,6 @@ const LoginRequestAction = (data: boolean) => {
 };
 
 const LoginSuccessAction = (data: any) => {
-  console.log(data);
   return {
     type: LOGIN_SUCCESS,
     data,

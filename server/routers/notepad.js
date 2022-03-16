@@ -13,7 +13,20 @@ router.get('/notepad/list', (req, res) => {
   connection.query(query, (err, result) => {
     if (err) res.status(400).send('안돼');
     else {
-      res.status(200).send(result);
+      res.status(200).send(result.reverse());
+    }
+  });
+});
+
+router.put('/notepad/editpost', (req, res) => {
+  const { userKey, title, text, selectId } = req.body.data;
+
+  const query = `UPDATE Note SET title='${title}' , data='${text}' WHERE  id = ${selectId} and user_key = ${userKey} `;
+
+  connection.query(query, (err, result) => {
+    if (err) throw err;
+    else {
+      res.status(200).send('수정완료');
     }
   });
 });
@@ -42,9 +55,12 @@ router.post('/notepad/save', (req, res) => {
   let title = data.title;
   let text = data.text;
   let date = data.date;
-  let today = new Date(date);
 
-  const query = `INSERT INTO Note(user_key,title,data) VALUES(${userKey},'${title}','${text}')`;
+  const today = new Date(date).toISOString().substr(0, 10);
+
+  console.log('date', today);
+
+  const query = `INSERT INTO Note(user_key,title,data,date) VALUES(${userKey},'${title}','${text}','${today}')`;
   connection.query(query, (err, result) => {
     if (err) throw err;
     else {
