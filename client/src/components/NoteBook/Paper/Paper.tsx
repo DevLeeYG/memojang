@@ -4,10 +4,15 @@ import 'react-quill/dist/quill.bubble.css';
 import { useMemo } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
+import { useSelector, RootStateOrAny } from 'react-redux';
 const Paper = ({ pickText, text, setText }: any) => {
   const classes = NoteBody();
-
+  const prevdata = useSelector(
+    (state: RootStateOrAny) => state.notePadReducer.prevdata,
+  );
+  const nextdata = useSelector(
+    (state: RootStateOrAny) => state.notePadReducer.nextdata,
+  );
   const modules = useMemo(
     () => ({
       toolbar: {

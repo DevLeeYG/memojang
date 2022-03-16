@@ -4,20 +4,21 @@ import { NoteTop, NoteBody } from '../../makeStyles/MakeNotePad';
 import { RootStateOrAny, useSelector, useDispatch } from 'react-redux';
 import { requestEditPost, writeSave } from '../../module/notePad';
 import { useLocation } from 'react-router-dom';
+import { noteBookProps } from '../Type/Types';
 
-const NoteBook = ({ handleReq, title, text, setText }: any) => {
-  const date = new Date();
+const NoteBook = ({ handleReq, title, text, setText }: noteBookProps) => {
+  const date: Date = new Date();
   const location = useLocation();
   const dispatch = useDispatch();
   const classes = NoteBody();
   const classses = NoteTop();
   const path = location.pathname;
 
-  const selectId = useSelector(
+  const selectId: number = useSelector(
     (state: RootStateOrAny) => state.notePadReducer.id,
   );
 
-  const userKey = useSelector(
+  const userKey: number = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
 

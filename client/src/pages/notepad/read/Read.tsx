@@ -4,12 +4,20 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
-import { deleteContent } from '../../../module/notePad';
+import {
+  deleteContent,
+  pickPrevData,
+  pickNextData,
+} from '../../../module/notePad';
 import Paper from '../../../components/NoteBook/Paper/Paper';
+import { postElement } from '../../../components/Type/Types';
 
 const Read = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const classes = NoteRead();
+  const Top = NoteTop();
+
   const data = useSelector(
     (state: RootStateOrAny) => state.notePadReducer.content,
   );
@@ -20,6 +28,16 @@ const Read = () => {
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
+  const pickData = data?.filter((postElement: postElement) => {
+    return postElement.id === selectId;
+  });
+
+  const index = data?.findIndex((el: any) => {
+    return el.id === selectId;
+  });
+
+  let prevdata = data[index - 1];
+  let nextdata = data[index + 1];
 
   const handleDelete = (id: number) => {
     dispatch(deleteContent({ id, userKey }));
@@ -29,12 +47,15 @@ const Read = () => {
     navigate('/notepad/editpost');
   };
 
-  const classes = NoteRead();
-  const Top = NoteTop();
+  const handlePrevData = (id: number) => {
+    dispatch(pickPrevData(prevdata));
+    navigate(`/notepad/read/${id}`);
+  };
 
-  const pickData = data?.filter((el: any) => {
-    return el.id === selectId;
-  });
+  const handleNextData = (id: number) => {
+    dispatch(pickNextData(nextdata));
+    navigate(`/notepad/read/${id}`);
+  };
 
   return (
     <div>
@@ -70,31 +91,40 @@ const Read = () => {
       </div>
       <div className={classes.body}>
         <div className={classes.inner}>
-          <Paper pickText={pickData[0].data} />
+          <Paper pickText={pickData[0].data} setText={undefined} />
         </div>
       </div>
 
       <div className={classes.readFoot}>
-        <div className={classes.prvNextRead}>
-          <i className={classes.icon}>
-            <ArrowCircleLeftIcon fontSize="large" />
-          </i>
+        {nextdata ? (
+          <div className={classes.prvNextRead}>
+            <i
+              onClick={() => handlePrevData(nextdata.id)}
+              className={classes.icon}
+            >
+              <ArrowCircleLeftIcon fontSize="large" />
+            </i>
 
-          <div className={classes.inContent}>
-            <p>이전글</p>
-            <h3>a</h3>
+            <div className={classes.inContent}>
+              <p>이전글</p>
+              <h3>{nextdata.title}</h3>
+            </div>
           </div>
-        </div>
-
-        <div className={classes.prvNextRead}>
-          <div style={{ textAlign: 'right' }} className={classes.inContent}>
-            <p>다음 글</p>
-            <h3>a</h3>
+        ) : null}
+        {prevdata ? (
+          <div className={classes.prvNextRead}>
+            <div style={{ textAlign: 'right' }} className={classes.inContent}>
+              <p>다음 글</p>
+              <h3>{prevdata.title}</h3>
+            </div>
+            <i
+              onClick={() => handleNextData(prevdata.id)}
+              className={classes.icon}
+            >
+              <ArrowCircleRightIcon fontSize="large" />
+            </i>
           </div>
-          <i className={classes.icon}>
-            <ArrowCircleRightIcon fontSize="large" />
-          </i>
-        </div>
+        ) : null}
       </div>
     </div>
   );

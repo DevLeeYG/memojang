@@ -4,9 +4,26 @@ import axios from 'axios';
 const WRITE_SUCCESS = 'userAUTH/WRITE_SUCCESS';
 const REQUEST_LIST = 'userAUTH/REQUEST_LIST';
 const PICK_ID = 'useAUTH/PICK_ID';
+const PICK_PREVDATA = 'useATUH/PICK_PREVDATA';
+const PICK_NEXTDATA = 'useATUH/PCIK_NEXTDATA';
 const initialState = {
   id: 0,
   content: [],
+  prevdata: [],
+  nextdata: [],
+};
+
+export const pickNextData = (data: any) => {
+  return {
+    type: PICK_NEXTDATA,
+    data,
+  };
+};
+export const pickPrevData = (data: any) => {
+  return {
+    type: PICK_PREVDATA,
+    data,
+  };
 };
 
 export const pickListId = (data: any) => {
@@ -102,6 +119,16 @@ const notePadReducer = (state = initialState, action: any) => {
       return {
         ...state,
         id: action.data,
+      };
+    case PICK_NEXTDATA:
+      return {
+        ...state,
+        nextdata: action.data,
+      };
+    case PICK_PREVDATA:
+      return {
+        ...state,
+        prevdata: action.data,
       };
     default:
       return state;

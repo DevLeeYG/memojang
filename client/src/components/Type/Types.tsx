@@ -37,3 +37,16 @@ export interface postElement {
   data: string;
   date: Date;
 }
+
+export interface noteBookProps {
+  handleReq: Function;
+  title: string;
+  text: string;
+  setText: Function;
+}
+
+export interface PaperProps {
+  pickText: string;
+  text: string;
+  setText: Function;
+}
