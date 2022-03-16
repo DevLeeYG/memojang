@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export const NoteHome = makeStyles(() => ({
+export const NoteHome = makeStyles((theme) => ({
   Top: {
     display: 'flex',
     width: '80%',

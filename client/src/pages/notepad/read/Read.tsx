@@ -4,11 +4,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
-import {
-  deleteContent,
-  pickPrevData,
-  pickNextData,
-} from '../../../module/notePad';
+import { deleteContent, pickListId } from '../../../module/notePad';
 import Paper from '../../../components/NoteBook/Paper/Paper';
 import { postElement } from '../../../components/Type/Types';
 
@@ -28,7 +24,7 @@ const Read = () => {
   const userKey = useSelector(
     (state: RootStateOrAny) => state.userReducer.userLogin.id,
   );
-  const pickData = data?.filter((postElement: postElement) => {
+  let pickData = data?.filter((postElement: postElement) => {
     return postElement.id === selectId;
   });
 
@@ -39,6 +35,13 @@ const Read = () => {
   let prevdata = data[index - 1];
   let nextdata = data[index + 1];
 
+  const pickPrev = (prevdataID: any) => {
+    dispatch(pickListId(prevdataID));
+  };
+  const pickNext = (nextdataID: any) => {
+    dispatch(pickListId(nextdataID));
+  };
+
   const handleDelete = (id: number) => {
     dispatch(deleteContent({ id, userKey }));
     navigate('/notepad/main');
@@ -47,15 +50,15 @@ const Read = () => {
     navigate('/notepad/editpost');
   };
 
-  const handlePrevData = (id: number) => {
-    dispatch(pickPrevData(prevdata));
-    navigate(`/notepad/read/${id}`);
-  };
+  // const handlePrevData = (id: number) => {
+  //   dispatch(pickPrevData(prevdata));
+  //   navigate(`/notepad/read/${id}`);
+  // };
 
-  const handleNextData = (id: number) => {
-    dispatch(pickNextData(nextdata));
-    navigate(`/notepad/read/${id}`);
-  };
+  // const handleNextData = (id: number) => {
+  //   dispatch(pickNextData(nextdata));
+  //   navigate(`/notepad/read/${id}`);
+  // };
 
   return (
     <div>
@@ -91,17 +94,14 @@ const Read = () => {
       </div>
       <div className={classes.body}>
         <div className={classes.inner}>
-          <Paper pickText={pickData[0].data} setText={undefined} />
+          <Paper pickText={pickData[0].data} />
         </div>
       </div>
 
       <div className={classes.readFoot}>
         {nextdata ? (
           <div className={classes.prvNextRead}>
-            <i
-              onClick={() => handlePrevData(nextdata.id)}
-              className={classes.icon}
-            >
+            <i onClick={() => pickNext(nextdata.id)} className={classes.icon}>
               <ArrowCircleLeftIcon fontSize="large" />
             </i>
 
@@ -117,10 +117,7 @@ const Read = () => {
               <p>다음 글</p>
               <h3>{prevdata.title}</h3>
             </div>
-            <i
-              onClick={() => handleNextData(prevdata.id)}
-              className={classes.icon}
-            >
+            <i onClick={() => pickPrev(prevdata.id)} className={classes.icon}>
               <ArrowCircleRightIcon fontSize="large" />
             </i>
           </div>
